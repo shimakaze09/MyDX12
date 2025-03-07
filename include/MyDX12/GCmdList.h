@@ -13,7 +13,6 @@ namespace My::DX12 {
 struct GCmdList : ComPtrHolder<ID3D12GraphicsCommandList> {
   void Reset(ID3D12CommandAllocator* pAllocator,
              ID3D12PipelineState* pInitialState = nullptr);
-  void Execute(ID3D12CommandQueue*);
 
   void ResourceBarrier(ID3D12Resource* resource, D3D12_RESOURCE_STATES from,
                        D3D12_RESOURCE_STATES to);

@@ -8,8 +8,7 @@
 
 namespace My::DX12 {
 // ref: https://docs.microsoft.com/en-us/windows/win32/direct3d12/creating-descriptor-heaps
-class DescriptorHeap : ComPtrHolder<ID3D12DescriptorHeap> {
- public:
+struct DescriptorHeap : ComPtrHolder<ID3D12DescriptorHeap> {
   DescriptorHeap() { memset(this, 0, sizeof(*this)); }
 
   HRESULT Create(ID3D12Device* pDevice, D3D12_DESCRIPTOR_HEAP_TYPE Type,
