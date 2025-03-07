@@ -1,27 +1,18 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.20 FATAL_ERROR)
 
-PROJECT(MyDX12 VERSION 0.0.1 LANGUAGES CXX)
+PROJECT(MyDX12 VERSION 0.0.2 LANGUAGES CXX)
 MESSAGE(STATUS "Project: ${PROJECT_NAME} ${PROJECT_VERSION}")
 
-INCLUDE(FETCHCONTENT)
-
-SET(MyCMake_VERSION 0.5.5)
-MESSAGE(STATUS "Looking for: MyCMake ${MyCMake_VERSION}")
-FIND_PACKAGE(MyCMake ${MyCMake_VERSION} QUIET)
-IF (NOT MyCMake_FOUND)
-    SET(ADDRESS "https://github.com/shimakaze09/MyCMake.git")
-    MESSAGE(STATUS "MyCMake ${MyCMake_VERSION} not found\n")
-    MESSAGE(STATUS "Fetching from ${ADDRESS} with tag ${MyCMake_VERSION}")
-    FETCHCONTENT_DECLARE(
-            MyCMake
-            GIT_REPOSITORY ${ADDRESS}
-            GIT_TAG ${MyCMake_VERSION}
-    )
-    FETCHCONTENT_MAKEAVAILABLE(MyCMake)
-    MESSAGE(STATUS "MyCMake ${MyCMake_VERSION} built")
-ENDIF ()
+INCLUDE(cmake/InitMyCMake.cmake)
+INIT_MYCMAKE()
 
 INIT_PROJECT()
+
+DOWNLOAD_ZIP(
+        https://cdn.jsdelivr.net/gh/shimakaze09/MyData@main/MyDX12/DirectXTK12/DirectXTK12_07032025.zip
+        DirectXTK12.zip
+        SHA256 7ad7ff6131b72d223945ba66ac610230dd492d39d58af94e839ced5cc7ca3085
+)
 
 ADD_SUB_DIRS_REC(include)
 ADD_SUB_DIRS_REC(src)

@@ -693,14 +693,16 @@ FodyWeavers.xsd
 *.tokens
 *.class
 
-_deps/
-
 # Binaries
 *.png
 *.jpg
 *.bmp
 *.gif
 *.dds
+
+*.zip
+*.7z
+*.rar
 
 *.pdf
 

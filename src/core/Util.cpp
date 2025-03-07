@@ -3,7 +3,9 @@
 //
 
 #include <MyDX12/Util.h>
+
 #include <comdef.h>
+
 #include <stringapiset.h>
 
 #include <fstream>
@@ -67,35 +69,33 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DX12::CreateDefaultBuffer(
     Microsoft::WRL::ComPtr<ID3D12Resource>& uploadBuffer) {
   ComPtr<ID3D12Resource> defaultBuffer;
 
-  // Create the default buffer
+  // 创建 defualt buffer
   // Create the actual default buffer resource.
   ThrowIfFailed(device->CreateCommittedResource(
       &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT), D3D12_HEAP_FLAG_NONE,
       &CD3DX12_RESOURCE_DESC::Buffer(byteSize), D3D12_RESOURCE_STATE_COMMON,
       nullptr, IID_PPV_ARGS(defaultBuffer.GetAddressOf())));
 
-  // To copy CPU data to the default buffer, we need to create an intermediate
-  // upload heap In order to copy CPU memory data into our default buffer, we
-  // need to create an intermediate upload heap.
+  // 为了拷贝 CPU 数据到 default buffer，我们需要创建一个中介的 upload heap
+  // In order to copy CPU memory data into our default buffer, we need to create
+  // an intermediate upload heap.
   ThrowIfFailed(device->CreateCommittedResource(
       &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), D3D12_HEAP_FLAG_NONE,
       &CD3DX12_RESOURCE_DESC::Buffer(byteSize),
       D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
       IID_PPV_ARGS(uploadBuffer.GetAddressOf())));
 
-  // Describe the data
+  // 描述数据
   // Describe the data we want to copy into the default buffer.
   D3D12_SUBRESOURCE_DATA subResourceData = {};
   subResourceData.pData = initData;
   subResourceData.RowPitch = byteSize;
   subResourceData.SlicePitch = subResourceData.RowPitch;
 
-  // Copy data: UpdateSubresources will copy data to the intermediate upload
-  // heap, then copy to the default buffer Schedule to copy the data to the
-  // default buffer resource.  At a high level, the helper function
-  // UpdateSubresources will copy the CPU memory into the intermediate upload
-  // heap.  Then, using ID3D12CommandList::CopySubresourceRegion, the
-  // intermediate upload heap data will be copied to mBuffer.
+  // 拷贝数据：UpdateSubresources 会将数据拷贝到中介 upload heap，再拷贝到 default buffer
+  // Schedule to copy the data to the default buffer resource.  At a high level, the helper function UpdateSubresources
+  // will copy the CPU memory into the intermediate upload heap.  Then, using ID3D12CommandList::CopySubresourceRegion,
+  // the intermediate upload heap data will be copied to mBuffer.
   cmdList->ResourceBarrier(
       1, &CD3DX12_RESOURCE_BARRIER::Transition(defaultBuffer.Get(),
                                                D3D12_RESOURCE_STATE_COMMON,
@@ -107,12 +107,10 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DX12::CreateDefaultBuffer(
              defaultBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST,
              D3D12_RESOURCE_STATE_GENERIC_READ));
 
-  // Do not release uploadBuffer immediately, release it after the copy is
-  // completed (cmdList only records commands, not executes them) Note:
-  // uploadBuffer has to be kept alive after the above function calls because
+  // uploadBuffer 不要立即释放，拷贝完成后再释放（cmdList 只是记录命令，并未执行）
+  // Note: uploadBuffer has to be kept alive after the above function calls because
   // the command list has not been executed yet that performs the actual copy.
-  // The caller can Release the uploadBuffer after it knows the copy has been
-  // executed.
+  // The caller can Release the uploadBuffer after it knows the copy has been executed.
 
   return defaultBuffer;
 }
