@@ -14,18 +14,21 @@
 #include <cassert>
 
 #ifndef ThrowIfFailed
-#define ThrowIfFailed(x)                                   \
-  {                                                        \
-    HRESULT hr__ = (x);                                    \
-    std::wstring wfn = My::DX12::AnsiToWString(__FILE__);  \
-    if (FAILED(hr__)) {                                    \
-      throw My::DX12::Exception(hr__, L#x, wfn, __LINE__); \
-    }                                                      \
+#define ThrowIfFailed(x)                                         \
+  {                                                              \
+    HRESULT hr__ = (x);                                          \
+    std::wstring wfn = My::DX12::Util::AnsiToWString(__FILE__);  \
+    if (FAILED(hr__)) {                                          \
+      throw My::DX12::Util::Exception(hr__, L#x, wfn, __LINE__); \
+    }                                                            \
   }
 #endif
 
 namespace My::DX12 {
-using namespace Microsoft::WRL;
+using Microsoft::WRL::ComPtr;
+}
+
+namespace My::DX12::Util {
 
 std::wstring AnsiToWString(const std::string& str);
 
@@ -97,4 +100,4 @@ ComPtr<ID3DBlob> CompileShader(const std::wstring& filename,
                                const D3D_SHADER_MACRO* defines,
                                const std::string& entrypoint,
                                const std::string& target);
-}  // namespace My::DX12
+}  // namespace My::DX12::Util
