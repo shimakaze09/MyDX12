@@ -69,7 +69,7 @@ bool IsKeyDown(int vkeyCode);
 // e.g. 0x88888888
 std::string HRstToString(HRESULT hr);
 
-inline UINT CalcConstantBufferByteSize(UINT byteSize) {
+constexpr UINT CalcConstantBufferByteSize(UINT byteSize) {
   // Constant buffers must be a multiple of the minimum hardware
   // allocation size (usually 256 bytes).  So round up to nearest
   // multiple of 256.  We do this by adding 255 and then masking off

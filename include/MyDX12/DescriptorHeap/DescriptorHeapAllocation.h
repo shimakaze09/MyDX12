@@ -25,9 +25,9 @@ class DescriptorHeapAllocation {
   // Creates null allocation
   DescriptorHeapAllocation() noexcept
       :  // clang-format off
-             m_NumHandles{ 0 }, // One null descriptor handle
-             m_pDescriptorHeap{ nullptr },
-             m_DescriptorSize{ 0 }  // clang-format on
+            m_NumHandles{ 0 }, // One null descriptor handle
+            m_pDescriptorHeap{ nullptr },
+            m_DescriptorSize{ 0 }  // clang-format on
   {
     m_FirstCpuHandle.ptr = 0;
     m_FirstGpuHandle.ptr = 0;
@@ -41,12 +41,12 @@ class DescriptorHeapAllocation {
                            uint32_t NHandles,
                            uint16_t AllocationManagerId) noexcept
       :  // clang-format off
-             m_FirstCpuHandle{ CpuHandle },
-             m_FirstGpuHandle{ GpuHandle },
-             m_pAllocator{ &Allocator },
-             m_NumHandles{ NHandles },
-             m_pDescriptorHeap{ pHeap },
-             m_AllocationManagerId{ AllocationManagerId }  // clang-format on
+            m_FirstCpuHandle{ CpuHandle },
+            m_FirstGpuHandle{ GpuHandle },
+            m_pAllocator{ &Allocator },
+            m_NumHandles{ NHandles },
+            m_pDescriptorHeap{ pHeap },
+            m_AllocationManagerId{ AllocationManagerId }  // clang-format on
   {
     assert(m_pAllocator != nullptr && m_pDescriptorHeap != nullptr);
     auto DescriptorSize = m_pAllocator->GetDescriptorSize();
@@ -58,13 +58,13 @@ class DescriptorHeapAllocation {
   // Move constructor (copy is not allowed)
   DescriptorHeapAllocation(DescriptorHeapAllocation&& Allocation) noexcept
       :  // clang-format off
-             m_FirstCpuHandle{ std::move(Allocation.m_FirstCpuHandle) },
-             m_FirstGpuHandle{ std::move(Allocation.m_FirstGpuHandle) },
-             m_NumHandles{ std::move(Allocation.m_NumHandles) },
-             m_pAllocator{ std::move(Allocation.m_pAllocator) },
-             m_AllocationManagerId{ std::move(Allocation.m_AllocationManagerId) },
-             m_pDescriptorHeap{ std::move(Allocation.m_pDescriptorHeap) },
-             m_DescriptorSize{ std::move(Allocation.m_DescriptorSize) }
+            m_FirstCpuHandle{ std::move(Allocation.m_FirstCpuHandle) },
+            m_FirstGpuHandle{ std::move(Allocation.m_FirstGpuHandle) },
+            m_NumHandles{ std::move(Allocation.m_NumHandles) },
+            m_pAllocator{ std::move(Allocation.m_pAllocator) },
+            m_AllocationManagerId{ std::move(Allocation.m_AllocationManagerId) },
+            m_pDescriptorHeap{ std::move(Allocation.m_pDescriptorHeap) },
+            m_DescriptorSize{ std::move(Allocation.m_DescriptorSize) }
          // clang-format on
   {
     Allocation.Reset();
@@ -97,8 +97,8 @@ class DescriptorHeapAllocation {
   }
 
   // clang-format off
-         DescriptorHeapAllocation(const DescriptorHeapAllocation&) = delete;
-         DescriptorHeapAllocation& operator=(const DescriptorHeapAllocation&) = delete;
+        DescriptorHeapAllocation(const DescriptorHeapAllocation&) = delete;
+        DescriptorHeapAllocation& operator=(const DescriptorHeapAllocation&) = delete;
   // clang-format on
 
   // Destructor automatically releases this allocation through the allocator
@@ -132,11 +132,11 @@ class DescriptorHeapAllocation {
   ID3D12DescriptorHeap* GetDescriptorHeap() { return m_pDescriptorHeap; }
 
   // clang-format off
-         size_t GetNumHandles()          const { return m_NumHandles; }
-         bool   IsNull()                 const { return m_FirstCpuHandle.ptr == 0; }
-         bool   IsShaderVisible()        const { return m_FirstGpuHandle.ptr != 0; }
-         size_t GetAllocationManagerId() const { return m_AllocationManagerId; }
-         UINT   GetDescriptorSize()      const { return m_DescriptorSize; }
+        uint32_t GetNumHandles()          const { return m_NumHandles; }
+        bool     IsNull()                 const { return m_FirstCpuHandle.ptr == 0; }
+        bool     IsShaderVisible()        const { return m_FirstGpuHandle.ptr != 0; }
+        uint16_t GetAllocationManagerId() const { return m_AllocationManagerId; }
+        uint16_t GetDescriptorSize()      const { return m_DescriptorSize; }
 
   // clang-format on
 
