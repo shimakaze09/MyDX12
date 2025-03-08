@@ -18,6 +18,7 @@ ADD_TARGET(
         DEFINE
         UNICODE
         _UNICODE
+        NOMINMAX
         L_OPTION_INTERFACE
         /SUBSYSTEM:WINDOWS
 )

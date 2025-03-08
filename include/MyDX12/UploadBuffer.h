@@ -35,6 +35,7 @@ class ArrayUploadBuffer : public UploadBuffer {
 
  private:
   static constexpr UINT ElementSize(bool isConstantBuffer);
+  UINT64 numElement;
   bool isConstantBuffer;
 };
 }  // namespace My::DX12
