@@ -8,6 +8,8 @@ ADD_TARGET(
         "include"
         INC_PRIVATE
         "include/MyDX12/_deps/DirectXTK12"
+        LIB
+        My::MyContainer_core
         LIB_INTERFACE
         d3dcompiler.lib
         D3D12.lib

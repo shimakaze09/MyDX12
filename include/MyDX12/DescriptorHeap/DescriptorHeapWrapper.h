@@ -4,19 +4,21 @@
 
 #pragma once
 
-#include "Util.h"
+#include "../Util.h"
 
 namespace My::DX12 {
 // ref: https://docs.microsoft.com/en-us/windows/win32/direct3d12/creating-descriptor-heaps
-struct DescriptorHeap : Util::ComPtrHolder<ID3D12DescriptorHeap> {
-  DescriptorHeap() { memset(this, 0, sizeof(DescriptorHeap)); }
+struct DescriptorHeapWrapper : Util::ComPtrHolder<ID3D12DescriptorHeap> {
+  DescriptorHeapWrapper() { memset(this, 0, sizeof(DescriptorHeapWrapper)); }
+
+  HRESULT Create(ID3D12Device* pDevice, const D3D12_DESCRIPTOR_HEAP_DESC* desc);
 
   HRESULT Create(ID3D12Device* pDevice, D3D12_DESCRIPTOR_HEAP_TYPE Type,
                  UINT NumDescriptors, bool bShaderVisible = false);
 
   void Clear() {
     raw.Reset();
-    memset(this, 0, sizeof(DescriptorHeap));
+    memset(this, 0, sizeof(DescriptorHeapWrapper));
   }
 
   UINT Size() {
