@@ -93,6 +93,10 @@ class GPUDescriptorHeap final : public IDescriptorAllocator {
     return m_DynamicAllocationsManager.GetMaxDescriptors();
   }
 
+  ID3D12DescriptorHeap* GetDescriptorHeap() const {
+    return m_pd3d12DescriptorHeap.p;
+  }
+
  protected:
   ID3D12Device* m_Device;
 

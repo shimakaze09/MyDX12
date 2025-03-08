@@ -25,7 +25,7 @@ class DescriptorHeapAllocation {
   // Creates null allocation
   DescriptorHeapAllocation() noexcept
       :  // clang-format off
-             m_NumHandles{ 1 }, // One null descriptor handle
+             m_NumHandles{ 0 }, // One null descriptor handle
              m_pDescriptorHeap{ nullptr },
              m_DescriptorSize{ 0 }  // clang-format on
   {
