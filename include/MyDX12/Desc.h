@@ -7,9 +7,10 @@
 #include "Util.h"
 
 namespace My::DX12::Desc {
-namespace SRC {
+namespace SRV {
 D3D12_SHADER_RESOURCE_VIEW_DESC Tex2D(ID3D12Resource* pResource);
-}  // namespace SRC
+D3D12_SHADER_RESOURCE_VIEW_DESC TexCube(ID3D12Resource* pResource);
+}  // namespace SRV
 
 namespace PSO {
 D3D12_GRAPHICS_PIPELINE_STATE_DESC Basic(
