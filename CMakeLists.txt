@@ -11,7 +11,7 @@ INIT_PROJECT()
 DOWNLOAD_ZIP(
         https://cdn.jsdelivr.net/gh/shimakaze09/MyData@main/MyDX12/DirectXTK12/DirectXTK12_07032025.zip
         DirectXTK12.zip
-        SHA256 7ad7ff6131b72d223945ba66ac610230dd492d39d58af94e839ced5cc7ca3085
+        SHA256 1cfc28781617899cc3d23d769c43aba46d014f5b74816b04c92d2979758674ea
 )
 
 ADD_DEP(MyContainer 0.0.5)
