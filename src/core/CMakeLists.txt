@@ -5,9 +5,9 @@ ADD_TARGET(
         "${PROJECT_SOURCE_DIR}/include/MyDX12"
         "_deps/DirectXTK12/Shaders/Compiled/SpriteEffect_SpriteVertexShader.inc"
         INC
-        "include"
+        "${PROJECT_SOURCE_DIR}/include"
         INC_PRIVATE
-        "include/MyDX12/_deps/DirectXTK12"
+        "${PROJECT_SOURCE_DIR}/include/MyDX12/_deps/DirectXTK12"
         LIB
         My::MyContainer_core
         LIB_INTERFACE
