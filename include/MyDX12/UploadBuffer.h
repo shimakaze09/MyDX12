@@ -6,7 +6,7 @@
 
 #include "Util.h"
 
-namespace My::DX12 {
+namespace My::MyDX12 {
 class UploadBuffer {
  public:
   UploadBuffer(ID3D12Device* device, UINT64 size,
@@ -38,6 +38,6 @@ class ArrayUploadBuffer : public UploadBuffer {
   UINT64 numElement;
   bool isConstantBuffer;
 };
-}  // namespace My::DX12
+}  // namespace My::MyDX12
 
 #include "details/UploadBuffer.inl"

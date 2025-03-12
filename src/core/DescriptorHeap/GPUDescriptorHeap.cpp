@@ -6,11 +6,11 @@
 
 using namespace My;
 
-DX12::GPUDescriptorHeap::GPUDescriptorHeap(ID3D12Device* Device,
-                                           uint32_t NumDescriptorsInHeap,
-                                           uint32_t NumDynamicDescriptors,
-                                           D3D12_DESCRIPTOR_HEAP_TYPE Type,
-                                           D3D12_DESCRIPTOR_HEAP_FLAGS Flags)
+MyDX12::GPUDescriptorHeap::GPUDescriptorHeap(ID3D12Device* Device,
+                                             uint32_t NumDescriptorsInHeap,
+                                             uint32_t NumDynamicDescriptors,
+                                             D3D12_DESCRIPTOR_HEAP_TYPE Type,
+                                             D3D12_DESCRIPTOR_HEAP_FLAGS Flags)
     :  // clang-format off
     m_Device{Device},
     m_HeapDesc
@@ -34,14 +34,14 @@ m_HeapAllocationManager    {Device, *this, 0, m_pd3d12DescriptorHeap, 0, NumDesc
 m_DynamicAllocationsManager{Device, *this, 1, m_pd3d12DescriptorHeap, NumDescriptorsInHeap, NumDynamicDescriptors}  // clang-format on
 {}
 
-DX12::GPUDescriptorHeap::~GPUDescriptorHeap() {
+MyDX12::GPUDescriptorHeap::~GPUDescriptorHeap() {
   auto TotalStaticSize = m_HeapAllocationManager.GetMaxDescriptors();
   auto TotalDynamicSize = m_DynamicAllocationsManager.GetMaxDescriptors();
   auto MaxStaticSize = m_HeapAllocationManager.GetMaxAllocatedSize();
   auto MaxDynamicSize = m_DynamicAllocationsManager.GetMaxAllocatedSize();
 }
 
-void DX12::GPUDescriptorHeap::Free(DescriptorHeapAllocation&& Allocation) {
+void MyDX12::GPUDescriptorHeap::Free(DescriptorHeapAllocation&& Allocation) {
   auto MgrId = Allocation.GetAllocationManagerId();
   assert(MgrId == 0 || MgrId == 1 && "Unexpected allocation manager ID");
 

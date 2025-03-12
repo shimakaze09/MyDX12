@@ -3,19 +3,22 @@
 //
 
 // ref
-// 1. http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/
-// 2. https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/include/DescriptorHeap.hpp
-// 3. https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/src/DescriptorHeap.cpp
+// 1.
+// http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/
+// 2.
+// https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/include/DescriptorHeap.hpp
+// 3.
+// https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/src/DescriptorHeap.cpp
 
 #pragma once
-
-#include "IDescriptorAllocator.h"
 
 #include <MyContainer/VarSizeAllocMngr.h>
 
 #include <mutex>
 
-namespace My::DX12 {
+#include "IDescriptorAllocator.h"
+
+namespace My::MyDX12 {
 // The class performs suballocations within one D3D12 descriptor heap.
 // It uses VariableSizeAllocationsManager to manage free space in the heap
 //
@@ -40,7 +43,9 @@ class DescriptorHeapAllocMngr {
                           ID3D12DescriptorHeap* pd3d12DescriptorHeap,
                           uint32_t FirstDescriptor, uint32_t NumDescriptors);
 
-  // = default causes compiler error when instantiating std::vector::emplace_back() in Visual Studio 2015 (Version 14.0.23107.0 D14REL)
+  // = default causes compiler error when instantiating
+  // std::vector::emplace_back() in Visual Studio 2015 (Version 14.0.23107.0
+  // D14REL)
   DescriptorHeapAllocMngr(DescriptorHeapAllocMngr&& rhs) noexcept
       :  // clang-format off
              m_ParentAllocator           {rhs.m_ParentAllocator           },
@@ -124,4 +129,4 @@ class DescriptorHeapAllocMngr {
 
   // Note: when adding new members, do not forget to update move ctor
 };
-}  // namespace My::DX12
+}  // namespace My::MyDX12

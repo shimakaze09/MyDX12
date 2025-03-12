@@ -8,7 +8,7 @@
 
 using namespace My;
 
-void DX12::MeshGeometry::InitBuffer(
+void MyDX12::MeshGeometry::InitBuffer(
     ID3D12Device* device, DirectX::ResourceUploadBatch& resourceUpload,
     const void* vb_data, UINT vb_count, UINT vb_stride, const void* ib_data,
     UINT ib_count, DXGI_FORMAT ib_format) {
@@ -37,10 +37,10 @@ void DX12::MeshGeometry::InitBuffer(
   IndexBufferByteSize = ib_size;
 }
 
-void DX12::MeshGeometry::InitBuffer(ID3D12Device* device, const void* vb_data,
-                                    UINT vb_count, UINT vb_stride,
-                                    const void* ib_data, UINT ib_count,
-                                    DXGI_FORMAT ib_format) {
+void MyDX12::MeshGeometry::InitBuffer(ID3D12Device* device, const void* vb_data,
+                                      UINT vb_count, UINT vb_stride,
+                                      const void* ib_data, UINT ib_count,
+                                      DXGI_FORMAT ib_format) {
   assert(ib_format == DXGI_FORMAT_R16_UINT ||
          ib_format == DXGI_FORMAT_R32_UINT);
 

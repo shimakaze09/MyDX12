@@ -4,21 +4,20 @@
 
 #pragma once
 
-#include "Util.h"
-
 #include "Blob.h"
+#include "Util.h"
 
 // #include <DirectXCollision.h>
 
-#include "_deps/DirectXTK12/ResourceUploadBatch.h"
-
 #include <unordered_map>
 
-namespace My::DX12 {
+#include "_deps/DirectXTK12/ResourceUploadBatch.h"
+
+namespace My::MyDX12 {
 // Defines a subrange of geometry in a MeshGeometry.  This is for when multiple
-// geometries are stored in one vertex and index buffer.  It provides the offsets
-// and data needed to draw a subset of geometry stores in the vertex and index
-// buffers so that we can implement the technique described by Figure 6.3.
+// geometries are stored in one vertex and index buffer.  It provides the
+// offsets and data needed to draw a subset of geometry stores in the vertex and
+// index buffers so that we can implement the technique described by Figure 6.3.
 struct SubmeshGeometry {
   UINT IndexCount = 0;
   UINT StartIndexLocation = 0;
@@ -26,15 +25,15 @@ struct SubmeshGeometry {
 
   // Bounding box of the geometry defined by this submesh.
   // This is used in later chapters of the book.
-  //DirectX::BoundingBox Bounds;
+  // DirectX::BoundingBox Bounds;
 };
 
 struct MeshGeometry {
   // Give it a name so we can look it up by name.
   std::string Name;
 
-  // System memory copies.  Use Blobs because the vertex/index format can be generic.
-  // It is up to the client to cast appropriately.
+  // System memory copies.  Use Blobs because the vertex/index format can be
+  // generic. It is up to the client to cast appropriately.
   Blob VertexBufferCPU{nullptr};
   Blob IndexBufferCPU{nullptr};
   BYTE* VertexBufferMappedData{nullptr};  // only useful for dynamic
@@ -84,4 +83,4 @@ struct MeshGeometry {
     return ibv;
   }
 };
-}  // namespace My::DX12
+}  // namespace My::MyDX12

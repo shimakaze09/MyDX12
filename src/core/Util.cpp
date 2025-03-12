@@ -3,15 +3,13 @@
 //
 
 #include <MyDX12/Util.h>
-
 #include <comdef.h>
-
 #include <stringapiset.h>
 
 #include <fstream>
 #include <sstream>
 
-using namespace My::DX12;
+using namespace My::MyDX12;
 using namespace std;
 
 wstring Util::AnsiToWString(const string& str) {

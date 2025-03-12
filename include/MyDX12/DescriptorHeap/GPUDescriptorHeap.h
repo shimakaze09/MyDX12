@@ -3,9 +3,12 @@
 //
 
 // ref
-// 1. http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/
-// 2. https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/include/DescriptorHeap.hpp
-// 3. https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/src/DescriptorHeap.cpp
+// 1.
+// http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/
+// 2.
+// https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/include/DescriptorHeap.hpp
+// 3.
+// https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/src/DescriptorHeap.cpp
 
 #pragma once
 
@@ -13,7 +16,7 @@
 #include "DescriptorHeapAllocation.h"
 #include "IDescriptorAllocator.h"
 
-namespace My::DX12 {
+namespace My::MyDX12 {
 // GPU descriptor heap provides storage for shader-visible descriptors
 // The heap contains single D3D12 descriptor heap that is split into two parts.
 // The first part stores static and mutable resource descriptor handles.
@@ -111,4 +114,4 @@ class GPUDescriptorHeap final : public IDescriptorAllocator {
   // Allocation manager for dynamic part
   DescriptorHeapAllocMngr m_DynamicAllocationsManager;
 };
-}  // namespace My::DX12
+}  // namespace My::MyDX12

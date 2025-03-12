@@ -6,8 +6,9 @@
 
 #include "../Util.h"
 
-namespace My::DX12 {
-// ref: https://docs.microsoft.com/en-us/windows/win32/direct3d12/creating-descriptor-heaps
+namespace My::MyDX12 {
+// ref:
+// https://docs.microsoft.com/en-us/windows/win32/direct3d12/creating-descriptor-heaps
 struct DescriptorHeapWrapper : Util::ComPtrHolder<ID3D12DescriptorHeap> {
   DescriptorHeapWrapper() { memset(this, 0, sizeof(DescriptorHeapWrapper)); }
 
@@ -46,4 +47,4 @@ struct DescriptorHeapWrapper : Util::ComPtrHolder<ID3D12DescriptorHeap> {
   D3D12_GPU_DESCRIPTOR_HANDLE hGPUHeapStart;
   UINT HandleIncrementSize;
 };
-}  // namespace My::DX12
+}  // namespace My::MyDX12

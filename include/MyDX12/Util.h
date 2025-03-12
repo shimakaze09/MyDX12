@@ -4,33 +4,32 @@
 
 #pragma once
 
-#include "_deps/d3dx12.h"
-
 #include <atlcomcli.h>
 #include <d3dcompiler.h>
 #include <wrl.h>
 
+#include <cassert>
 #include <string>
 
-#include <cassert>
+#include "_deps/d3dx12.h"
 
 #ifndef ThrowIfFailed
-#define ThrowIfFailed(x)                                         \
-  {                                                              \
-    HRESULT hr__ = (x);                                          \
-    std::wstring wfn = My::DX12::Util::AnsiToWString(__FILE__);  \
-    if (FAILED(hr__)) {                                          \
-      throw My::DX12::Util::Exception(hr__, L#x, wfn, __LINE__); \
-    }                                                            \
+#define ThrowIfFailed(x)                                           \
+  {                                                                \
+    HRESULT hr__ = (x);                                            \
+    std::wstring wfn = My::MyDX12::Util::AnsiToWString(__FILE__);  \
+    if (FAILED(hr__)) {                                            \
+      throw My::MyDX12::Util::Exception(hr__, L#x, wfn, __LINE__); \
+    }                                                              \
   }
 #endif
 
-namespace My::DX12 {
+namespace My::MyDX12 {
 using ATL::CComPtr;
 using Microsoft::WRL::ComPtr;
-}  // namespace My::DX12
+}  // namespace My::MyDX12
 
-namespace My::DX12::Util {
+namespace My::MyDX12::Util {
 
 std::wstring AnsiToWString(const std::string& str);
 
@@ -60,7 +59,8 @@ class Exception {
 };
 
 // vkeyCode : virtual key code
-// ref: https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes
+// ref:
+// https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes
 bool IsKeyDown(int vkeyCode);
 
 // 32bit in hex, start with '0x'
@@ -94,12 +94,14 @@ ComPtr<ID3D12Resource> CreateDefaultBuffer(
 // compile shader file to bytecode
 // [arguments]
 // - defines: marco array, end with {NULL, NULL}
-// - - e.g. #define zero 0 <-> D3D_SHADER_MACRO Shader_Macros[] = { "zero", "0", NULL, NULL };
+// - - e.g. #define zero 0 <-> D3D_SHADER_MACRO Shader_Macros[] = { "zero", "0",
+// NULL, NULL };
 // - entrypoint: begin function name, like 'main'
 // - target: e.g. cs/ds/gs/hs/ps/vs + _5_ + 0/1
-// [ref] https://docs.microsoft.com/en-us/windows/win32/api/d3dcompiler/nf-d3dcompiler-d3dcompilefromfile
+// [ref]
+// https://docs.microsoft.com/en-us/windows/win32/api/d3dcompiler/nf-d3dcompiler-d3dcompilefromfile
 ID3DBlob* CompileShader(const std::wstring& filename,
                         const D3D_SHADER_MACRO* defines,
                         const std::string& entrypoint,
                         const std::string& target);
-}  // namespace My::DX12::Util
+}  // namespace My::MyDX12::Util

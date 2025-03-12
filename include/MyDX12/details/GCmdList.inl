@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace My::DX12 {
+namespace My::MyDX12 {
 template <typename... Heaps, typename>
 void GCmdList::SetDescriptorHeaps(Heaps*... heaps) {
   constexpr size_t N = sizeof...(Heaps);
@@ -26,4 +26,4 @@ void GCmdList::SetDescriptorHeaps(Heaps*... heaps) {
 
   raw->SetDescriptorHeaps(N, arr);
 }
-}  // namespace My::DX12
+}  // namespace My::MyDX12

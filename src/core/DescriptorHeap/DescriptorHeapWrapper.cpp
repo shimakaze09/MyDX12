@@ -6,7 +6,7 @@
 
 using namespace My;
 
-HRESULT DX12::DescriptorHeapWrapper::Create(
+HRESULT MyDX12::DescriptorHeapWrapper::Create(
     ID3D12Device* pDevice, const D3D12_DESCRIPTOR_HEAP_DESC* desc) {
   HRESULT hr =
       pDevice->CreateDescriptorHeap(desc, IID_PPV_ARGS(raw.GetAddressOf()));
@@ -20,10 +20,10 @@ HRESULT DX12::DescriptorHeapWrapper::Create(
   return hr;
 }
 
-HRESULT DX12::DescriptorHeapWrapper::Create(ID3D12Device* pDevice,
-                                            D3D12_DESCRIPTOR_HEAP_TYPE Type,
-                                            UINT NumDescriptors,
-                                            bool bShaderVisible) {
+HRESULT MyDX12::DescriptorHeapWrapper::Create(ID3D12Device* pDevice,
+                                              D3D12_DESCRIPTOR_HEAP_TYPE Type,
+                                              UINT NumDescriptors,
+                                              bool bShaderVisible) {
   D3D12_DESCRIPTOR_HEAP_DESC Desc;
   Desc.Type = Type;
   Desc.NumDescriptors = NumDescriptors;

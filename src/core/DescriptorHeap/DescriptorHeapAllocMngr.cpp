@@ -9,7 +9,7 @@
 using namespace My;
 
 // Creates a new descriptor heap and reference the entire heap
-DX12::DescriptorHeapAllocMngr::DescriptorHeapAllocMngr(
+MyDX12::DescriptorHeapAllocMngr::DescriptorHeapAllocMngr(
     ID3D12Device* pDevice, IDescriptorAllocator& ParentAllocator,
     size_t ThisManagerId, const D3D12_DESCRIPTOR_HEAP_DESC& HeapDesc)
     :  // clang-format off
@@ -37,7 +37,7 @@ DX12::DescriptorHeapAllocMngr::DescriptorHeapAllocMngr(
 
 // Uses subrange of descriptors in the existing D3D12 descriptor heap
 // that starts at offset FirstDescriptor and uses NumDescriptors descriptors
-DX12::DescriptorHeapAllocMngr::DescriptorHeapAllocMngr(
+MyDX12::DescriptorHeapAllocMngr::DescriptorHeapAllocMngr(
     ID3D12Device* pDevice, IDescriptorAllocator& ParentAllocator,
     size_t ThisManagerId, ID3D12DescriptorHeap* pd3d12DescriptorHeap,
     uint32_t FirstDescriptor, uint32_t NumDescriptors)
@@ -61,12 +61,12 @@ DX12::DescriptorHeapAllocMngr::DescriptorHeapAllocMngr(
   }
 }
 
-DX12::DescriptorHeapAllocMngr::~DescriptorHeapAllocMngr() {
+MyDX12::DescriptorHeapAllocMngr::~DescriptorHeapAllocMngr() {
   assert("Not all descriptors were released" &&
          m_FreeBlockManager.GetFreeSize() == m_NumDescriptorsInAllocation);
 }
 
-DX12::DescriptorHeapAllocation DX12::DescriptorHeapAllocMngr::Allocate(
+MyDX12::DescriptorHeapAllocation MyDX12::DescriptorHeapAllocMngr::Allocate(
     uint32_t Count) {
   assert(Count > 0);
 
@@ -107,7 +107,7 @@ DX12::DescriptorHeapAllocation DX12::DescriptorHeapAllocMngr::Allocate(
                                   static_cast<uint16_t>(m_ThisManagerId)};
 }
 
-void DX12::DescriptorHeapAllocMngr::FreeAllocation(
+void MyDX12::DescriptorHeapAllocMngr::FreeAllocation(
     DescriptorHeapAllocation&& Allocation) {
   assert(Allocation.GetAllocationManagerId() == m_ThisManagerId &&
          "Invalid descriptor heap manager Id");

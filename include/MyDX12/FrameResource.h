@@ -6,9 +6,10 @@
 
 #include <functional>
 #include <unordered_map>
+
 #include "Util.h"
 
-namespace My::DX12 {
+namespace My::MyDX12 {
 class FrameResource {
  public:
   FrameResource(ID3D12Fence* gpuFence) : gpuFence{gpuFence} {}
@@ -48,6 +49,6 @@ class FrameResource {
   std::vector<std::tuple<std::string, std::function<void(void*)>>>
       delayUpdateResources;
 };
-}  // namespace My::DX12
+}  // namespace My::MyDX12
 
 #include "details/FrameResource.inl"

@@ -11,10 +11,10 @@ using namespace My;
 //
 // CPUDescriptorHeap implementation
 //
-DX12::CPUDescriptorHeap::CPUDescriptorHeap(ID3D12Device* pDevice,
-                                           uint32_t NumDescriptorsInHeap,
-                                           D3D12_DESCRIPTOR_HEAP_TYPE Type,
-                                           D3D12_DESCRIPTOR_HEAP_FLAGS Flags)
+MyDX12::CPUDescriptorHeap::CPUDescriptorHeap(ID3D12Device* pDevice,
+                                             uint32_t NumDescriptorsInHeap,
+                                             D3D12_DESCRIPTOR_HEAP_TYPE Type,
+                                             D3D12_DESCRIPTOR_HEAP_FLAGS Flags)
     :  // clang-format off
      m_pDevice{ pDevice },
      m_HeapDesc
@@ -32,7 +32,7 @@ DX12::CPUDescriptorHeap::CPUDescriptorHeap(ID3D12Device* pDevice,
   m_AvailableHeaps.insert(0);
 }
 
-DX12::CPUDescriptorHeap::~CPUDescriptorHeap() {
+MyDX12::CPUDescriptorHeap::~CPUDescriptorHeap() {
   assert(m_CurrentSize == 0 && "Not all allocations released");
 
   assert(m_AvailableHeaps.size() == m_HeapPool.size() &&
@@ -45,7 +45,7 @@ DX12::CPUDescriptorHeap::~CPUDescriptorHeap() {
   }
 }
 
-DX12::DescriptorHeapAllocation DX12::CPUDescriptorHeap::Allocate(
+MyDX12::DescriptorHeapAllocation MyDX12::CPUDescriptorHeap::Allocate(
     uint32_t Count) {
   std::lock_guard<std::mutex> LockGuard(m_HeapPoolMutex);
   // Note that every DescriptorHeapAllocationManager object instance is itslef
@@ -92,7 +92,7 @@ DX12::DescriptorHeapAllocation DX12::CPUDescriptorHeap::Allocate(
   return Allocation;
 }
 
-void DX12::CPUDescriptorHeap::Free(DescriptorHeapAllocation&& Allocation) {
+void MyDX12::CPUDescriptorHeap::Free(DescriptorHeapAllocation&& Allocation) {
   std::lock_guard<std::mutex> LockGuard(m_HeapPoolMutex);
   auto ManagerId = Allocation.GetAllocationManagerId();
   m_CurrentSize -= static_cast<uint32_t>(Allocation.GetNumHandles());

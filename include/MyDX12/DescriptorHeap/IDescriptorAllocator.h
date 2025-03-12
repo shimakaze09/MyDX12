@@ -3,14 +3,16 @@
 //
 
 // ref
-// 1. http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/
-// 2. https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/include/DescriptorHeap.hpp
+// 1.
+// http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/
+// 2.
+// https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/include/DescriptorHeap.hpp
 
 #pragma once
 
 #include "../Util.h"
 
-namespace My::DX12 {
+namespace My::MyDX12 {
 class DescriptorHeapAllocation;
 class DescriptorHeapAllocMngr;
 class RenderpDevice;
@@ -22,4 +24,4 @@ class IDescriptorAllocator {
   virtual void Free(DescriptorHeapAllocation&& Allocation) = 0;
   virtual uint32_t GetDescriptorSize() const = 0;
 };
-}  // namespace My::DX12
+}  // namespace My::MyDX12

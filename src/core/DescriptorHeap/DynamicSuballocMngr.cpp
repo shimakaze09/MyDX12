@@ -6,22 +6,22 @@
 
 using namespace My;
 
-DX12::DynamicSuballocMngr::DynamicSuballocMngr(GPUDescriptorHeap& ParentGPUHeap,
-                                               uint32_t DynamicChunkSize,
-                                               std::string ManagerName)
+MyDX12::DynamicSuballocMngr::DynamicSuballocMngr(
+    GPUDescriptorHeap& ParentGPUHeap, uint32_t DynamicChunkSize,
+    std::string ManagerName)
     :  // clang-format off
      m_ParentGPUHeap{ ParentGPUHeap },
      m_DynamicChunkSize{ DynamicChunkSize },
      m_ManagerName{ std::move(ManagerName) }  // clang-format on
 {}
 
-DX12::DynamicSuballocMngr::~DynamicSuballocMngr() {
+MyDX12::DynamicSuballocMngr::~DynamicSuballocMngr() {
   assert(m_Suballocations.empty() && m_CurrDescriptorCount == 0 &&
          m_CurrSuballocationsTotalSize == 0 &&
          "All dynamic suballocations must be released!");
 }
 
-void DX12::DynamicSuballocMngr::ReleaseAllocations() {
+void MyDX12::DynamicSuballocMngr::ReleaseAllocations() {
   // Clear the list and dispose all allocated chunks of GPU descriptor heap.
   // The chunks will be added to release queues and eventually returned to the
   // parent GPU heap.
@@ -32,7 +32,7 @@ void DX12::DynamicSuballocMngr::ReleaseAllocations() {
   m_CurrSuballocationsTotalSize = 0;
 }
 
-DX12::DescriptorHeapAllocation DX12::DynamicSuballocMngr::Allocate(
+MyDX12::DescriptorHeapAllocation MyDX12::DynamicSuballocMngr::Allocate(
     uint32_t Count) {
   // This method is intentionally lock-free as it is expected to
   // be called through device context from single thread only

@@ -6,7 +6,7 @@
 
 using namespace My;
 
-D3D12_SHADER_RESOURCE_VIEW_DESC DX12::Desc::SRV::Tex2D(DXGI_FORMAT format) {
+D3D12_SHADER_RESOURCE_VIEW_DESC MyDX12::Desc::SRV::Tex2D(DXGI_FORMAT format) {
   D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc;
   ZeroMemory(&srvDesc, sizeof(D3D12_SHADER_RESOURCE_VIEW_DESC));
   srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -19,7 +19,7 @@ D3D12_SHADER_RESOURCE_VIEW_DESC DX12::Desc::SRV::Tex2D(DXGI_FORMAT format) {
   return srvDesc;
 }
 
-D3D12_SHADER_RESOURCE_VIEW_DESC DX12::Desc::SRV::TexCube(DXGI_FORMAT format) {
+D3D12_SHADER_RESOURCE_VIEW_DESC MyDX12::Desc::SRV::TexCube(DXGI_FORMAT format) {
   D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc;
   ZeroMemory(&srvDesc, sizeof(D3D12_SHADER_RESOURCE_VIEW_DESC));
   srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -31,7 +31,7 @@ D3D12_SHADER_RESOURCE_VIEW_DESC DX12::Desc::SRV::TexCube(DXGI_FORMAT format) {
   return srvDesc;
 }
 
-D3D12_DEPTH_STENCIL_VIEW_DESC DX12::Desc::DSV::Basic(DXGI_FORMAT format) {
+D3D12_DEPTH_STENCIL_VIEW_DESC MyDX12::Desc::DSV::Basic(DXGI_FORMAT format) {
   D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc;
 
   ZeroMemory(&dsvDesc, sizeof(D3D12_DEPTH_STENCIL_VIEW_DESC));
@@ -44,7 +44,7 @@ D3D12_DEPTH_STENCIL_VIEW_DESC DX12::Desc::DSV::Basic(DXGI_FORMAT format) {
   return dsvDesc;
 }
 
-D3D12_GRAPHICS_PIPELINE_STATE_DESC DX12::Desc::PSO::Basic(
+D3D12_GRAPHICS_PIPELINE_STATE_DESC MyDX12::Desc::PSO::Basic(
     ID3D12RootSignature* rootSig, D3D12_INPUT_ELEMENT_DESC* pInputElementDescs,
     UINT NumElements, ID3DBlob* VS, ID3DBlob* PS, DXGI_FORMAT rtvFormat,
     DXGI_FORMAT dsvFormat) {
@@ -52,7 +52,7 @@ D3D12_GRAPHICS_PIPELINE_STATE_DESC DX12::Desc::PSO::Basic(
              dsvFormat);
 }
 
-D3D12_GRAPHICS_PIPELINE_STATE_DESC DX12::Desc::PSO::MRT(
+D3D12_GRAPHICS_PIPELINE_STATE_DESC MyDX12::Desc::PSO::MRT(
     ID3D12RootSignature* rootSig, D3D12_INPUT_ELEMENT_DESC* pInputElementDescs,
     UINT NumElements, ID3DBlob* VS, ID3DBlob* PS, UINT rtNum,
     DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
@@ -81,10 +81,9 @@ D3D12_GRAPHICS_PIPELINE_STATE_DESC DX12::Desc::PSO::MRT(
   return psoDesc;
 }
 
-D3D12_RESOURCE_DESC DX12::Desc::RSRC::Basic(D3D12_RESOURCE_DIMENSION dimension,
-                                            UINT64 Width, UINT Height,
-                                            DXGI_FORMAT format,
-                                            D3D12_RESOURCE_FLAGS flags) {
+D3D12_RESOURCE_DESC MyDX12::Desc::RSRC::Basic(
+    D3D12_RESOURCE_DIMENSION dimension, UINT64 Width, UINT Height,
+    DXGI_FORMAT format, D3D12_RESOURCE_FLAGS flags) {
   D3D12_RESOURCE_DESC desc;
   ZeroMemory(&desc, sizeof(D3D12_RESOURCE_DESC));
 
@@ -103,8 +102,8 @@ D3D12_RESOURCE_DESC DX12::Desc::RSRC::Basic(D3D12_RESOURCE_DIMENSION dimension,
   return desc;
 }
 
-D3D12_RESOURCE_DESC DX12::Desc::RSRC::RT2D(UINT64 Width, UINT Height,
-                                           DXGI_FORMAT format) {
+D3D12_RESOURCE_DESC MyDX12::Desc::RSRC::RT2D(UINT64 Width, UINT Height,
+                                             DXGI_FORMAT format) {
   return Basic(D3D12_RESOURCE_DIMENSION_TEXTURE2D, Width, Height, format,
                D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
 }

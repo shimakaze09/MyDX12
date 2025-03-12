@@ -6,10 +6,10 @@
 
 using namespace My;
 
-void DX12::DescriptorHeapMngr::Init(ID3D12Device* device, uint32_t numCpuCSU,
-                                    uint32_t numCpuRTV, uint32_t numCpuDSV,
-                                    uint32_t numGpuCSU_static,
-                                    uint32_t numGpuCSU_dynamic) {
+void MyDX12::DescriptorHeapMngr::Init(ID3D12Device* device, uint32_t numCpuCSU,
+                                      uint32_t numCpuRTV, uint32_t numCpuDSV,
+                                      uint32_t numGpuCSU_static,
+                                      uint32_t numGpuCSU_dynamic) {
   assert(!isInit);
 
   CSU_CpuDH = new CPUDescriptorHeap{device, numCpuCSU,
@@ -31,7 +31,7 @@ void DX12::DescriptorHeapMngr::Init(ID3D12Device* device, uint32_t numCpuCSU,
   isInit = true;
 }
 
-DX12::DescriptorHeapMngr::~DescriptorHeapMngr() {
+MyDX12::DescriptorHeapMngr::~DescriptorHeapMngr() {
   delete CSU_CpuDH;
   delete RTV_CpuDH;
   delete DSV_CpuDH;

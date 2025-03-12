@@ -3,16 +3,20 @@
 //
 
 // ref
-// 1. http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/
-// 2. https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/include/DescriptorHeap.hpp
-// 3. https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/src/DescriptorHeap.cpp
+// 1.
+// http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/
+// 2.
+// https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/include/DescriptorHeap.hpp
+// 3.
+// https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/src/DescriptorHeap.cpp
 
 #pragma once
 
 #include "IDescriptorAllocator.h"
 
-namespace My::DX12 {
-// The class represents descriptor heap allocation (continuous descriptor range in a descriptor heap)
+namespace My::MyDX12 {
+// The class represents descriptor heap allocation (continuous descriptor range
+// in a descriptor heap)
 //
 //                  m_FirstCpuHandle
 //                   |
@@ -147,13 +151,15 @@ class DescriptorHeapAllocation {
   // First GPU descriptor handle in this allocation
   D3D12_GPU_DESCRIPTOR_HANDLE m_FirstGpuHandle = {0};
 
-  // Keep strong reference to the parent heap to make sure it is alive while allocation is alive - TOO EXPENSIVE
-  //RefCntAutoPtr<IDescriptorAllocator> m_pAllocator;
+  // Keep strong reference to the parent heap to make sure it is alive while
+  // allocation is alive - TOO EXPENSIVE
+  // RefCntAutoPtr<IDescriptorAllocator> m_pAllocator;
 
   // Pointer to the descriptor heap allocator that created this allocation
   IDescriptorAllocator* m_pAllocator = nullptr;
 
-  // Pointer to the D3D12 descriptor heap that contains descriptors in this allocation
+  // Pointer to the D3D12 descriptor heap that contains descriptors in this
+  // allocation
   ID3D12DescriptorHeap* m_pDescriptorHeap = nullptr;
 
   // Number of descriptors in the allocation
@@ -168,4 +174,4 @@ class DescriptorHeapAllocation {
   // Descriptor size
   uint16_t m_DescriptorSize = 0;
 };
-}  // namespace My::DX12
+}  // namespace My::MyDX12

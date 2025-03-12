@@ -6,7 +6,7 @@
 
 #include "Util.h"
 
-namespace My::DX12 {
+namespace My::MyDX12 {
 // raw : Microsoft::WRL::ComPtr<ID3D12Device>
 // .   : simple API
 // ->  : raw API
@@ -20,4 +20,4 @@ struct Device : Util::ComPtrHolder<ID3D12Device> {
   void CreateSRV_Tex2D(ID3D12Resource* pResource,
                        D3D12_CPU_DESCRIPTOR_HANDLE DestDescriptor);
 };
-}  // namespace My::DX12
+}  // namespace My::MyDX12

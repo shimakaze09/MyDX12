@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace My::DX12 {
+namespace My::MyDX12 {
 template <typename T>
 T* FrameResource::GetResource(const std::string& name) const {
   assert(HaveResource(name));
@@ -17,4 +17,4 @@ FrameResource& FrameResource::RegisterResource(std::string name, T* pResource) {
                    [](void* ptr) { delete reinterpret_cast<T*>(ptr); });
   return *this;
 }
-}  // namespace My::DX12
+}  // namespace My::MyDX12

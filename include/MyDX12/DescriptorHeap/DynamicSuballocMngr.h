@@ -3,25 +3,31 @@
 //
 
 // ref
-// 1. http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/
-// 2. https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/include/DescriptorHeap.hpp
-// 3. https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/src/DescriptorHeap.cpp
+// 1.
+// http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/
+// 2.
+// https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/include/DescriptorHeap.hpp
+// 3.
+// https://github.com/DiligentGraphics/DiligentCore/blob/master/Graphics/GraphicsEngineD3D12/src/DescriptorHeap.cpp
 
 #pragma once
 
 #include "GPUDescriptorHeap.h"
 #include "IDescriptorAllocator.h"
 
-namespace My::DX12 {
-// The class facilitates allocation of dynamic descriptor handles. It requests a chunk of heap
-// from the master GPU descriptor heap and then performs linear suballocation within the chunk
-// At the end of the frame all allocations are disposed.
+namespace My::MyDX12 {
+// The class facilitates allocation of dynamic descriptor handles. It requests a
+// chunk of heap from the master GPU descriptor heap and then performs linear
+// suballocation within the chunk At the end of the frame all allocations are
+// disposed.
 
 //     static and mutable handles     ||                 dynamic space
 //                                    ||    chunk 0                 chunk 2
-//  |                                 ||  | X X X O |             | O O O O |           || GPU Descriptor Heap
+//  |                                 ||  | X X X O |             | O O O O | ||
+//  GPU Descriptor Heap
 //                                        |                       |
-//                                        m_Suballocations[0]     m_Suballocations[1]
+//                                        m_Suballocations[0]
+//                                        m_Suballocations[1]
 //
 class DynamicSuballocMngr final : public IDescriptorAllocator {
  public:
@@ -42,8 +48,8 @@ class DynamicSuballocMngr final : public IDescriptorAllocator {
   virtual DescriptorHeapAllocation Allocate(uint32_t Count) override final;
 
   virtual void Free(DescriptorHeapAllocation&& Allocation) override final {
-    // Do nothing. Dynamic allocations are not disposed individually, but as whole chunks
-    // at the end of the frame by ReleaseAllocations()
+    // Do nothing. Dynamic allocations are not disposed individually, but as
+    // whole chunks at the end of the frame by ReleaseAllocations()
     Allocation.Reset();
   }
 
@@ -58,8 +64,8 @@ class DynamicSuballocMngr final : public IDescriptorAllocator {
   GPUDescriptorHeap& m_ParentGPUHeap;
   std::string m_ManagerName;
 
-  // List of chunks allocated from the master GPU descriptor heap. All chunks are disposed at the end
-  // of the frame
+  // List of chunks allocated from the master GPU descriptor heap. All chunks
+  // are disposed at the end of the frame
   std::vector<DescriptorHeapAllocation> m_Suballocations;
 
   uint32_t m_CurrentSuballocationOffset = 0;
@@ -70,4 +76,4 @@ class DynamicSuballocMngr final : public IDescriptorAllocator {
   uint32_t m_CurrSuballocationsTotalSize = 0;
   uint32_t m_PeakSuballocationsTotalSize = 0;
 };
-}  // namespace My::DX12
+}  // namespace My::MyDX12
