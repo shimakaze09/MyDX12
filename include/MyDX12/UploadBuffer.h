@@ -7,6 +7,9 @@
 #include "Util.h"
 
 namespace My::MyDX12 {
+// create a buffer for uploading
+// we will map the gpu buffer to a cpu pointer
+// so it act like a cpu buffer
 class UploadBuffer {
  public:
   UploadBuffer(ID3D12Device* device, UINT64 size,
@@ -21,6 +24,7 @@ class UploadBuffer {
   BYTE* mappedData{nullptr};
 };
 
+// a wrapper of the upload buffer to treat the buffer as an fix-size array
 template <typename T>
 class ArrayUploadBuffer : public UploadBuffer {
  public:
@@ -32,6 +36,8 @@ class ArrayUploadBuffer : public UploadBuffer {
   void Set(UINT64 index, const T& element);
 
   bool IsConstantBuffer() const noexcept { return isConstantBuffer; }
+
+  UINT64 NumElement() const noexcept { return numElement; }
 
  private:
   static constexpr UINT ElementSize(bool isConstantBuffer);

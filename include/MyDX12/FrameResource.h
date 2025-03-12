@@ -5,6 +5,7 @@
 #pragma once
 
 #include <functional>
+#include <map>
 #include <unordered_map>
 
 #include "Util.h"
@@ -19,7 +20,7 @@ class FrameResource {
   void Signal(ID3D12CommandQueue* cmdQueue, UINT64 cpuFence);
   void Wait();
 
-  bool HaveResource(const std::string& name) const {
+  bool HaveResource(std::string_view name) const {
     return resourceMap.find(name) != resourceMap.end();
   }
 
@@ -31,19 +32,19 @@ class FrameResource {
   FrameResource& RegisterTemporalResource(std::string name, void* pResource,
                                           std::function<void(void*)> deletor);
 
-  FrameResource& UnregisterResource(const std::string& name);
+  FrameResource& UnregisterResource(std::string_view name);
   FrameResource& DelayUnregisterResource(std::string name);
 
   FrameResource& DelayUpdateResource(std::string name,
                                      std::function<void(void*)> updator);
 
   template <typename T>
-  T* GetResource(const std::string& name) const;
+  T* GetResource(std::string_view name) const;
 
  private:
   ID3D12Fence* gpuFence;
   UINT64 cpuFence{0};
-  std::unordered_map<std::string, void*> resourceMap;
+  std::map<std::string, void*, std::less<>> resourceMap;
   std::unordered_map<void*, std::function<void(void*)>> deletorMap;
   std::vector<std::string> delayUnregisterResources;
   std::vector<std::tuple<std::string, std::function<void(void*)>>>

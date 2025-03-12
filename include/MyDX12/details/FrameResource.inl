@@ -6,7 +6,7 @@
 
 namespace My::MyDX12 {
 template <typename T>
-T* FrameResource::GetResource(const std::string& name) const {
+T* FrameResource::GetResource(std::string_view name) const {
   assert(HaveResource(name));
   return reinterpret_cast<T*>(resourceMap.find(name)->second);
 }

@@ -8,7 +8,7 @@ using namespace My;
 
 MyDX12::FrameResource::~FrameResource() {
   for (const auto& [name, ptr] : resourceMap)
-    deletorMap[ptr](ptr);
+    deletorMap.find(ptr)->second(ptr);
 }
 
 void MyDX12::FrameResource::Signal(ID3D12CommandQueue* cmdQueue,
@@ -52,12 +52,18 @@ MyDX12::FrameResource& MyDX12::FrameResource::RegisterTemporalResource(
 }
 
 MyDX12::FrameResource& MyDX12::FrameResource::UnregisterResource(
-    const std::string& name) {
+    std::string_view name) {
   assert(HaveResource(name));
-  auto ptr = resourceMap[name];
-  deletorMap[ptr](ptr);
-  deletorMap.erase(ptr);
-  resourceMap.erase(name);
+
+  auto target_ptr = resourceMap.find(name);
+  auto ptr = target_ptr->second;
+  auto target_deletor = deletorMap.find(ptr);
+
+  target_deletor->second(ptr);
+
+  resourceMap.erase(target_ptr);
+  deletorMap.erase(target_deletor);
+
   return *this;
 }
 
