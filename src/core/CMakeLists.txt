@@ -10,6 +10,8 @@ ADD_TARGET(
         "${PROJECT_SOURCE_DIR}/include/MyDX12/_deps/DirectXTK12"
         LIB
         My::MyContainer_core
+        My::MyTemplate_core
+        My::MyFG_core
         LIB_INTERFACE
         d3dcompiler.lib
         D3D12.lib
