@@ -3,4 +3,6 @@ ADD_TARGET(
         TEST
         MODE STATIC
         LIB ${CORE}
+        L_OPTION_INTERFACE
+        /SUBSYSTEM:WINDOWS
 )
