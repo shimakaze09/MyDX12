@@ -27,6 +27,7 @@
 namespace My::MyDX12 {
 using ATL::CComPtr;
 using Microsoft::WRL::ComPtr;
+class D3DInclude;
 }  // namespace My::MyDX12
 
 namespace My::MyDX12::Util {
@@ -107,5 +108,5 @@ ComPtr<ID3DBlob> CompileShaderFromFile(const std::wstring& filename,
 ComPtr<ID3DBlob> CompileShader(std::string_view source,
                                const D3D_SHADER_MACRO* defines,
                                const std::string& entrypoint,
-                               const std::string& target);
+                               const std::string& target, D3DInclude* pInclude);
 }  // namespace My::MyDX12::Util

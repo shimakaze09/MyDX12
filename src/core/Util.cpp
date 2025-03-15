@@ -3,7 +3,11 @@
 //
 
 #include <MyDX12/Util.h>
+
+#include <MyDX12/D3DInclude.h>
+
 #include <comdef.h>
+
 #include <stringapiset.h>
 
 #include <fstream>
@@ -102,6 +106,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> Util::CreateDefaultBuffer(
              defaultBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST,
              D3D12_RESOURCE_STATE_GENERIC_READ));
 
+  // uploadBuffer 不要立即释放，拷贝完成后再释放（cmdList 只是记录命令，并未执行）
   // Note: uploadBuffer has to be kept alive after the above function calls because
   // the command list has not been executed yet that performs the actual copy.
   // The caller can Release the uploadBuffer after it knows the copy has been executed.
@@ -137,7 +142,8 @@ ComPtr<ID3DBlob> Util::CompileShaderFromFile(const std::wstring& filename,
 ComPtr<ID3DBlob> Util::CompileShader(std::string_view source,
                                      const D3D_SHADER_MACRO* defines,
                                      const std::string& entrypoint,
-                                     const std::string& target) {
+                                     const std::string& target,
+                                     D3DInclude* pInclude) {
   UINT compileFlags = 0;
 #if defined(DEBUG) || defined(_DEBUG)
   compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
@@ -147,9 +153,9 @@ ComPtr<ID3DBlob> Util::CompileShader(std::string_view source,
 
   ComPtr<ID3DBlob> byteCode;
   ComPtr<ID3DBlob> errors;
-  hr = D3DCompile(source.data(), source.size(), nullptr, defines,
-                  D3D_COMPILE_STANDARD_FILE_INCLUDE, entrypoint.c_str(),
-                  target.c_str(), compileFlags, 0, &byteCode, &errors);
+  hr = D3DCompile(source.data(), source.size(), nullptr, defines, pInclude,
+                  entrypoint.c_str(), target.c_str(), compileFlags, 0,
+                  &byteCode, &errors);
 
   if (errors != nullptr)
     OutputDebugStringA((char*)errors->GetBufferPointer());

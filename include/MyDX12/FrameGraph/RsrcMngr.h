@@ -4,13 +4,12 @@
 
 #pragma once
 
-#include "Rsrc.h"
+#include <unordered_set>
 
 #include "../DescriptorHeapMngr.h"
 #include "../Device.h"
 #include "../GCmdList.h"
-
-#include <unordered_set>
+#include "Rsrc.h"
 
 namespace My::MyFG {
 class FrameGraph;
@@ -23,7 +22,7 @@ class RsrcMngr {
  public:
   ~RsrcMngr();
 
-  void Init(GCmdList uGCmdList, Device uDevice);
+  void Init(GCmdList myGCmdList, Device myDevice);
 
   // clear resources
   // you can call it when resize window
@@ -49,11 +48,12 @@ class RsrcMngr {
   // call by My::MyDX12::FG::Executor
   void Destruct(size_t rsrcNodeIdx);
 
-  // move the resource view of the source resource node to the destination resource node
-  // call by My::MyDX12::FG::Executor
+  // move the resource view of the source resource node to the destination
+  // resource node call by My::MyDX12::FG::Executor
   void Move(size_t dstRsrcNodeIdx, size_t srcRsrcNodeIdx);
 
-  // - get the resource map (resource node index -> impl resource) of the pass node
+  // - get the resource map (resource node index -> impl resource) of the pass
+  // node
   // - we will
   //   1. change buffer state
   //   2. init handle
@@ -90,7 +90,8 @@ class RsrcMngr {
       const std::vector<std::tuple<size_t, RsrcImplDesc>>& rsrcNodeIndices);
 
   // you should
-  // 1. use RegisterImportedRsrc or RegisterTemporalRsrc to mark each resource nodes
+  // 1. use RegisterImportedRsrc or RegisterTemporalRsrc to mark each resource
+  // nodes
   // 2. use RegisterPassRsrcs to mark each resource nodes for every passes
   // if you do it correct, then return true, else return false
   bool CheckComplete(const MyFG::FrameGraph& fg);

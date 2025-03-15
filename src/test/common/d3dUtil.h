@@ -78,9 +78,9 @@ inline void d3dSetDebugName(ID3D12DeviceChild* obj, const char* name)
     #endif
 #else
     #ifndef Assert
-    #define Assert(x, description)
+    #define Assert(x, description) 
     #endif
-#endif
+#endif 		
     */
 
 class d3dUtil
@@ -125,7 +125,7 @@ public:
 
 // Defines a subrange of geometry in a MeshGeometry.  This is for when multiple
 // geometries are stored in one vertex and index buffer.  It provides the offsets
-// and data needed to draw a subset of geometry stores in the vertex and index
+// and data needed to draw a subset of geometry stores in the vertex and index 
 // buffers so that we can implement the technique described by Figure 6.3.
 struct SubmeshGeometry
 {
@@ -133,7 +133,7 @@ struct SubmeshGeometry
 	UINT StartIndexLocation = 0;
 	INT BaseVertexLocation = 0;
 
-    // Bounding box of the geometry defined by this submesh.
+    // Bounding box of the geometry defined by this submesh. 
     // This is used in later chapters of the book.
 	DirectX::BoundingBox Bounds;
 };
@@ -232,10 +232,10 @@ struct Material
 	int NormalSrvHeapIndex = -1;
 
 	// Dirty flag indicating the material has changed and we need to update the constant buffer.
-    // Because we have a material constant buffer for each FrameRsrcMngr, we have to apply the
-    // update to each FrameRsrcMngr.  Thus, when we modify a material we should set 
-    // NumFramesDirty = gNumFrameRsrcMngrs so that each frame resource gets the update.
-    int NumFramesDirty = gNumFrameRsrcMngrs;
+	// Because we have a material constant buffer for each FrameRsrcMngr, we have to apply the
+	// update to each FrameRsrcMngr.  Thus, when we modify a material we should set 
+	// NumFramesDirty = gNumFrameRsrcMngrs so that each frame resource gets the update.
+	int NumFramesDirty = gNumFrameRsrcMngrs;
 
 	// Material constant buffer data used for shading.
 	DirectX::XMFLOAT4 DiffuseAlbedo = { 1.0f, 1.0f, 1.0f, 1.0f };
