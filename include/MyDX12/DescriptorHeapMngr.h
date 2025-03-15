@@ -43,6 +43,8 @@ class DescriptorHeapMngr {
     return CSU_GpuDH;
   }
 
+  void Clear();
+
  private:
   DescriptorHeapMngr() = default;
   ~DescriptorHeapMngr();

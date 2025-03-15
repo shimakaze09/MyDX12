@@ -16,6 +16,6 @@
 #include "Device.h"
 #include "FrameRsrcMngr.h"
 #include "GCmdList.h"
-#include "MeshGeometry.h"
+#include "MeshGPUBuffer.h"
 #include "UploadBuffer.h"
 #include "Util.h"

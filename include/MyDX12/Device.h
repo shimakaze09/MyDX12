@@ -11,6 +11,8 @@ namespace My::MyDX12 {
 // .   : simple API
 // ->  : raw API
 struct Device : Util::ComPtrHolder<ID3D12Device> {
+  using Util::ComPtrHolder<ID3D12Device>::ComPtrHolder;
+
   void CreateCommittedResource(D3D12_HEAP_TYPE heap_type, SIZE_T size,
                                ID3D12Resource** resources);
 

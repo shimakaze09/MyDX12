@@ -2,13 +2,13 @@
 // Created by Admin on 8/03/2025.
 //
 
-#include <MyDX12/MeshGeometry.h>
+#include <MyDX12/MeshGPUBuffer.h>
 
 #include <MyDX12/_deps/DirectXTK12/BufferHelpers.h>
 
 using namespace My;
 
-void MyDX12::MeshGeometry::InitBuffer(
+void MyDX12::MeshGPUBuffer::InitBuffer(
     ID3D12Device* device, DirectX::ResourceUploadBatch& resourceUpload,
     const void* vb_data, UINT vb_count, UINT vb_stride, const void* ib_data,
     UINT ib_count, DXGI_FORMAT ib_format) {
@@ -19,9 +19,6 @@ void MyDX12::MeshGeometry::InitBuffer(
 
   UINT vb_size = vb_count * vb_stride;
   UINT ib_size = ib_count * ib_stride;
-
-  VertexBufferCPU.Create(vb_data, vb_size);
-  IndexBufferCPU.Create(vb_data, ib_size);
 
   DirectX::CreateStaticBuffer(device, resourceUpload, vb_data, vb_count,
                               vb_stride, D3D12_RESOURCE_STATE_GENERIC_READ,
@@ -37,10 +34,10 @@ void MyDX12::MeshGeometry::InitBuffer(
   IndexBufferByteSize = ib_size;
 }
 
-void MyDX12::MeshGeometry::InitBuffer(ID3D12Device* device, const void* vb_data,
-                                      UINT vb_count, UINT vb_stride,
-                                      const void* ib_data, UINT ib_count,
-                                      DXGI_FORMAT ib_format) {
+void MyDX12::MeshGPUBuffer::InitBuffer(ID3D12Device* device,
+                                       const void* vb_data, UINT vb_count,
+                                       UINT vb_stride, const void* ib_data,
+                                       UINT ib_count, DXGI_FORMAT ib_format) {
   assert(ib_format == DXGI_FORMAT_R16_UINT ||
          ib_format == DXGI_FORMAT_R32_UINT);
 
@@ -48,9 +45,6 @@ void MyDX12::MeshGeometry::InitBuffer(ID3D12Device* device, const void* vb_data,
 
   UINT vb_size = vb_count * vb_stride;
   UINT ib_size = ib_count * ib_stride;
-
-  VertexBufferCPU.Create(vb_data, vb_size);
-  IndexBufferCPU.Create(vb_data, ib_size);
 
   ThrowIfFailed(device->CreateCommittedResource(
       &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), D3D12_HEAP_FLAG_NONE,
@@ -76,4 +70,22 @@ void MyDX12::MeshGeometry::InitBuffer(ID3D12Device* device, const void* vb_data,
   VertexBufferByteSize = vb_size;
   IndexFormat = ib_format;
   IndexBufferByteSize = ib_size;
+}
+
+D3D12_VERTEX_BUFFER_VIEW MyDX12::MeshGPUBuffer::VertexBufferView() const {
+  D3D12_VERTEX_BUFFER_VIEW vbv;
+  vbv.BufferLocation = VertexBufferGPU->GetGPUVirtualAddress();
+  vbv.StrideInBytes = VertexByteStride;
+  vbv.SizeInBytes = VertexBufferByteSize;
+
+  return vbv;
+}
+
+D3D12_INDEX_BUFFER_VIEW MyDX12::MeshGPUBuffer::IndexBufferView() const {
+  D3D12_INDEX_BUFFER_VIEW ibv;
+  ibv.BufferLocation = IndexBufferGPU->GetGPUVirtualAddress();
+  ibv.Format = IndexFormat;
+  ibv.SizeInBytes = IndexBufferByteSize;
+
+  return ibv;
 }

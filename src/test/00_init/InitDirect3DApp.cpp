@@ -2,14 +2,6 @@
 // Created by Admin on 7/03/2025.
 //
 
-//***************************************************************************************
-// Init Direct3D.cpp by Frank Luna (C) 2015 All Rights Reserved.
-//
-// Demonstrates the sample framework by initializing Direct3D, clearing
-// the screen, and displaying frame stats.
-//
-//***************************************************************************************
-
 #include <DirectXColors.h>
 
 #include "../common/d3dApp.h"

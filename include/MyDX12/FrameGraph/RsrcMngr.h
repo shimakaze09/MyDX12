@@ -106,8 +106,8 @@ class RsrcMngr {
   void DsvDHReserve(UINT num);
   void RtvDHReserve(UINT num);
 
-  MyDX12::GCmdList uGCmdList;
-  MyDX12::Device uDevice;
+  MyDX12::GCmdList myGCmdList;
+  MyDX12::Device myDevice;
 
   // type -> vector<view>
   std::vector<RsrcPtr> rsrcKeeper;

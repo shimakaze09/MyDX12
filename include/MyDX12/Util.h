@@ -35,6 +35,8 @@ std::wstring AnsiToWString(const std::string& str);
 
 template <typename T>
 struct ComPtrHolder {
+  ComPtrHolder(ComPtr<T> ptr = {}) : raw{ptr} {}
+
   ComPtr<T> raw;
 
   T* operator->() noexcept { return raw.Get(); }
@@ -59,8 +61,7 @@ class Exception {
 };
 
 // vkeyCode : virtual key code
-// ref:
-// https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes
+// ref: https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes
 bool IsKeyDown(int vkeyCode);
 
 // 32bit in hex, start with '0x'
@@ -94,14 +95,17 @@ ComPtr<ID3D12Resource> CreateDefaultBuffer(
 // compile shader file to bytecode
 // [arguments]
 // - defines: marco array, end with {NULL, NULL}
-// - - e.g. #define zero 0 <-> D3D_SHADER_MACRO Shader_Macros[] = { "zero", "0",
-// NULL, NULL };
+// - - e.g. #define zero 0 <-> D3D_SHADER_MACRO Shader_Macros[] = { "zero", "0", NULL, NULL };
 // - entrypoint: begin function name, like 'main'
 // - target: e.g. cs/ds/gs/hs/ps/vs + _5_ + 0/1
-// [ref]
-// https://docs.microsoft.com/en-us/windows/win32/api/d3dcompiler/nf-d3dcompiler-d3dcompilefromfile
-ID3DBlob* CompileShader(const std::wstring& filename,
-                        const D3D_SHADER_MACRO* defines,
-                        const std::string& entrypoint,
-                        const std::string& target);
+// [ref] https://docs.microsoft.com/en-us/windows/win32/api/d3dcompiler/nf-d3dcompiler-d3dcompilefromfile
+ComPtr<ID3DBlob> CompileShaderFromFile(const std::wstring& filename,
+                                       const D3D_SHADER_MACRO* defines,
+                                       const std::string& entrypoint,
+                                       const std::string& target);
+
+ComPtr<ID3DBlob> CompileShader(std::string_view source,
+                               const D3D_SHADER_MACRO* defines,
+                               const std::string& entrypoint,
+                               const std::string& target);
 }  // namespace My::MyDX12::Util

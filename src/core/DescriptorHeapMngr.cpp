@@ -31,9 +31,20 @@ void MyDX12::DescriptorHeapMngr::Init(ID3D12Device* device, uint32_t numCpuCSU,
   isInit = true;
 }
 
-MyDX12::DescriptorHeapMngr::~DescriptorHeapMngr() {
+void MyDX12::DescriptorHeapMngr::Clear() {
+  isInit = false;
+
   delete CSU_CpuDH;
   delete RTV_CpuDH;
   delete DSV_CpuDH;
   delete CSU_GpuDH;
+
+  CSU_CpuDH = nullptr;
+  RTV_CpuDH = nullptr;
+  DSV_CpuDH = nullptr;
+  CSU_GpuDH = nullptr;
+}
+
+MyDX12::DescriptorHeapMngr::~DescriptorHeapMngr() {
+  Clear();
 }
