@@ -45,7 +45,8 @@ void MyDX12::DynamicUploadBuffer::Reserve(size_t size) {
     return;
 
   auto newBuffer = std::make_unique<MyDX12::UploadBuffer>(device, size, flag);
-  newBuffer->Set(0, buffer->GetMappedData(), buffer->Size());
+  if (buffer)
+    newBuffer->Set(0, buffer->GetMappedData(), buffer->Size());
   buffer = std::move(newBuffer);
 }
 

@@ -20,9 +20,8 @@ namespace My::MyDX12::FG {
 // CBV, SRV, UAV, RTV, DSV
 class RsrcMngr {
  public:
+  RsrcMngr();
   ~RsrcMngr();
-
-  void Init(GCmdList myGCmdList, Device myDevice);
 
   // clear resources
   // you can call it when resize window
@@ -42,11 +41,11 @@ class RsrcMngr {
 
   // import, create or reuse buffer for the resource node
   // call by My::MyDX12::FG::Executor
-  void Construct(size_t rsrcNodeIdx);
+  void Construct(ID3D12Device*, size_t rsrcNodeIdx);
 
   // recycle the buffer of the resource node
   // call by My::MyDX12::FG::Executor
-  void Destruct(size_t rsrcNodeIdx);
+  void Destruct(ID3D12GraphicsCommandList*, size_t rsrcNodeIdx);
 
   // move the resource view of the source resource node to the destination
   // resource node call by My::MyDX12::FG::Executor
@@ -58,7 +57,8 @@ class RsrcMngr {
   //   1. change buffer state
   //   2. init handle
   // - call by My::MyDX12::FG::Executor
-  PassRsrcs RequestPassRsrcs(size_t passNodeIdx);
+  PassRsrcs RequestPassRsrcs(ID3D12Device*, ID3D12GraphicsCommandList*,
+                             size_t passNodeIdx);
 
   // mark the resource node as imported
   RsrcMngr& RegisterImportedRsrc(size_t rsrcNodeIdx, SRsrcView view) {
@@ -106,9 +106,6 @@ class RsrcMngr {
   void CSUDHReserve(UINT num);
   void DsvDHReserve(UINT num);
   void RtvDHReserve(UINT num);
-
-  MyDX12::GCmdList myGCmdList;
-  MyDX12::Device myDevice;
 
   // type -> vector<view>
   std::vector<RsrcPtr> rsrcKeeper;
