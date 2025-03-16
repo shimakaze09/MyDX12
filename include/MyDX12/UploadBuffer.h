@@ -6,6 +6,8 @@
 
 #include "Util.h"
 
+#include <memory>
+
 namespace My::MyDX12 {
 // create a buffer for uploading
 // we will map the gpu buffer to a cpu pointer
@@ -14,14 +16,41 @@ class UploadBuffer {
  public:
   UploadBuffer(ID3D12Device* device, UINT64 size,
                D3D12_RESOURCE_FLAGS flag = D3D12_RESOURCE_FLAG_NONE);
+  ~UploadBuffer();
 
   ID3D12Resource* GetResource() const noexcept { return resource.Get(); }
+
+  UINT64 Size() const noexcept { return size; }
+
+  BYTE* GetMappedData() const noexcept { return mappedData; }
 
   void Set(UINT64 offset, const void* data, UINT64 size);
 
  private:
   ComPtr<ID3D12Resource> resource;
-  BYTE* mappedData{nullptr};
+  BYTE* mappedData;
+  UINT64 size;
+};
+
+class DynamicUploadBuffer {
+ public:
+  DynamicUploadBuffer(ID3D12Device* device,
+                      D3D12_RESOURCE_FLAGS flag = D3D12_RESOURCE_FLAG_NONE);
+
+  ID3D12Resource* GetResource() const noexcept;
+  UINT64 Size() const noexcept;
+
+  // retain original data when resizing
+  void Reserve(size_t size);
+  // not retain original data when resizing
+  void FastReserve(size_t size);
+  void Set(UINT64 offset, const void* data, UINT64 size);
+
+ private:
+  ID3D12Device* device;
+  D3D12_RESOURCE_FLAGS flag;
+
+  std::unique_ptr<UploadBuffer> buffer;
 };
 
 // a wrapper of the upload buffer to treat the buffer as an fix-size array

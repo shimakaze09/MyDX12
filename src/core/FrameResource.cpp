@@ -2,18 +2,18 @@
 // Created by Admin on 12/03/2025.
 //
 
-#include <MyDX12/FrameRsrcMngr.h>
+#include <MyDX12/FrameResource.h>
 
 using namespace My;
 
-void MyDX12::FrameRsrcMngr::Signal(ID3D12CommandQueue* cmdQueue,
+void MyDX12::FrameResource::Signal(ID3D12CommandQueue* cmdQueue,
                                    UINT64 cpuFence) {
   this->cpuFence = cpuFence;
   cmdQueue->Signal(gpuFence, cpuFence);
 }
 
-void MyDX12::FrameRsrcMngr::Wait() {
-  if (cpuFence == 0 || gpuFence->GetCompletedValue() >= cpuFence)
+void MyDX12::FrameResource::Wait() {
+  if (gpuFence->GetCompletedValue() >= cpuFence)
     return;
 
   HANDLE eventHandle = CreateEventEx(nullptr, nullptr, false, EVENT_ALL_ACCESS);
@@ -30,7 +30,7 @@ void MyDX12::FrameRsrcMngr::Wait() {
   delayUpdatorMap.clear();
 }
 
-MyDX12::FrameRsrcMngr& MyDX12::FrameRsrcMngr::UnregisterResource(
+MyDX12::FrameResource& MyDX12::FrameResource::UnregisterResource(
     std::string_view name) {
   assert(HaveResource(name));
 
@@ -39,7 +39,7 @@ MyDX12::FrameRsrcMngr& MyDX12::FrameRsrcMngr::UnregisterResource(
   return *this;
 }
 
-MyDX12::FrameRsrcMngr& MyDX12::FrameRsrcMngr::DelayUnregisterResource(
+MyDX12::FrameResource& MyDX12::FrameResource::DelayUnregisterResource(
     std::string name) {
   assert(HaveResource(name));
   delayUnregisterResources.emplace_back(std::move(name));
