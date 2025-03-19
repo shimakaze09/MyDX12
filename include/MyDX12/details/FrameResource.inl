@@ -22,7 +22,7 @@ const T& FrameResource::GetResource(std::string_view name) const {
 template <typename T>
 FrameResource& FrameResource::RegisterResource(std::string name, T&& resource) {
   assert(!HaveResource(name));
-  resourceMap.emplace(std::move(name), std::move(resource));
+  resourceMap.emplace(std::move(name), std::any{std::forward<T>(resource)});
   return *this;
 }
 

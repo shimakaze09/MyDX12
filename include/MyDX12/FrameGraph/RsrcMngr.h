@@ -47,12 +47,11 @@ class RsrcMngr {
   // call by My::MyDX12::FG::Executor
   void Destruct(ID3D12GraphicsCommandList*, size_t rsrcNodeIdx);
 
-  // move the resource view of the source resource node to the destination
-  // resource node call by My::MyDX12::FG::Executor
+  // move the resource view of the source resource node to the destination resource node
+  // call by My::MyDX12::FG::Executor
   void Move(size_t dstRsrcNodeIdx, size_t srcRsrcNodeIdx);
 
-  // - get the resource map (resource node index -> impl resource) of the pass
-  // node
+  // - get the resource map (resource node index -> impl resource) of the pass node
   // - we will
   //   1. change buffer state
   //   2. init handle
@@ -73,12 +72,14 @@ class RsrcMngr {
   }
 
   // provide details for the resource node of the pass node
-  RsrcMngr& RegisterPassRsrcs(size_t passNodeIdx, size_t rsrcNodeIdx,
-                              RsrcState state, RsrcImplDesc desc) {
-    passNodeIdx2rsrcMap[passNodeIdx].emplace(rsrcNodeIdx,
-                                             std::tuple(state, desc));
-    return *this;
-  }
+  RsrcMngr& RegisterPassRsrcState(size_t passNodeIdx, size_t rsrcNodeIdx,
+                                  RsrcState state);
+  // a resource can have several descriptions
+  RsrcMngr& RegisterPassRsrcImplDesc(size_t passNodeIdx, size_t rsrcNodeIdx,
+                                     RsrcImplDesc desc);
+  // a helper function to simplify register pass resource's state and impl description
+  RsrcMngr& RegisterPassRsrc(size_t passNodeIdx, size_t rsrcNodeIdx,
+                             RsrcState state, RsrcImplDesc desc);
 
   // provide external handles for the resource node
   RsrcMngr& RegisterRsrcHandle(size_t rsrcNodeIdx, RsrcImplDesc desc,
@@ -90,10 +91,10 @@ class RsrcMngr {
       const std::vector<std::tuple<size_t, RsrcImplDesc>>& rsrcNodeIndices);
 
   // you should
-  // 1. use RegisterImportedRsrc or RegisterTemporalRsrc to mark each resource
-  // nodes
+  // 1. use RegisterImportedRsrc or RegisterTemporalRsrc to mark each resource nodes
   // 2. use RegisterPassRsrcs to mark each resource nodes for every passes
   // if you do it correct, then return true, else return false
+  // TODO : move
   bool CheckComplete(const MyFG::FrameGraph& fg);
 
  private:
@@ -117,53 +118,17 @@ class RsrcMngr {
   // rsrcNodeIdx -> type
   std::unordered_map<size_t, RsrcType> temporals;
 
-  // passNodeIdx -> resource map
+  // passNodeIdx -> resource (state + descs) map
   std::unordered_map<
-      size_t, std::unordered_map<size_t, std::tuple<RsrcState, RsrcImplDesc>>>
+      size_t, std::unordered_map<
+                  size_t, std::tuple<RsrcState, std::vector<RsrcImplDesc>>>>
       passNodeIdx2rsrcMap;
 
   // rsrcNodeIdx -> view
   std::unordered_map<size_t, SRsrcView> actives;
 
-  struct DHHandles {
-    struct CpuGpuInfo {
-      D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle{0};
-      D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{0};
-      bool init{false};
-    };
-
-    struct CpuInfo {
-      D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle{0};
-      bool init{false};
-    };
-
-    std::unordered_map<D3D12_CONSTANT_BUFFER_VIEW_DESC, CpuGpuInfo>
-        desc2info_cbv;
-    std::unordered_map<D3D12_SHADER_RESOURCE_VIEW_DESC, CpuGpuInfo>
-        desc2info_srv;
-    std::unordered_map<D3D12_UNORDERED_ACCESS_VIEW_DESC, CpuGpuInfo>
-        desc2info_uav;
-
-    std::unordered_map<D3D12_RENDER_TARGET_VIEW_DESC, CpuInfo> desc2info_rtv;
-    std::unordered_map<D3D12_DEPTH_STENCIL_VIEW_DESC, CpuInfo> desc2info_dsv;
-
-    CpuGpuInfo null_info_srv;
-    CpuGpuInfo null_info_uav;
-
-    CpuInfo null_info_dsv;
-    CpuInfo null_info_rtv;
-
-    bool HaveNullSrv() const { return null_info_srv.cpuHandle.ptr != 0; }
-
-    bool HaveNullUav() const { return null_info_uav.cpuHandle.ptr != 0; }
-
-    bool HaveNullDsv() const { return null_info_dsv.cpuHandle.ptr != 0; }
-
-    bool HaveNullRtv() const { return null_info_rtv.cpuHandle.ptr != 0; }
-  };
-
-  // rsrcNodeIdx -> handles
-  std::unordered_map<size_t, DHHandles> handleMap;
+  // rsrcNodeIdx -> typeinfo
+  std::unordered_map<size_t, RsrcTypeInfo> typeinfoMap;
 
   MyDX12::DynamicSuballocMngr* csuDynamicDH{nullptr};
 

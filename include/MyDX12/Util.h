@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "_deps/DirectXTK12/ResourceUploadBatch.h"
 #include "_deps/d3dx12.h"
 
 #include <atlcomcli.h>
@@ -119,4 +120,13 @@ ComPtr<ID3DBlob> CompileShader(std::string_view source,
                                const D3D_SHADER_MACRO* defines,
                                const std::string& entrypoint,
                                const std::string& target, D3DInclude* pInclude);
+
+HRESULT __cdecl CreateTexture2DArrayFromMemory(
+    _In_ ID3D12Device* device, DirectX::ResourceUploadBatch& resourceUpload,
+    size_t width, size_t height, size_t arraySize, DXGI_FORMAT format,
+    const D3D12_SUBRESOURCE_DATA* subResources,
+    _COM_Outptr_ ID3D12Resource** texture, bool generateMips = false,
+    D3D12_RESOURCE_STATES afterState =
+        D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+    D3D12_RESOURCE_FLAGS resFlags = D3D12_RESOURCE_FLAG_NONE) noexcept;
 }  // namespace My::MyDX12::Util
