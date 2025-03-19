@@ -45,17 +45,19 @@ D3D12_DEPTH_STENCIL_VIEW_DESC MyDX12::Desc::DSV::Basic(DXGI_FORMAT format) {
 }
 
 D3D12_GRAPHICS_PIPELINE_STATE_DESC MyDX12::Desc::PSO::Basic(
-    ID3D12RootSignature* rootSig, D3D12_INPUT_ELEMENT_DESC* pInputElementDescs,
-    UINT NumElements, const ID3DBlob* VS, const ID3DBlob* PS,
-    DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
+    ID3D12RootSignature* rootSig,
+    const D3D12_INPUT_ELEMENT_DESC* pInputElementDescs, UINT NumElements,
+    const ID3DBlob* VS, const ID3DBlob* PS, DXGI_FORMAT rtvFormat,
+    DXGI_FORMAT dsvFormat) {
   return MRT(rootSig, pInputElementDescs, NumElements, VS, PS, 1, rtvFormat,
              dsvFormat);
 }
 
 D3D12_GRAPHICS_PIPELINE_STATE_DESC MyDX12::Desc::PSO::MRT(
-    ID3D12RootSignature* rootSig, D3D12_INPUT_ELEMENT_DESC* pInputElementDescs,
-    UINT NumElements, const ID3DBlob* VS, const ID3DBlob* PS, UINT rtNum,
-    DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
+    ID3D12RootSignature* rootSig,
+    const D3D12_INPUT_ELEMENT_DESC* pInputElementDescs, UINT NumElements,
+    const ID3DBlob* VS, const ID3DBlob* PS, UINT rtNum, DXGI_FORMAT rtvFormat,
+    DXGI_FORMAT dsvFormat) {
   D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc;
 
   ZeroMemory(&psoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));

@@ -12,11 +12,15 @@
 #include <memory>
 
 namespace My::MyDX12 {
-// create a buffer for uploading
-// we will map the gpu buffer to a cpu pointer
-// so it act like a cpu buffer
+// resource in upload heap
+// upload heap : cpu and gpu shared memory
+// sync : run in cpu timeline
+// async : record in command list, run in gpu timeline
 class UploadBuffer {
  public:
+  // create default buffer
+  // [sync]
+  // - construct
   UploadBuffer(ID3D12Device* device, UINT64 size,
                D3D12_RESOURCE_FLAGS flag = D3D12_RESOURCE_FLAG_NONE);
   ~UploadBuffer();
@@ -27,14 +31,30 @@ class UploadBuffer {
 
   BYTE* GetMappedData() const noexcept { return mappedData; }
 
+  bool Valid() const noexcept { return resource.Get() != nullptr; }
+
+  // copy cpu buffer to upload buffer
+  // [sync]
+  // - cpu buffer -> upload buffer
   void Set(UINT64 offset, const void* data, UINT64 size);
 
+  // create default buffer resource
+  // [sync]
+  // - construct default buffer
+  // [async]
+  // - upload buffer -> default buffer
   void CopyConstruct(size_t dstOffset, size_t srcOffset, size_t numBytes,
                      ID3D12Device* device, ID3D12GraphicsCommandList* cmdList,
                      D3D12_RESOURCE_STATES afterState,
                      ID3D12Resource** pBuffer,  // out com ptr
                      D3D12_RESOURCE_FLAGS resFlags = D3D12_RESOURCE_FLAG_NONE);
 
+  // create default buffer resource and delete self
+  // [sync]
+  // - construct default buffer
+  // [async]
+  // - upload buffer -> default buffer
+  // - delete self
   void MoveConstruct(size_t dstOffset, size_t srcOffset, size_t numBytes,
                      ResourceDeleteBatch& deleteBatch, ID3D12Device* device,
                      ID3D12GraphicsCommandList* cmdList,
@@ -42,11 +62,18 @@ class UploadBuffer {
                      ID3D12Resource** pBuffer,  // out com ptr
                      D3D12_RESOURCE_FLAGS resFlags = D3D12_RESOURCE_FLAG_NONE);
 
+  // copy upload buffer to dst
+  // [async]
+  // - upload buffer -> dst
   void CopyAssign(
       size_t dstOffset, size_t srcOffset, size_t numBytes,
       ID3D12GraphicsCommandList* cmdList, ID3D12Resource* dst,
       D3D12_RESOURCE_STATES state = D3D12_RESOURCE_STATE_GENERIC_READ);
 
+  // copy upload buffer to dst and delete self
+  // [async]
+  // - upload buffer -> dst
+  // - delete self
   void MoveAssign(
       size_t dstOffset, size_t srcOffset, size_t numBytes,
       ResourceDeleteBatch& deleteBatch, ID3D12GraphicsCommandList* cmdList,
@@ -54,6 +81,7 @@ class UploadBuffer {
       D3D12_RESOURCE_STATES state = D3D12_RESOURCE_STATE_GENERIC_READ);
 
  private:
+  // move resource to deleteBatch
   void Delete(ResourceDeleteBatch& deleteBatch);
 
   ComPtr<ID3D12Resource> resource;
@@ -69,18 +97,32 @@ class DynamicUploadBuffer {
   ID3D12Resource* GetResource() const noexcept;
   UINT64 Size() const noexcept;
 
+  bool Valid() const noexcept { return (bool)buffer; }
+
   // retain original data when resizing
+  // [sync]
+  // - (maybe) construct resized upload buffer
+  // - (maybe) orignal upload buffer -> new upload buffer
   void Reserve(size_t size);
+
   // not retain original data when resizing
+  // [sync]
+  // - (maybe) construct resized upload buffer
   void FastReserve(size_t size);
+
+  // copy cpu buffer to upload buffer
+  // [sync]
+  // - cpu buffer -> upload buffer
   void Set(UINT64 offset, const void* data, UINT64 size);
 
+  // same with UploadBuffer::CopyConstruct
   void CopyConstruct(size_t dstOffset, size_t srcOffset, size_t numBytes,
                      ID3D12Device* device, ID3D12GraphicsCommandList* cmdList,
                      D3D12_RESOURCE_STATES afterState,
                      ID3D12Resource** pBuffer,  // out com ptr
                      D3D12_RESOURCE_FLAGS resFlags = D3D12_RESOURCE_FLAG_NONE);
 
+  // same with UploadBuffer::MoveConstruct
   void MoveConstruct(size_t dstOffset, size_t srcOffset, size_t numBytes,
                      ResourceDeleteBatch& deleteBatch, ID3D12Device* device,
                      ID3D12GraphicsCommandList* cmdList,
@@ -88,11 +130,13 @@ class DynamicUploadBuffer {
                      ID3D12Resource** pBuffer,  // out com ptr
                      D3D12_RESOURCE_FLAGS resFlags = D3D12_RESOURCE_FLAG_NONE);
 
+  // same with UploadBuffer::CopyAssign
   void CopyAssign(
       size_t dstOffset, size_t srcOffset, size_t numBytes,
       ID3D12GraphicsCommandList* cmdList, ID3D12Resource* dst,
       D3D12_RESOURCE_STATES state = D3D12_RESOURCE_STATE_GENERIC_READ);
 
+  // same with UploadBuffer::MoveAssign
   void MoveAssign(
       size_t dstOffset, size_t srcOffset, size_t numBytes,
       ResourceDeleteBatch& deleteBatch, ID3D12GraphicsCommandList* cmdList,
@@ -106,7 +150,7 @@ class DynamicUploadBuffer {
   std::unique_ptr<UploadBuffer> buffer;
 };
 
-// a wrapper of the upload buffer to treat the buffer as an fix-size array
+// a wrappper of the upload buffer to treat the buffer as an fix-size array
 template <typename T>
 class ArrayUploadBuffer : public UploadBuffer {
  public:

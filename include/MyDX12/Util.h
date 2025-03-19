@@ -4,14 +4,15 @@
 
 #pragma once
 
+#include "_deps/d3dx12.h"
+
 #include <atlcomcli.h>
 #include <d3dcompiler.h>
 #include <wrl.h>
 
-#include <cassert>
 #include <string>
 
-#include "_deps/d3dx12.h"
+#include <cassert>
 
 #ifndef ThrowIfFailed
 #define ThrowIfFailed(x)                                           \
@@ -31,6 +32,13 @@ class D3DInclude;
 }  // namespace My::MyDX12
 
 namespace My::MyDX12::Util {
+template <typename T>
+void ReleaseCom(T*& p) {
+  if (p) {
+    p->Release();
+    p = nullptr;
+  }
+}
 
 std::wstring AnsiToWString(const std::string& str);
 
@@ -45,6 +53,8 @@ struct ComPtrHolder {
   const T* operator->() const noexcept { return raw.Get(); }
 
   bool IsNull() const noexcept { return raw.Get() == nullptr; }
+
+  T* Get() const noexcept { return raw.Get(); }
 };
 
 class Exception {

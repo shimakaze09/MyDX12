@@ -22,7 +22,8 @@ MyDX12::UploadBuffer::UploadBuffer(ID3D12Device* device, UINT64 size,
 }
 
 MyDX12::UploadBuffer::~UploadBuffer() {
-  if (resource) resource->Unmap(0, nullptr);
+  if (resource)
+    resource->Unmap(0, nullptr);
 }
 
 void MyDX12::UploadBuffer::Set(UINT64 offset, const void* data, UINT64 size) {
@@ -73,6 +74,7 @@ void MyDX12::UploadBuffer::CopyAssign(size_t dstOffset, size_t srcOffset,
                                       D3D12_RESOURCE_STATES state) {
   assert(resource);
   assert(dst->GetDesc().Dimension == D3D12_RESOURCE_DIMENSION_BUFFER);
+  assert(dstOffset + numBytes <= dst->GetDesc().Width);
 
   DirectX::TransitionResource(cmdList, dst, state,
                               D3D12_RESOURCE_STATE_COPY_DEST);
@@ -93,6 +95,7 @@ void MyDX12::UploadBuffer::MoveAssign(size_t dstOffset, size_t srcOffset,
 }
 
 void MyDX12::UploadBuffer::Delete(ResourceDeleteBatch& deleteBatch) {
+  assert(resource);
   resource->Unmap(0, nullptr);
 
   deleteBatch.Add(resource.Get());
@@ -117,16 +120,19 @@ UINT64 MyDX12::DynamicUploadBuffer::Size() const noexcept {
 }
 
 void MyDX12::DynamicUploadBuffer::Reserve(size_t size) {
-  if (size <= Size()) return;
+  if (size <= Size())
+    return;
 
   auto newBuffer = std::make_unique<MyDX12::UploadBuffer>(device, size, flag);
-  if (buffer) newBuffer->Set(0, buffer->GetMappedData(), buffer->Size());
+  if (buffer)
+    newBuffer->Set(0, buffer->GetMappedData(), buffer->Size());
 
   buffer = std::move(newBuffer);
 }
 
 void MyDX12::DynamicUploadBuffer::FastReserve(size_t size) {
-  if (size <= Size()) return;
+  if (size <= Size())
+    return;
 
   buffer = std::make_unique<MyDX12::UploadBuffer>(device, size, flag);
 }

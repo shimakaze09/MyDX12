@@ -62,8 +62,8 @@ void MyDX12::MeshGPUBuffer::Update(ID3D12Device* device,
   UINT vb_size = vb_count * vb_stride;
   UINT ib_size = ib_count * ib_stride;
 
-  vertexUploadBuffer->Reserve(vb_size);
-  indexUploadBuffer->Reserve(ib_size);
+  vertexUploadBuffer->FastReserve(vb_size);
+  indexUploadBuffer->FastReserve(ib_size);
 
   vertexUploadBuffer->Set(0, vb_data, vb_size);
   indexUploadBuffer->Set(0, ib_data, ib_size);
@@ -113,8 +113,8 @@ void MyDX12::MeshGPUBuffer::UpdateAndConvertToStatic(
   UINT vb_size = vb_count * vb_stride;
   UINT ib_size = ib_count * ib_stride;
 
-  vertexUploadBuffer->Reserve(vb_size);
-  indexUploadBuffer->Reserve(ib_size);
+  vertexUploadBuffer->FastReserve(vb_size);
+  indexUploadBuffer->FastReserve(ib_size);
 
   vertexUploadBuffer->Set(0, vb_data, vb_size);
   indexUploadBuffer->Set(0, ib_data, ib_size);
