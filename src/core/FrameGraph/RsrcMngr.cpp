@@ -263,6 +263,9 @@ void RsrcMngr::Move(size_t dstRsrcNodeIdx, size_t srcRsrcNodeIdx) {
   if (IsImported(srcRsrcNodeIdx)) {
     importeds.emplace(dstRsrcNodeIdx, importeds[srcRsrcNodeIdx]);
     importeds.erase(srcRsrcNodeIdx);
+  } else {
+    temporals.emplace(dstRsrcNodeIdx, temporals[srcRsrcNodeIdx]);
+    temporals.erase(srcRsrcNodeIdx);
   }
 }
 
