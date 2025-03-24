@@ -57,6 +57,6 @@ void Executor::Execute(ID3D12Device* device, ID3D12CommandQueue* cmdQueue,
   }
 
   cmdList->Close();
-  std::array<ID3D12CommandList*, 1> cmdListArray = {cmdList.Get()};
-  cmdQueue->ExecuteCommandLists((UINT)cmdListArray.size(), cmdListArray.data());
+  ID3D12CommandList* cmdListArray[1] = {cmdList.Get()};
+  cmdQueue->ExecuteCommandLists(1, cmdListArray);
 }
