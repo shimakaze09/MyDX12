@@ -22,10 +22,7 @@ MyDX12::FrameResourceMngr::GetCurrentFrameResource() noexcept {
 }
 
 void MyDX12::FrameResourceMngr::BeginFrame() {
-  if (cpuFence == 0)
-    return;
-
-  GetCurrentFrameResource()->Wait();
+  GetCurrentFrameResource()->BeginFrame();
 }
 
 void MyDX12::FrameResourceMngr::EndFrame(ID3D12CommandQueue* cmdQueue) {

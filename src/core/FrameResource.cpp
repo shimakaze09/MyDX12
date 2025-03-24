@@ -12,7 +12,7 @@ void MyDX12::FrameResource::Signal(ID3D12CommandQueue* cmdQueue,
   cmdQueue->Signal(gpuFence, cpuFence);
 }
 
-void MyDX12::FrameResource::Wait() {
+void MyDX12::FrameResource::BeginFrame() {
   if (gpuFence->GetCompletedValue() < cpuFence) {
     HANDLE eventHandle =
         CreateEventEx(nullptr, nullptr, false, EVENT_ALL_ACCESS);
@@ -26,7 +26,7 @@ void MyDX12::FrameResource::Wait() {
   delayUnregisterResources.clear();
 
   for (const auto& [name, updator] : delayUpdatorMap)
-    updator(resourceMap[name]);
+    updator(resourceMap.at(name));
   delayUpdatorMap.clear();
 }
 

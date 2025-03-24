@@ -216,7 +216,7 @@ void RsrcMngr::Construct(ID3D12Device* device, size_t rsrcNodeIdx) {
   SRsrcView view;
 
   if (IsImported(rsrcNodeIdx))
-    view = importeds.find(rsrcNodeIdx)->second;
+    view = importeds.at(rsrcNodeIdx);
   else {
     const auto& type = temporals[rsrcNodeIdx];
     auto& typefrees = pool[type];
@@ -239,11 +239,11 @@ void RsrcMngr::Construct(ID3D12Device* device, size_t rsrcNodeIdx) {
 
 void RsrcMngr::Destruct(ID3D12GraphicsCommandList* cmdList,
                         size_t rsrcNodeIdx) {
-  auto view = actives[rsrcNodeIdx];
+  auto view = actives.at(rsrcNodeIdx);
   if (!IsImported(rsrcNodeIdx))
-    pool[temporals[rsrcNodeIdx]].push_back(view);
+    pool[temporals.at(rsrcNodeIdx)].push_back(view);
   else {
-    auto orig_state = importeds[rsrcNodeIdx].state;
+    auto orig_state = importeds.at(rsrcNodeIdx).state;
     if (view.state != orig_state) {
       cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(
                                       view.pRsrc, view.state, orig_state));
@@ -257,14 +257,14 @@ void RsrcMngr::Move(size_t dstRsrcNodeIdx, size_t srcRsrcNodeIdx) {
   assert(actives.find(dstRsrcNodeIdx) == actives.end());
   assert(actives.find(srcRsrcNodeIdx) != actives.end());
 
-  actives.emplace(dstRsrcNodeIdx, actives[srcRsrcNodeIdx]);
+  actives.emplace(dstRsrcNodeIdx, actives.at(srcRsrcNodeIdx));
   actives.erase(srcRsrcNodeIdx);
 
   if (IsImported(srcRsrcNodeIdx)) {
-    importeds.emplace(dstRsrcNodeIdx, importeds[srcRsrcNodeIdx]);
+    importeds.emplace(dstRsrcNodeIdx, importeds.at(srcRsrcNodeIdx));
     importeds.erase(srcRsrcNodeIdx);
   } else {
-    temporals.emplace(dstRsrcNodeIdx, temporals[srcRsrcNodeIdx]);
+    temporals.emplace(dstRsrcNodeIdx, temporals.at(srcRsrcNodeIdx));
     temporals.erase(srcRsrcNodeIdx);
   }
 }
@@ -514,11 +514,11 @@ PassRsrcs RsrcMngr::RequestPassRsrcs(ID3D12Device* device,
                                      ID3D12GraphicsCommandList* cmdList,
                                      size_t passNodeIdx) {
   PassRsrcs passRsrc;
-  const auto& rsrcMap = passNodeIdx2rsrcMap[passNodeIdx];
+  const auto& rsrcMap = passNodeIdx2rsrcMap.at(passNodeIdx);
   for (const auto& [rsrcNodeIdx, state_descs] : rsrcMap) {
     const auto& [state, descs] = state_descs;
-    auto& view = actives[rsrcNodeIdx];
-    auto& typeinfo = typeinfoMap[rsrcNodeIdx];
+    auto& view = actives.at(rsrcNodeIdx);
+    auto& typeinfo = typeinfoMap.at(rsrcNodeIdx);
 
     if (view.state != state) {
       cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(
@@ -526,14 +526,13 @@ PassRsrcs RsrcMngr::RequestPassRsrcs(ID3D12Device* device,
       view.state = state;
     }
 
-    auto pRsrc = actives[rsrcNodeIdx].pRsrc;
     for (const auto& desc : descs) {
       std::visit(
           [&, rsrcNodeIdx = rsrcNodeIdx](const auto& desc) {
             using T = std::decay_t<decltype(desc)>;
 
             if constexpr (std::is_same_v<T, D3D12_CONSTANT_BUFFER_VIEW_DESC>) {
-              auto& info = typeinfo.desc2info_cbv[desc];
+              auto& info = typeinfo.desc2info_cbv.at(desc);
 
               if (!info.init) {
                 assert(desc.BufferLocation ==
@@ -554,7 +553,7 @@ PassRsrcs RsrcMngr::RequestPassRsrcs(ID3D12Device* device,
                                  std::is_same_v<T, RsrcImplDesc_SRV_NULL>) {
               RsrcTypeInfo::CpuGpuInfo* info;
               if constexpr (std::is_same_v<T, D3D12_SHADER_RESOURCE_VIEW_DESC>)
-                info = &typeinfo.desc2info_srv[desc];
+                info = &typeinfo.desc2info_srv.at(desc);
               else  // std::is_same_v<T, RsrcImplDesc_SRV_NULL>
                 info = &typeinfo.null_info_srv;
 
@@ -576,7 +575,7 @@ PassRsrcs RsrcMngr::RequestPassRsrcs(ID3D12Device* device,
                                  std::is_same_v<T, RsrcImplDesc_UAV_NULL>) {
               RsrcTypeInfo::CpuGpuInfo* info;
               if constexpr (std::is_same_v<T, D3D12_UNORDERED_ACCESS_VIEW_DESC>)
-                info = &typeinfo.desc2info_uav[desc];
+                info = &typeinfo.desc2info_uav.at(desc);
               else  // std::is_same_v<T, RsrcImplDesc_UAV_NULL>
                 info = &typeinfo.null_info_uav;
 
@@ -598,7 +597,7 @@ PassRsrcs RsrcMngr::RequestPassRsrcs(ID3D12Device* device,
                                  std::is_same_v<T, RsrcImplDesc_RTV_Null>) {
               RsrcTypeInfo::CpuInfo* info;
               if constexpr (std::is_same_v<T, D3D12_RENDER_TARGET_VIEW_DESC>)
-                info = &typeinfo.desc2info_rtv[desc];
+                info = &typeinfo.desc2info_rtv.at(desc);
               else  // std::is_same_v<T, RsrcImplDesc_RTV_NULL>
                 info = &typeinfo.null_info_rtv;
 
@@ -619,7 +618,7 @@ PassRsrcs RsrcMngr::RequestPassRsrcs(ID3D12Device* device,
                                  std::is_same_v<T, RsrcImplDesc_DSV_Null>) {
               RsrcTypeInfo::CpuInfo* info;
               if constexpr (std::is_same_v<T, D3D12_DEPTH_STENCIL_VIEW_DESC>)
-                info = &typeinfo.desc2info_dsv[desc];
+                info = &typeinfo.desc2info_dsv.at(desc);
               else  // std::is_same_v<T, RsrcImplDesc_RTV_NULL>
                 info = &typeinfo.null_info_dsv;
 
@@ -641,7 +640,7 @@ PassRsrcs RsrcMngr::RequestPassRsrcs(ID3D12Device* device,
           },
           desc);
     }
-    passRsrc.emplace(rsrcNodeIdx, RsrcImpl{pRsrc, typeinfo});
+    passRsrc.emplace(rsrcNodeIdx, RsrcImpl{view.pRsrc, typeinfo});
   }
   return passRsrc;
 }
