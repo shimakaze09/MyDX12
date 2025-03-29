@@ -12,9 +12,11 @@ MyDX12::UploadBuffer::UploadBuffer(ID3D12Device* device, UINT64 size,
     : size{size} {
   assert(size > 0);
 
+  const auto defaultHeapProperties =
+      CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+  const auto bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(size, flag);
   ThrowIfFailed(device->CreateCommittedResource(
-      &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), D3D12_HEAP_FLAG_NONE,
-      &CD3DX12_RESOURCE_DESC::Buffer(size, flag),
+      &defaultHeapProperties, D3D12_HEAP_FLAG_NONE, &bufferDesc,
       D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&resource)));
 
   ThrowIfFailed(

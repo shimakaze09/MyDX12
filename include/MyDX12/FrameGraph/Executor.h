@@ -27,7 +27,7 @@ class Executor {
 
   // TODO: parallel
   void Execute(ID3D12Device* device, ID3D12CommandQueue* cmdQueue,
-               ID3D12CommandAllocator* alloc, const UFG::Compiler::Result& crst,
+               ID3D12CommandAllocator* alloc, const MyFG::Compiler::Result& crst,
                RsrcMngr& rsrcMngr);
 
  private:

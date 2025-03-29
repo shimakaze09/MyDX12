@@ -11,10 +11,12 @@ using namespace My;
 void MyDX12::Device::CreateCommittedResource(D3D12_HEAP_TYPE heap_type,
                                              SIZE_T size,
                                              ID3D12Resource** resources) {
+  const auto defaultHeapProperties =
+      CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+  const auto bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(size);
   ThrowIfFailed(raw->CreateCommittedResource(
-      &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT), D3D12_HEAP_FLAG_NONE,
-      &CD3DX12_RESOURCE_DESC::Buffer(size), D3D12_RESOURCE_STATE_COMMON,
-      nullptr, IID_PPV_ARGS(resources)));
+      &defaultHeapProperties, D3D12_HEAP_FLAG_NONE, &bufferDesc,
+      D3D12_RESOURCE_STATE_COMMON, nullptr, IID_PPV_ARGS(resources)));
 }
 
 void MyDX12::Device::CreateDescriptorHeap(UINT size,
