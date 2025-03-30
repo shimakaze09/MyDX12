@@ -46,19 +46,17 @@ class CPUDescriptorHeap final : public IDescriptorAllocator {
                     D3D12_DESCRIPTOR_HEAP_TYPE Type,
                     D3D12_DESCRIPTOR_HEAP_FLAGS Flags);
 
-  // clang-format off
-         CPUDescriptorHeap             (const CPUDescriptorHeap&) = delete;
-         CPUDescriptorHeap             (CPUDescriptorHeap&&)      = delete;
-         CPUDescriptorHeap& operator = (const CPUDescriptorHeap&) = delete;
-         CPUDescriptorHeap& operator = (CPUDescriptorHeap&&)      = delete;
-  // clang-format on
+  CPUDescriptorHeap(const CPUDescriptorHeap&) = delete;
+  CPUDescriptorHeap(CPUDescriptorHeap&&) = delete;
+  CPUDescriptorHeap& operator=(const CPUDescriptorHeap&) = delete;
+  CPUDescriptorHeap& operator=(CPUDescriptorHeap&&) = delete;
 
   ~CPUDescriptorHeap();
 
   virtual DescriptorHeapAllocation Allocate(uint32_t Count) override final;
   virtual void Free(DescriptorHeapAllocation&& Allocation) override final;
 
-  virtual uint32_t GetDescriptorSize() const override final {
+  virtual uint32_t GetDescriptorSize() const noexcept override final {
     return m_DescriptorSize;
   }
 
@@ -69,7 +67,7 @@ class CPUDescriptorHeap final : public IDescriptorAllocator {
   std::mutex m_HeapPoolMutex;
   std::vector<DescriptorHeapAllocMngr> m_HeapPool;
   // Indices of available descriptor heap managers
-  std::unordered_set<size_t, std::hash<size_t>> m_AvailableHeaps;
+  std::unordered_set<size_t> m_AvailableHeaps;
 
   D3D12_DESCRIPTOR_HEAP_DESC m_HeapDesc;
   const UINT m_DescriptorSize = 0;

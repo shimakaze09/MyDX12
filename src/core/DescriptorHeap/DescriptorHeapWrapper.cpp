@@ -17,6 +17,7 @@ HRESULT MyDX12::DescriptorHeapWrapper::Create(
   hGPUHeapStart = raw->GetGPUDescriptorHandleForHeapStart();
 
   HandleIncrementSize = pDevice->GetDescriptorHandleIncrementSize(Desc.Type);
+  Desc = *desc;
   return hr;
 }
 

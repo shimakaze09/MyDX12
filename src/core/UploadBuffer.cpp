@@ -12,11 +12,11 @@ MyDX12::UploadBuffer::UploadBuffer(ID3D12Device* device, UINT64 size,
     : size{size} {
   assert(size > 0);
 
-  const auto defaultHeapProperties =
+  const auto uploadHeapProperties =
       CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
   const auto bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(size, flag);
   ThrowIfFailed(device->CreateCommittedResource(
-      &defaultHeapProperties, D3D12_HEAP_FLAG_NONE, &bufferDesc,
+      &uploadHeapProperties, D3D12_HEAP_FLAG_NONE, &bufferDesc,
       D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&resource)));
 
   ThrowIfFailed(
@@ -42,11 +42,11 @@ void MyDX12::UploadBuffer::CopyConstruct(
   assert(resource);
   auto desc = CD3DX12_RESOURCE_DESC::Buffer(numBytes, resFlags);
 
-  CD3DX12_HEAP_PROPERTIES heapProperties(D3D12_HEAP_TYPE_DEFAULT);
+  CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
 
   ComPtr<ID3D12Resource> res;
   ThrowIfFailed(device->CreateCommittedResource(
-      &heapProperties, D3D12_HEAP_FLAG_NONE, &desc,
+      &defaultHeapProperties, D3D12_HEAP_FLAG_NONE, &desc,
       D3D12_RESOURCE_STATE_COPY_DEST, nullptr,
       IID_GRAPHICS_PPV_ARGS(res.GetAddressOf())));
 
@@ -56,17 +56,6 @@ void MyDX12::UploadBuffer::CopyConstruct(
                               D3D12_RESOURCE_STATE_COPY_DEST, afterState);
 
   *pBuffer = res.Detach();
-}
-
-void MyDX12::UploadBuffer::MoveConstruct(
-    size_t dstOffset, size_t srcOffset, size_t numBytes,
-    ResourceDeleteBatch& deleteBatch, ID3D12Device* device,
-    ID3D12GraphicsCommandList* cmdList, D3D12_RESOURCE_STATES afterState,
-    ID3D12Resource** pBuffer,  // out com ptr
-    D3D12_RESOURCE_FLAGS resFlags) {
-  CopyConstruct(dstOffset, srcOffset, numBytes, device, cmdList, afterState,
-                pBuffer, resFlags);
-  Delete(deleteBatch);
 }
 
 void MyDX12::UploadBuffer::CopyAssign(size_t dstOffset, size_t srcOffset,
@@ -85,17 +74,6 @@ void MyDX12::UploadBuffer::CopyAssign(size_t dstOffset, size_t srcOffset,
                               state);
 }
 
-void MyDX12::UploadBuffer::MoveAssign(size_t dstOffset, size_t srcOffset,
-                                      size_t numBytes,
-                                      ResourceDeleteBatch& deleteBatch,
-                                      ID3D12GraphicsCommandList* cmdList,
-                                      ID3D12Resource* dst,
-                                      D3D12_RESOURCE_STATES state) {
-  CopyAssign(dstOffset, srcOffset, numBytes, cmdList, dst, state);
-
-  Delete(deleteBatch);
-}
-
 void MyDX12::UploadBuffer::Delete(ResourceDeleteBatch& deleteBatch) {
   assert(resource);
   resource->Unmap(0, nullptr);
@@ -112,6 +90,14 @@ void MyDX12::UploadBuffer::Delete(ResourceDeleteBatch& deleteBatch) {
 MyDX12::DynamicUploadBuffer::DynamicUploadBuffer(ID3D12Device* device,
                                                  D3D12_RESOURCE_FLAGS flag)
     : device{device}, flag{flag} {}
+
+MyDX12::DynamicUploadBuffer::DynamicUploadBuffer(ID3D12Device* device,
+                                                 UINT64 size,
+                                                 D3D12_RESOURCE_FLAGS flag)
+    : device{device}, flag{flag} {
+  assert(size > 0);
+  buffer = std::make_unique<MyDX12::UploadBuffer>(device, size, flag);
+}
 
 ID3D12Resource* MyDX12::DynamicUploadBuffer::GetResource() const noexcept {
   return buffer ? buffer->GetResource() : nullptr;
@@ -155,18 +141,6 @@ void MyDX12::DynamicUploadBuffer::CopyConstruct(
                         afterState, pBuffer, resFlags);
 }
 
-void MyDX12::DynamicUploadBuffer::MoveConstruct(
-    size_t dstOffset, size_t srcOffset, size_t numBytes,
-    ResourceDeleteBatch& deleteBatch, ID3D12Device* device,
-    ID3D12GraphicsCommandList* cmdList, D3D12_RESOURCE_STATES afterState,
-    ID3D12Resource** pBuffer,  // out com ptr
-    D3D12_RESOURCE_FLAGS resFlags) {
-  assert(buffer);
-  buffer->MoveConstruct(dstOffset, srcOffset, numBytes, deleteBatch, device,
-                        cmdList, afterState, pBuffer, resFlags);
-  buffer.reset();
-}
-
 void MyDX12::DynamicUploadBuffer::CopyAssign(size_t dstOffset, size_t srcOffset,
                                              size_t numBytes,
                                              ID3D12GraphicsCommandList* cmdList,
@@ -176,14 +150,8 @@ void MyDX12::DynamicUploadBuffer::CopyAssign(size_t dstOffset, size_t srcOffset,
   buffer->CopyAssign(dstOffset, srcOffset, numBytes, cmdList, dst, state);
 }
 
-void MyDX12::DynamicUploadBuffer::MoveAssign(size_t dstOffset, size_t srcOffset,
-                                             size_t numBytes,
-                                             ResourceDeleteBatch& deleteBatch,
-                                             ID3D12GraphicsCommandList* cmdList,
-                                             ID3D12Resource* dst,
-                                             D3D12_RESOURCE_STATES state) {
-  assert(buffer);
-  buffer->MoveAssign(dstOffset, srcOffset, numBytes, deleteBatch, cmdList, dst,
-                     state);
+// move resource to deleteBatch
+void MyDX12::DynamicUploadBuffer::Delete(ResourceDeleteBatch& deleteBatch) {
+  buffer->Delete(deleteBatch);
   buffer.reset();
 }

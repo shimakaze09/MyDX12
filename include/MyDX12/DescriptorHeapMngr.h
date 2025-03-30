@@ -23,22 +23,22 @@ class DescriptorHeapMngr {
             uint32_t numCpuDSV, uint32_t numGpuCSU_static,
             uint32_t numGpuCSU_dynamic);
 
-  CPUDescriptorHeap* GetCSUCpuDH() noexcept {
+  CPUDescriptorHeap* GetCSUCpuDH() const noexcept {
     assert(isInit);
     return CSU_CpuDH;
   }
 
-  CPUDescriptorHeap* GetRTVCpuDH() noexcept {
+  CPUDescriptorHeap* GetRTVCpuDH() const noexcept {
     assert(isInit);
     return RTV_CpuDH;
   }
 
-  CPUDescriptorHeap* GetDSVCpuDH() noexcept {
+  CPUDescriptorHeap* GetDSVCpuDH() const noexcept {
     assert(isInit);
     return DSV_CpuDH;
   }
 
-  GPUDescriptorHeap* GetCSUGpuDH() noexcept {
+  GPUDescriptorHeap* GetCSUGpuDH() const noexcept {
     assert(isInit);
     return CSU_GpuDH;
   }
