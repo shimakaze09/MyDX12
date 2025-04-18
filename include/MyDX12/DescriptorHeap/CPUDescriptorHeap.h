@@ -1,7 +1,3 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 // ref
 // 1.
 // http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/
@@ -19,9 +15,9 @@
 
 namespace My::MyDX12 {
 // CPU descriptor heap is intended to provide storage for resource view
-// descriptor handles. It contains a pool of DescriptorHeapAllocationManager
-// object instances, where every instance manages its own CPU-only D3D12
-// descriptor heap:
+// descriptor handles.
+// It contains a pool of DescriptorHeapAllocationManager object instances, where
+// every instance manages its own CPU-only D3D12 descriptor heap:
 //
 //           m_HeapPool[0]                m_HeapPool[1] m_HeapPool[2]
 //   |  X  X  X  X  X  X  X  X |, |  X  X  X  O  O  X  X  O  |, |  X  O  O  O  O
@@ -55,7 +51,6 @@ class CPUDescriptorHeap final : public IDescriptorAllocator {
 
   virtual DescriptorHeapAllocation Allocate(uint32_t Count) override final;
   virtual void Free(DescriptorHeapAllocation&& Allocation) override final;
-
   virtual uint32_t GetDescriptorSize() const noexcept override final {
     return m_DescriptorSize;
   }

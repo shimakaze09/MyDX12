@@ -1,7 +1,3 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 // ref
 // 1.
 // http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/
@@ -12,10 +8,9 @@
 
 #pragma once
 
-#include <MyContainer/VarSizeAllocMngr.h>
-
 #include <mutex>
 
+#include "../VarSizeAllocMngr.h"
 #include "IDescriptorAllocator.h"
 
 namespace My::MyDX12 {
@@ -43,7 +38,9 @@ class DescriptorHeapAllocMngr {
                           ID3D12DescriptorHeap* pd3d12DescriptorHeap,
                           uint32_t FirstDescriptor, uint32_t NumDescriptors);
 
-  // = default causes compiler error when instantiating std::vector::emplace_back() in Visual Studio 2015 (Version 14.0.23107.0 D14REL)
+  // = default causes compiler error when instantiating
+  // std::vector::emplace_back() in Visual Studio 2015 (Version 14.0.23107.0
+  // D14REL)
   DescriptorHeapAllocMngr(DescriptorHeapAllocMngr&& rhs) noexcept;
 
   // No copies or move-assignments
@@ -60,11 +57,9 @@ class DescriptorHeapAllocMngr {
   size_t GetNumAvailableDescriptors() const noexcept {
     return m_FreeBlockManager.GetFreeSize();
   }
-
   uint32_t GetMaxDescriptors() const noexcept {
     return m_NumDescriptorsInAllocation;
   }
-
   size_t GetMaxAllocatedSize() const noexcept { return m_MaxAllocatedSize; }
 
  private:

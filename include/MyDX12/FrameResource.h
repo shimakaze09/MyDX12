@@ -1,13 +1,10 @@
-//
-// Created by Admin on 12/03/2025.
-//
-
 #pragma once
 
 #include <any>
 #include <functional>
 #include <map>
 #include <unordered_map>
+
 #include "Util.h"
 
 namespace My::MyDX12 {
@@ -55,4 +52,4 @@ class FrameResource {
 };
 }  // namespace My::MyDX12
 
-#include "details/FrameResource.inl"
+#include "details/FrameRsrcMngr.inl"

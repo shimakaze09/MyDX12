@@ -1,7 +1,3 @@
-//
-// Created by Admin on 7/03/2025.
-//
-
 #include <MyDX12/Blob.h>
 
 using namespace My;

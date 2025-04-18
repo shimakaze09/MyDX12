@@ -1,9 +1,4 @@
-//
-// Created by Admin on 12/03/2025.
-//
-
 #include <MyDX12/FrameGraph/Executor.h>
-
 #include <MyDX12/FrameGraph/RsrcMngr.h>
 
 using namespace My::MyDX12::FG;

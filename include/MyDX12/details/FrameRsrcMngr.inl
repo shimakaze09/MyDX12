@@ -1,10 +1,6 @@
-//
-// Created by Admin on 12/03/2025.
-//
-
 #pragma once
 
-#include <MyTemplate/Func.h>
+#include <MyTemplate/Func.hpp>
 
 namespace My::MyDX12 {
 template <typename T>

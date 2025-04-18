@@ -1,7 +1,3 @@
-//
-// Created by Admin on 7/03/2025.
-//
-
 #include <MyDX12/DescriptorHeap/DescriptorHeapWrapper.h>
 
 using namespace My;
@@ -10,8 +6,7 @@ HRESULT MyDX12::DescriptorHeapWrapper::Create(
     ID3D12Device* pDevice, const D3D12_DESCRIPTOR_HEAP_DESC* desc) {
   HRESULT hr =
       pDevice->CreateDescriptorHeap(desc, IID_PPV_ARGS(raw.GetAddressOf()));
-  if (FAILED(hr))
-    return hr;
+  if (FAILED(hr)) return hr;
 
   hCPUHeapStart = raw->GetCPUDescriptorHandleForHeapStart();
   hGPUHeapStart = raw->GetGPUDescriptorHandleForHeapStart();

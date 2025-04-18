@@ -1,14 +1,9 @@
-//
-// Created by Admin on 12/03/2025.
-//
-
 #pragma once
 
-#include "Rsrc.h"
-
-#include <MyFG/Compiler.h>
-
+#include <MyFG/Compiler.hpp>
 #include <functional>
+
+#include "Rsrc.h"
 
 namespace My::MyDX12::FG {
 class RsrcMngr;
@@ -27,8 +22,8 @@ class Executor {
 
   // TODO: parallel
   void Execute(ID3D12Device* device, ID3D12CommandQueue* cmdQueue,
-               ID3D12CommandAllocator* alloc, const MyFG::Compiler::Result& crst,
-               RsrcMngr& rsrcMngr);
+               ID3D12CommandAllocator* alloc,
+               const MyFG::Compiler::Result& crst, RsrcMngr& rsrcMngr);
 
  private:
   std::unordered_map<size_t, PassFunction> passFuncs;

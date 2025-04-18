@@ -1,7 +1,3 @@
-//
-// Created by Admin on 7/03/2025.
-//
-
 #pragma once
 
 #include "Util.h"
@@ -15,7 +11,7 @@ D3D12_SHADER_RESOURCE_VIEW_DESC TexCube(DXGI_FORMAT format, UINT MipLevels = 1);
 
 namespace DSV {
 D3D12_DEPTH_STENCIL_VIEW_DESC Basic(DXGI_FORMAT format);
-}  // namespace DSV
+}
 
 namespace PSO {
 D3D12_GRAPHICS_PIPELINE_STATE_DESC Basic(
@@ -34,7 +30,7 @@ D3D12_GRAPHICS_PIPELINE_STATE_DESC MRT(
 namespace RTV {
 D3D12_RENDER_TARGET_VIEW_DESC Tex2DofTexCube(DXGI_FORMAT format, UINT Index,
                                              UINT MipSlice = 0);
-}  // namespace RTV
+}
 
 namespace RSRC {
 D3D12_RESOURCE_DESC Basic(D3D12_RESOURCE_DIMENSION dimension, UINT64 Width,

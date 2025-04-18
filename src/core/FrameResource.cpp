@@ -1,7 +1,3 @@
-//
-// Created by Admin on 12/03/2025.
-//
-
 #include <MyDX12/FrameResource.h>
 
 using namespace My;
@@ -21,8 +17,7 @@ void MyDX12::FrameResource::BeginFrame() {
     CloseHandle(eventHandle);
   }
 
-  for (const auto& name : delayUnregisterResources)
-    UnregisterResource(name);
+  for (const auto& name : delayUnregisterResources) UnregisterResource(name);
   delayUnregisterResources.clear();
 
   for (const auto& [name, updator] : delayUpdatorMap)

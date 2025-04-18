@@ -1,9 +1,4 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 #include <MyDX12/DescriptorHeap/CPUDescriptorHeap.h>
-
 #include <MyDX12/DescriptorHeap/DescriptorHeapAllocation.h>
 
 using namespace My;
@@ -56,19 +51,20 @@ MyDX12::DescriptorHeapAllocation MyDX12::CPUDescriptorHeap::Allocate(
 
     // Terminate the loop if descriptor was successfully allocated, otherwise
     // go to the next manager
-    if (!allocation.IsNull())
-      break;
+    if (!allocation.IsNull()) break;
     availableHeapIter = nextIter;
   }
 
   // If there were no available descriptor heap managers or no manager was able
   // to suffice the allocation request, create a new manager
   if (allocation.IsNull()) {
-    // Make sure the heap is large enough to accomodate the requested number of descriptors
+    // Make sure the heap is large enough to accomodate the requested number of
+    // descriptors
     m_HeapDesc.NumDescriptors =
         std::max(m_HeapDesc.NumDescriptors, static_cast<UINT>(count));
-    // Create a new descriptor heap manager. Note that this constructor creates a new D3D12 descriptor
-    // heap and references the entire heap. Pool index is used as manager ID
+    // Create a new descriptor heap manager. Note that this constructor creates
+    // a new D3D12 descriptor heap and references the entire heap. Pool index is
+    // used as manager ID
     m_HeapPool.emplace_back(m_pDevice, *this, m_HeapPool.size(), m_HeapDesc);
     auto newHeapIter = m_AvailableHeaps.insert(m_HeapPool.size() - 1);
     assert(newHeapIter.second);

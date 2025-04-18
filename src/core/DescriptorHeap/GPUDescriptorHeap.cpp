@@ -1,7 +1,3 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 #include <MyDX12/DescriptorHeap/GPUDescriptorHeap.h>
 
 using namespace My;
@@ -44,6 +40,6 @@ void MyDX12::GPUDescriptorHeap::Free(DescriptorHeapAllocation&& allocation) {
 
   if (MgrId == StaticHeapAllocatonManagerID)
     m_HeapAllocationManager.FreeAllocation(std::move(allocation));
-  else  // MgrId == DynamicHeapAllocationManagerID
+  else  // MgrId == DynamicHeapAllocatonManagerID
     m_DynamicAllocationsManager.FreeAllocation(std::move(allocation));
 }

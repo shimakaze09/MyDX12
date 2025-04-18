@@ -1,3 +1,12 @@
+SET(c_options_private "")
+IF (MSVC)
+    LIST(APPEND c_options_private "/wd4996")
+ELSEIF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    LIST(APPEND c_options_private "")
+ELSEIF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    LIST(APPEND c_options_private "")
+ENDIF ()
+
 ADD_TARGET(
         MODE STATIC
         RET_TARGET_NAME CORE
@@ -9,7 +18,6 @@ ADD_TARGET(
         INC_PRIVATE
         "${PROJECT_SOURCE_DIR}/include/MyDX12/_deps/DirectXTK12"
         LIB
-        My::MyContainer_core
         My::MyTemplate_core
         My::MyFG_core
         LIB_INTERFACE
@@ -17,6 +25,8 @@ ADD_TARGET(
         D3D12.lib
         dxgi.lib
         dxguid.lib
+        C_OPTION_PRIVATE
+        ${c_options_private}
         DEFINE
         UNICODE
         _UNICODE

@@ -1,14 +1,8 @@
-//
-// Created by Admin on 16/03/2025.
-//
-
 #pragma once
 
-#include "Util.h"
-
-#include "_deps/DirectXTK12/ResourceUploadBatch.h"
-
 #include "UploadBuffer.h"
+#include "Util.h"
+#include "_deps/DirectXTK12/ResourceUploadBatch.h"
 
 namespace My::MyDX12 {
 // static / dynamic mesh GPU buffer
@@ -80,7 +74,8 @@ class MeshGPUBuffer {
 
   // delete all buffers
   // [async]
-  // - delete vertexUploadBuffer, indexUploadBuffer, staticVertexBuffer, staticIndexBuffer
+  // - delete vertexUploadBuffer, indexUploadBuffer, staticVertexBuffer,
+  // staticIndexBuffer
   void Delete(ResourceDeleteBatch& deleteBatch);
 
  private:

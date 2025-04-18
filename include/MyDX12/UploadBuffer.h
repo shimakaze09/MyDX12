@@ -1,15 +1,10 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 #pragma once
 
-#include "Util.h"
+#include <memory>
 
 #include "ResourceDeleteBatch.h"
+#include "Util.h"
 #include "_deps/DirectXTK12/ResourceUploadBatch.h"
-
-#include <memory>
 
 namespace My::MyDX12 {
 // resource in upload heap
@@ -26,18 +21,14 @@ class UploadBuffer {
   ~UploadBuffer();
 
   ID3D12Resource* GetResource() const noexcept { return resource.Get(); }
-
   UINT64 Size() const noexcept { return size; }
-
   BYTE* GetMappedData() const noexcept { return mappedData; }
-
   bool Valid() const noexcept { return resource.Get() != nullptr; }
 
   // copy cpu buffer to upload buffer
   // [sync]
   // - cpu buffer -> upload buffer
   void Set(UINT64 offset, const void* data, UINT64 size);
-
   template <typename T>
   void Set(UINT64 offset, const T* data) {
     Set(offset, data, sizeof(T));
@@ -80,7 +71,6 @@ class DynamicUploadBuffer {
 
   ID3D12Resource* GetResource() const noexcept;
   UINT64 Size() const noexcept;
-
   bool Valid() const noexcept { return (bool)buffer; }
 
   // retain original data when resizing
@@ -98,7 +88,6 @@ class DynamicUploadBuffer {
   // [sync]
   // - cpu buffer -> upload buffer
   void Set(UINT64 offset, const void* data, UINT64 size);
-
   template <typename T>
   void Set(UINT64 offset, const T* data) {
     Set(offset, data, sizeof(T));
@@ -127,7 +116,7 @@ class DynamicUploadBuffer {
   std::unique_ptr<UploadBuffer> buffer;
 };
 
-// a wrapper of the upload buffer to treat the buffer as an fix-size array
+// a wrappper of the upload buffer to treat the buffer as an fix-size array
 template <typename T>
 class ArrayUploadBuffer : public UploadBuffer {
  public:
@@ -137,9 +126,7 @@ class ArrayUploadBuffer : public UploadBuffer {
 
   void Set(UINT64 index, const T* data, UINT64 numElement);
   void Set(UINT64 index, const T& element);
-
   bool IsConstantBuffer() const noexcept { return isConstantBuffer; }
-
   UINT64 NumElement() const noexcept { return numElement; }
 
  private:

@@ -1,15 +1,7 @@
-//
-// Created by Admin on 7/03/2025.
-//
-
-#include <MyDX12/Util.h>
-
-#include <MyDX12/_deps/DirectXTK12/DirectXTK12.h>
-
 #include <MyDX12/D3DInclude.h>
-
+#include <MyDX12/Util.h>
+#include <MyDX12/_deps/DirectXTK12/DirectXTK12.h>
 #include <comdef.h>
-
 #include <stringapiset.h>
 
 #include <fstream>
@@ -74,6 +66,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> Util::CreateDefaultBuffer(
     Microsoft::WRL::ComPtr<ID3D12Resource>& uploadBuffer) {
   ComPtr<ID3D12Resource> defaultBuffer;
 
+  // ���� defualt buffer
   // Create the actual default buffer resource.
   const auto defaultHeapProperties =
       CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
@@ -83,6 +76,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> Util::CreateDefaultBuffer(
       D3D12_RESOURCE_STATE_COMMON, nullptr,
       IID_PPV_ARGS(defaultBuffer.GetAddressOf())));
 
+  // Ϊ�˿��� CPU ���ݵ� default buffer��������Ҫ����һ���н�� upload heap
   // In order to copy CPU memory data into our default buffer, we need to create
   // an intermediate upload heap.
   const auto uploadHeapProperties =
@@ -92,15 +86,19 @@ Microsoft::WRL::ComPtr<ID3D12Resource> Util::CreateDefaultBuffer(
       D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
       IID_PPV_ARGS(uploadBuffer.GetAddressOf())));
 
+  // ��������
   // Describe the data we want to copy into the default buffer.
   D3D12_SUBRESOURCE_DATA subResourceData = {};
   subResourceData.pData = initData;
   subResourceData.RowPitch = byteSize;
   subResourceData.SlicePitch = subResourceData.RowPitch;
 
-  // Schedule to copy the data to the default buffer resource.  At a high level, the helper function UpdateSubresources
-  // will copy the CPU memory into the intermediate upload heap.  Then, using ID3D12CommandList::CopySubresourceRegion,
-  // the intermediate upload heap data will be copied to mBuffer.
+  // �������ݣ�UpdateSubresources �Ὣ���ݿ������н� upload heap���ٿ����� default
+  // buffer Schedule to copy the data to the default buffer resource.  At a high
+  // level, the helper function UpdateSubresources will copy the CPU memory into
+  // the intermediate upload heap.  Then, using
+  // ID3D12CommandList::CopySubresourceRegion, the intermediate upload heap data
+  // will be copied to mBuffer.
   DirectX::TransitionResource(cmdList, defaultBuffer.Get(),
                               D3D12_RESOURCE_STATE_COMMON,
                               D3D12_RESOURCE_STATE_COPY_DEST);
@@ -110,9 +108,11 @@ Microsoft::WRL::ComPtr<ID3D12Resource> Util::CreateDefaultBuffer(
                               D3D12_RESOURCE_STATE_COPY_DEST,
                               D3D12_RESOURCE_STATE_GENERIC_READ);
 
-  // Note: uploadBuffer has to be kept alive after the above function calls because
-  // the command list has not been executed yet that performs the actual copy.
-  // The caller can Release the uploadBuffer after it knows the copy has been executed.
+  // uploadBuffer ��Ҫ�����ͷţ�������ɺ����ͷţ�cmdList
+  // ֻ�Ǽ�¼�����δִ�У� Note: uploadBuffer has to be
+  // kept alive after the above function calls because the command list has not
+  // been executed yet that performs the actual copy. The caller can Release the
+  // uploadBuffer after it knows the copy has been executed.
 
   return defaultBuffer;
 }
@@ -134,8 +134,7 @@ ComPtr<ID3DBlob> Util::CompileShaderFromFile(const std::wstring& filename,
                           D3D_COMPILE_STANDARD_FILE_INCLUDE, entrypoint.c_str(),
                           target.c_str(), compileFlags, 0, &byteCode, &errors);
 
-  if (errors != nullptr)
-    OutputDebugStringA((char*)errors->GetBufferPointer());
+  if (errors != nullptr) OutputDebugStringA((char*)errors->GetBufferPointer());
 
   ThrowIfFailed(hr);
 
@@ -160,8 +159,7 @@ ComPtr<ID3DBlob> Util::CompileShader(std::string_view source,
                   entrypoint.c_str(), target.c_str(), compileFlags, 0,
                   &byteCode, &errors);
 
-  if (errors != nullptr)
-    OutputDebugStringA((char*)errors->GetBufferPointer());
+  if (errors != nullptr) OutputDebugStringA((char*)errors->GetBufferPointer());
 
   ThrowIfFailed(hr);
 
@@ -170,8 +168,7 @@ ComPtr<ID3DBlob> Util::CompileShader(std::string_view source,
 
 namespace My::MyDX12::detail {
 inline uint32_t CountMips(uint32_t width, uint32_t height) noexcept {
-  if (width == 0 || height == 0)
-    return 0;
+  if (width == 0 || height == 0) return 0;
 
   uint32_t count = 1;
   while (width > 1 || height > 1) {
@@ -189,13 +186,11 @@ _Use_decl_annotations_ HRESULT Util::CreateTexture2DArrayFromMemory(
     const D3D12_SUBRESOURCE_DATA* subResources, ID3D12Resource** texture,
     bool generateMips, D3D12_RESOURCE_STATES afterState,
     D3D12_RESOURCE_FLAGS resFlags) noexcept {
-  if (!texture)
-    return E_INVALIDARG;
+  if (!texture) return E_INVALIDARG;
 
   *texture = nullptr;
 
-  if (!device || !width || !height || !arraySize)
-    return E_INVALIDARG;
+  if (!device || !width || !height || !arraySize) return E_INVALIDARG;
 
   static_assert(D3D12_REQ_TEXTURE3D_U_V_OR_W_DIMENSION <= UINT16_MAX,
                 "Exceeded integer limits");
@@ -203,7 +198,8 @@ _Use_decl_annotations_ HRESULT Util::CreateTexture2DArrayFromMemory(
   if ((width > D3D12_REQ_TEXTURE3D_U_V_OR_W_DIMENSION) ||
       (height > D3D12_REQ_TEXTURE3D_U_V_OR_W_DIMENSION) ||
       (arraySize > D3D12_REQ_TEXTURE3D_U_V_OR_W_DIMENSION)) {
-    //DebugTrace("ERROR: Resource dimensions too large for DirectX 12 (3D: size %zu by %zu by %zu)\n", width, height, arraySize);
+    // DebugTrace("ERROR: Resource dimensions too large for DirectX 12 (3D: size
+    // %zu by %zu by %zu)\n", width, height, arraySize);
     return HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED);
   }
 
@@ -227,8 +223,7 @@ _Use_decl_annotations_ HRESULT Util::CreateTexture2DArrayFromMemory(
       &heapProperties, D3D12_HEAP_FLAG_NONE, &desc,
       D3D12_RESOURCE_STATE_COPY_DEST, nullptr,
       IID_GRAPHICS_PPV_ARGS(res.GetAddressOf()));
-  if (FAILED(hr))
-    return hr;
+  if (FAILED(hr)) return hr;
 
   try {
     resourceUpload.Upload(res.Get(), 0, subResources, (UINT)arraySize);
@@ -237,9 +232,9 @@ _Use_decl_annotations_ HRESULT Util::CreateTexture2DArrayFromMemory(
                               afterState);
   }
   /*catch (com_exception e)
-	{
-		return e.get_result();
-	}*/
+  {
+          return e.get_result();
+  }*/
   catch (...) {
     return E_FAIL;
   }

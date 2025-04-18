@@ -1,7 +1,3 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 #include <MyDX12/MeshGPUBuffer.h>
 #include <MyDX12/_deps/DirectXTK12/BufferHelpers.h>
 

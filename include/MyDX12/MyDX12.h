@@ -1,7 +1,3 @@
-//
-// Created by Admin on 7/03/2025.
-//
-
 #pragma once
 
 #include "_deps/DirectXTK12/DirectXTK12.h"

@@ -1,7 +1,3 @@
-//
-// Created by Admin on 16/03/2025.
-//
-
 #include <DirectXHelpers.h>
 #include <MyDX12/ResourceDeleteBatch.h>
 
@@ -9,9 +5,8 @@ using namespace My;
 
 std::future<void> MyDX12::ResourceDeleteBatch::Commit(
     ID3D12Device* device, ID3D12CommandQueue* cmdQueue) {
-  if (resources.empty())
- 		return {};
-  
+  if (resources.empty()) return {};
+
   // Set an event so we get notified when the GPU has completed all its work
   ComPtr<ID3D12Fence> fence;
   ThrowIfFailed(device->CreateFence(

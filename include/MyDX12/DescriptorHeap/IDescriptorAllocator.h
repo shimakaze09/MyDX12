@@ -1,7 +1,3 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 // ref
 // 1.
 // http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/

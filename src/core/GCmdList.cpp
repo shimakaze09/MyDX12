@@ -1,9 +1,4 @@
-//
-// Created by Admin on 7/03/2025.
-//
-
 #include <MyDX12/GCmdList.h>
-
 #include <MyDX12/_deps/DirectXTK12/DirectXHelpers.h>
 
 using namespace My;

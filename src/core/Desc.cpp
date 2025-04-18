@@ -1,7 +1,3 @@
-//
-// Created by Admin on 7/03/2025.
-//
-
 #include <MyDX12/Desc.h>
 #include <d3d12.h>
 
@@ -104,8 +100,7 @@ D3D12_GRAPHICS_PIPELINE_STATE_DESC MyDX12::Desc::PSO::MRT(
   psoDesc.SampleMask = UINT_MAX;
   psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
   psoDesc.NumRenderTargets = rtNum;
-  for (UINT i = 0; i < rtNum; i++)
-    psoDesc.RTVFormats[i] = rtvFormat;
+  for (UINT i = 0; i < rtNum; i++) psoDesc.RTVFormats[i] = rtvFormat;
   psoDesc.SampleDesc.Count = 1;
   psoDesc.SampleDesc.Quality = 0;
   psoDesc.DSVFormat = dsvFormat;

@@ -1,12 +1,7 @@
-//
-// Created by Admin on 12/03/2025.
-//
-
 #include <MyDX12/FrameGraph/RsrcMngr.h>
-
-#include <MyFG/FrameGraph.h>
-
 #include <MyDX12/_deps/DirectXTK12/DirectXHelpers.h>
+
+#include <MyFG/FrameGraph.hpp>
 
 using namespace My::MyDX12::FG;
 using namespace My::MyDX12;
@@ -17,8 +12,8 @@ using namespace std;
 
 RsrcMngr::RsrcMngr() {
   csuDynamicDH =
-      new DynamicSuballocMngr{DescriptorHeapMngr::Instance().GetCSUGpuDH(),
-                              256, "RsrcMngr::csuDynamicDH"};
+      new DynamicSuballocMngr{DescriptorHeapMngr::Instance().GetCSUGpuDH(), 256,
+                              "RsrcMngr::csuDynamicDH"};
 }
 
 RsrcMngr::~RsrcMngr() {
@@ -38,19 +33,15 @@ void RsrcMngr::NewFrame() {
   passNodeIdx2rsrcMap.clear();
   actives.clear();
 
-  for (const auto& idx : csuDHused)
-    csuDHfree.push_back(idx);
-  for (const auto& idx : rtvDHused)
-    rtvDHfree.push_back(idx);
-  for (const auto& idx : dsvDHused)
-    dsvDHfree.push_back(idx);
+  for (const auto& idx : csuDHused) csuDHfree.push_back(idx);
+  for (const auto& idx : rtvDHused) rtvDHfree.push_back(idx);
+  for (const auto& idx : dsvDHused) dsvDHfree.push_back(idx);
 
   csuDHused.clear();
   rtvDHused.clear();
   dsvDHused.clear();
 
-  if (csuDynamicDH)
-    csuDynamicDH->ReleaseAllocations();
+  if (csuDynamicDH) csuDynamicDH->ReleaseAllocations();
   typeinfoMap.clear();
 }
 
@@ -64,45 +55,39 @@ void RsrcMngr::CSUDHReserve(UINT num) {
   assert(csuDHused.empty());
 
   UINT origSize = csuDH.GetNumHandles();
-  if (origSize >= num)
-    return;
+  if (origSize >= num) return;
 
   if (!csuDH.IsNull())
     DescriptorHeapMngr::Instance().GetCSUGpuDH()->Free(move(csuDH));
   csuDH = DescriptorHeapMngr::Instance().GetCSUGpuDH()->Allocate(num);
 
-  for (UINT i = origSize; i < num; i++)
-    csuDHfree.push_back(i);
+  for (UINT i = origSize; i < num; i++) csuDHfree.push_back(i);
 }
 
 void RsrcMngr::RtvDHReserve(UINT num) {
   assert(rtvDHused.empty());
 
   UINT origSize = rtvDH.GetNumHandles();
-  if (origSize >= num)
-    return;
+  if (origSize >= num) return;
 
   if (!rtvDH.IsNull())
     DescriptorHeapMngr::Instance().GetRTVCpuDH()->Free(move(rtvDH));
   rtvDH = DescriptorHeapMngr::Instance().GetRTVCpuDH()->Allocate(num);
 
-  for (UINT i = origSize; i < num; i++)
-    rtvDHfree.push_back(i);
+  for (UINT i = origSize; i < num; i++) rtvDHfree.push_back(i);
 }
 
 void RsrcMngr::DsvDHReserve(UINT num) {
   assert(dsvDHused.empty());
 
   UINT origSize = dsvDH.GetNumHandles();
-  if (dsvDH.GetNumHandles() >= num)
-    return;
+  if (dsvDH.GetNumHandles() >= num) return;
 
   if (!dsvDH.IsNull())
     DescriptorHeapMngr::Instance().GetDSVCpuDH()->Free(move(dsvDH));
   dsvDH = DescriptorHeapMngr::Instance().GetDSVCpuDH()->Allocate(num);
 
-  for (UINT i = origSize; i < num; i++)
-    dsvDHfree.push_back(i);
+  for (UINT i = origSize; i < num; i++) dsvDHfree.push_back(i);
 }
 
 void RsrcMngr::DHReserve() {
@@ -123,7 +108,6 @@ void RsrcMngr::DHReserve() {
     bool null_rtv{false};
     bool null_dsv{false};
   };
-
   std::unordered_map<size_t, DHRecord> rsrc2record;
   for (const auto& [passNodeIdx, rsrcs] : passNodeIdx2rsrcMap) {
     for (const auto& [rsrcNodeIdx, state_descs] : rsrcs) {
@@ -175,29 +159,25 @@ void RsrcMngr::DHReserve() {
               }
               // SRV null
               else if constexpr (std::is_same_v<T, RsrcImplDesc_SRV_NULL>) {
-                if (record.null_srv)
-                  return;
+                if (record.null_srv) return;
                 record.null_srv = true;
                 numCSU++;
               }
               // UAV null
               else if constexpr (std::is_same_v<T, RsrcImplDesc_UAV_NULL>) {
-                if (record.null_uav)
-                  return;
+                if (record.null_uav) return;
                 record.null_uav = true;
                 numCSU++;
               }
               // RTV null
               else if constexpr (std::is_same_v<T, RsrcImplDesc_RTV_Null>) {
-                if (record.null_rtv)
-                  return;
+                if (record.null_rtv) return;
                 record.null_rtv = true;
                 numRTV++;
               }
               // DSV null
               else if constexpr (std::is_same_v<T, RsrcImplDesc_DSV_Null>) {
-                if (record.null_dsv)
-                  return;
+                if (record.null_dsv) return;
                 record.null_dsv = true;
                 numDSV++;
               } else
@@ -419,8 +399,7 @@ void RsrcMngr::AllocateHandle() {
                       typeinfo.desc2info_srv.end())
                     return;
                 } else {  // std::is_same_v<T, RsrcImplDesc_SRV_NULL>
-                  if (typeinfo.HaveNullSrv())
-                    return;
+                  if (typeinfo.HaveNullSrv()) return;
                 }
                 auto idx = csuDHfree.back();
                 csuDHfree.pop_back();
@@ -443,8 +422,7 @@ void RsrcMngr::AllocateHandle() {
                       typeinfo.desc2info_uav.end())
                     return;
                 } else {  // std::is_same_v<T, RsrcImplDesc_UAV_NULL>
-                  if (typeinfo.HaveNullUav())
-                    return;
+                  if (typeinfo.HaveNullUav()) return;
                 }
                 auto idx = csuDHfree.back();
                 csuDHfree.pop_back();
@@ -467,8 +445,7 @@ void RsrcMngr::AllocateHandle() {
                       typeinfo.desc2info_rtv.end())
                     return;
                 } else {  // std::is_same_v<T, RsrcImplDesc_RTV_Null>
-                  if (typeinfo.HaveNullRtv())
-                    return;
+                  if (typeinfo.HaveNullRtv()) return;
                 }
                 auto idx = rtvDHfree.back();
                 rtvDHfree.pop_back();
@@ -489,8 +466,7 @@ void RsrcMngr::AllocateHandle() {
                       typeinfo.desc2info_dsv.end())
                     return;
                 } else {  // std::is_same_v<T, RsrcImplDesc_DSV_Null>
-                  if (typeinfo.HaveNullDsv())
-                    return;
+                  if (typeinfo.HaveNullDsv()) return;
                 }
                 auto idx = dsvDHfree.back();
                 dsvDHfree.pop_back();
@@ -501,8 +477,7 @@ void RsrcMngr::AllocateHandle() {
                 else
                   typeinfo.null_info_dsv = {dsvDH.GetCpuHandle(idx), false};
               } else
-                static_assert(detail::always_false_v<T>,
-                              "non-exhaustive visitor!");
+                static_assert(detail::always_false_v<T>, "non-exhaustive visitor!");
             },
             desc);
       }
@@ -634,8 +609,7 @@ PassRsrcs RsrcMngr::RequestPassRsrcs(ID3D12Device* device,
                 info->init = true;
               }
             } else
-              static_assert(detail::always_false_v<T>,
-                            "non-exhaustive visitor!");
+              static_assert(detail::always_false_v<T>, "non-exhaustive visitor!");
           },
           desc);
     }
@@ -656,8 +630,7 @@ bool RsrcMngr::CheckComplete(const MyFG::FrameGraph& fg) {
 
   for (size_t i = 0; i < passNodeNum; i++) {
     auto target = passNodeIdx2rsrcMap.find(i);
-    if (target == passNodeIdx2rsrcMap.end())
-      return false;
+    if (target == passNodeIdx2rsrcMap.end()) return false;
     const auto& passNode = fg.GetPassNodes().at(i);
     for (auto rsrcNodeIdx : passNode.Inputs()) {
       if (target->second.find(rsrcNodeIdx) == target->second.end())

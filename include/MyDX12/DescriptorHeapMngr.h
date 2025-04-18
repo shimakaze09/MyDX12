@@ -1,7 +1,3 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 #pragma once
 
 #include "DescriptorHeap/CPUDescriptorHeap.h"
@@ -27,17 +23,14 @@ class DescriptorHeapMngr {
     assert(isInit);
     return CSU_CpuDH;
   }
-
   CPUDescriptorHeap* GetRTVCpuDH() const noexcept {
     assert(isInit);
     return RTV_CpuDH;
   }
-
   CPUDescriptorHeap* GetDSVCpuDH() const noexcept {
     assert(isInit);
     return DSV_CpuDH;
   }
-
   GPUDescriptorHeap* GetCSUGpuDH() const noexcept {
     assert(isInit);
     return CSU_GpuDH;

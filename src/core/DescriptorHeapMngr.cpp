@@ -1,7 +1,3 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 #include <MyDX12/DescriptorHeapMngr.h>
 
 using namespace My;
@@ -45,6 +41,4 @@ void MyDX12::DescriptorHeapMngr::Clear() {
   CSU_GpuDH = nullptr;
 }
 
-MyDX12::DescriptorHeapMngr::~DescriptorHeapMngr() {
-  Clear();
-}
+MyDX12::DescriptorHeapMngr::~DescriptorHeapMngr() { Clear(); }

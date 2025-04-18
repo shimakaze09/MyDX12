@@ -1,9 +1,4 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 #include <MyDX12/DescriptorHeap/DescriptorHeapAllocMngr.h>
-
 #include <MyDX12/DescriptorHeap/DescriptorHeapAllocation.h>
 
 using namespace My;
@@ -20,7 +15,7 @@ MyDX12::DescriptorHeapAllocMngr::DescriptorHeapAllocMngr(
       m_FirstGPUHandle{rhs.m_FirstGPUHandle},
       m_MaxAllocatedSize{rhs.m_MaxAllocatedSize},
       // Mutex is not movable
-      //m_FreeBlockManagerMutex   { std::move(rhs.m_FreeBlockManagerMutex) },
+      // m_FreeBlockManagerMutex   { std::move(rhs.m_FreeBlockManagerMutex) },
       m_FreeBlockManager{std::move(rhs.m_FreeBlockManager)},
       m_pd3d12DescriptorHeap{std::move(rhs.m_pd3d12DescriptorHeap)} {
   rhs.m_NumDescriptorsInAllocation =
@@ -103,10 +98,10 @@ MyDX12::DescriptorHeapAllocation MyDX12::DescriptorHeapAllocMngr::Allocate(
   std::lock_guard<std::mutex> LockGuard(m_FreeBlockManagerMutex);
   // Methods of VariableSizeAllocationsManager class are not thread safe!
 
-  // Use variable-size GPU allocations manager to allocate the requested number of descriptors
+  // Use variable-size GPU allocations manager to allocate the requested number
+  // of descriptors
   auto Allocation = m_FreeBlockManager.Allocate(Count, 1);
-  if (!Allocation.IsValid())
-    return {};
+  if (!Allocation.IsValid()) return {};
 
   assert(Allocation.size == Count);
 
@@ -142,8 +137,7 @@ void MyDX12::DescriptorHeapAllocMngr::FreeAllocation(
   assert(allocation.GetAllocationManagerId() == m_ThisManagerId &&
          "Invalid descriptor heap manager Id");
 
-  if (allocation.IsNull())
-    return;
+  if (allocation.IsNull()) return;
 
   std::lock_guard<std::mutex> LockGuard(m_FreeBlockManagerMutex);
   auto DescriptorOffset =

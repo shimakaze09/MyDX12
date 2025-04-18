@@ -1,7 +1,3 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 #include <MyDX12/DescriptorHeap/DynamicSuballocMngr.h>
 
 using namespace My;
@@ -44,8 +40,7 @@ MyDX12::DescriptorHeapAllocation MyDX12::DynamicSuballocMngr::Allocate(
     auto suballocationSize = std::max(m_DynamicChunkSize, Count);
     auto NewDynamicSubAllocation =
         m_ParentGPUHeap->AllocateDynamic(suballocationSize);
-    if (NewDynamicSubAllocation.IsNull())
-      return {};
+    if (NewDynamicSubAllocation.IsNull()) return {};
     m_Suballocations.emplace_back(std::move(NewDynamicSubAllocation));
     m_CurrentSuballocationOffset = 0;
 

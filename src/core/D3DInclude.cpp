@@ -1,7 +1,3 @@
-//
-// Created by Admin on 16/03/2025.
-//
-
 #include <MyDX12/D3DInclude.h>
 
 #include <fstream>

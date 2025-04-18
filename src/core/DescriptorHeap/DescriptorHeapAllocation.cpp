@@ -1,7 +1,3 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 #include <MyDX12/DescriptorHeap/DescriptorHeapAllocation.h>
 
 using namespace My;
@@ -45,8 +41,7 @@ MyDX12::DescriptorHeapAllocation::DescriptorHeapAllocation(
 }
 
 MyDX12::DescriptorHeapAllocation::~DescriptorHeapAllocation() {
-  if (!IsNull() && m_pAllocator)
-    m_pAllocator->Free(std::move(*this));
+  if (!IsNull() && m_pAllocator) m_pAllocator->Free(std::move(*this));
   // Allocation must have been disposed by the allocator
   assert("Non-null descriptor is being destroyed" && IsNull());
 }

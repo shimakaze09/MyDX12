@@ -1,13 +1,10 @@
-//
-// Created by Admin on 7/03/2025.
-//
-
 #pragma once
 
 #include "../Util.h"
 
 namespace My::MyDX12 {
-// ref: https://docs.microsoft.com/en-us/windows/win32/direct3d12/creating-descriptor-heaps
+// ref:
+// https://docs.microsoft.com/en-us/windows/win32/direct3d12/creating-descriptor-heaps
 class DescriptorHeapWrapper : Util::ComPtrHolder<ID3D12DescriptorHeap> {
  public:
   DescriptorHeapWrapper() { memset(this, 0, sizeof(DescriptorHeapWrapper)); }
@@ -23,8 +20,7 @@ class DescriptorHeapWrapper : Util::ComPtrHolder<ID3D12DescriptorHeap> {
   }
 
   UINT Size() const noexcept {
-    if (IsNull())
-      return 0;
+    if (IsNull()) return 0;
 
     return Desc.NumDescriptors;
   }

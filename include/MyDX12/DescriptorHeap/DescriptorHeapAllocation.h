@@ -1,7 +1,3 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 // ref
 // 1.
 // http://diligentgraphics.com/diligent-engine/architecture/d3d12/managing-descriptor-heaps/
@@ -15,11 +11,13 @@
 #include "IDescriptorAllocator.h"
 
 namespace My::MyDX12 {
-// The class represents descriptor heap allocation (continuous descriptor range in a descriptor heap)
+// The class represents descriptor heap allocation (continuous descriptor range
+// in a descriptor heap)
 //
 //                  m_FirstCpuHandle
 //                   |
-//  | ~  ~  ~  ~  ~  X  X  X  X  X  X  X  ~  ~  ~  ~  ~  ~ |  D3D12 Descriptor Heap
+//  | ~  ~  ~  ~  ~  X  X  X  X  X  X  X  ~  ~  ~  ~  ~  ~ |  D3D12 Descriptor
+//  Heap
 //                   |
 //                  m_FirstGpuHandle
 //
@@ -69,15 +67,11 @@ class DescriptorHeapAllocation {
   }
 
   uint32_t GetNumHandles() const noexcept { return m_NumHandles; }
-
   bool IsNull() const noexcept { return m_FirstCpuHandle.ptr == 0; }
-
   bool IsShaderVisible() const noexcept { return m_FirstGpuHandle.ptr != 0; }
-
   uint16_t GetAllocationManagerId() const noexcept {
     return m_AllocationManagerId;
   }
-
   uint16_t GetDescriptorSize() const noexcept { return m_DescriptorSize; }
 
  private:
@@ -90,7 +84,8 @@ class DescriptorHeapAllocation {
   // Pointer to the descriptor heap allocator that created this allocation
   IDescriptorAllocator* m_pAllocator{nullptr};
 
-  // Pointer to the D3D12 descriptor heap that contains descriptors in this allocation
+  // Pointer to the D3D12 descriptor heap that contains descriptors in this
+  // allocation
   ID3D12DescriptorHeap* m_pDescriptorHeap{nullptr};
 
   // Number of descriptors in the allocation

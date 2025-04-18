@@ -1,7 +1,3 @@
-//
-// Created by Admin on 8/03/2025.
-//
-
 #include <DirectXHelpers.h>
 #include <MyDX12/UploadBuffer.h>
 
@@ -24,8 +20,7 @@ MyDX12::UploadBuffer::UploadBuffer(ID3D12Device* device, UINT64 size,
 }
 
 MyDX12::UploadBuffer::~UploadBuffer() {
-  if (resource)
-    resource->Unmap(0, nullptr);
+  if (resource) resource->Unmap(0, nullptr);
 }
 
 void MyDX12::UploadBuffer::Set(UINT64 offset, const void* data, UINT64 size) {
@@ -108,19 +103,16 @@ UINT64 MyDX12::DynamicUploadBuffer::Size() const noexcept {
 }
 
 void MyDX12::DynamicUploadBuffer::Reserve(size_t size) {
-  if (size <= Size())
-    return;
+  if (size <= Size()) return;
 
   auto newBuffer = std::make_unique<MyDX12::UploadBuffer>(device, size, flag);
-  if (buffer)
-    newBuffer->Set(0, buffer->GetMappedData(), buffer->Size());
+  if (buffer) newBuffer->Set(0, buffer->GetMappedData(), buffer->Size());
 
   buffer = std::move(newBuffer);
 }
 
 void MyDX12::DynamicUploadBuffer::FastReserve(size_t size) {
-  if (size <= Size())
-    return;
+  if (size <= Size()) return;
 
   buffer = std::make_unique<MyDX12::UploadBuffer>(device, size, flag);
 }

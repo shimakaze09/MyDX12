@@ -1,7 +1,3 @@
-//
-// Created by Admin on 12/03/2025.
-//
-
 #pragma once
 
 #include <unordered_set>
@@ -47,11 +43,12 @@ class RsrcMngr {
   // call by My::MyDX12::FG::Executor
   void Destruct(ID3D12GraphicsCommandList*, size_t rsrcNodeIdx);
 
-  // move the resource view of the source resource node to the destination resource node
-  // call by My::MyDX12::FG::Executor
+  // move the resource view of the source resource node to the destination
+  // resource node call by My::MyDX12::FG::Executor
   void Move(size_t dstRsrcNodeIdx, size_t srcRsrcNodeIdx);
 
-  // - get the resource map (resource node index -> impl resource) of the pass node
+  // - get the resource map (resource node index -> impl resource) of the pass
+  // node
   // - we will
   //   1. change buffer state
   //   2. init handle
@@ -77,7 +74,8 @@ class RsrcMngr {
   // a resource can have several descriptions
   RsrcMngr& RegisterPassRsrcImplDesc(size_t passNodeIdx, size_t rsrcNodeIdx,
                                      RsrcImplDesc desc);
-  // a helper function to simplify register pass resource's state and impl description
+  // a helper function to simplify register pass resource's state and impl
+  // description
   RsrcMngr& RegisterPassRsrc(size_t passNodeIdx, size_t rsrcNodeIdx,
                              RsrcState state, RsrcImplDesc desc);
 
@@ -91,7 +89,8 @@ class RsrcMngr {
       const std::vector<std::tuple<size_t, RsrcImplDesc>>& rsrcNodeIndices);
 
   // you should
-  // 1. use RegisterImportedRsrc or RegisterTemporalRsrc to mark each resource nodes
+  // 1. use RegisterImportedRsrc or RegisterTemporalRsrc to mark each resource
+  // nodes
   // 2. use RegisterPassRsrcs to mark each resource nodes for every passes
   // if you do it correct, then return true, else return false
   // TODO : move
