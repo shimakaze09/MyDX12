@@ -1,10 +1,10 @@
 SET(c_options_private "")
 IF (MSVC)
-    LIST(APPEND c_options_private "/wd4996")
+    LIST(APPEND c_options_private "/wd4996;/MP")
 ELSEIF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    LIST(APPEND c_options_private "")
+    #
 ELSEIF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    LIST(APPEND c_options_private "")
+    #
 ENDIF ()
 
 ADD_TARGET(
