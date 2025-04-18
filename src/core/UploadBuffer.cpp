@@ -1,7 +1,7 @@
 #include <DirectXHelpers.h>
 #include <MyDX12/UploadBuffer.h>
 
-using namespace My;
+using namespace Smkz;
 
 MyDX12::UploadBuffer::UploadBuffer(ID3D12Device* device, UINT64 size,
                                    D3D12_RESOURCE_FLAGS flag)

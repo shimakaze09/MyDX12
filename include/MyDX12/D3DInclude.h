@@ -2,7 +2,7 @@
 
 #include "Util.h"
 
-namespace My::MyDX12 {
+namespace Smkz::MyDX12 {
 // ref: http://nikvoss.com/2013/03/implementing-id3dinclude/
 // TODO: multi system dir
 class D3DInclude : public ID3DInclude {
@@ -19,4 +19,4 @@ class D3DInclude : public ID3DInclude {
   std::string localDir;
   std::string systemDir;
 };
-}  // namespace My::MyDX12
+}  // namespace Smkz::MyDX12

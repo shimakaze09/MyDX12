@@ -2,7 +2,7 @@
 
 #include <MyTemplate/Func.hpp>
 
-namespace My::MyDX12 {
+namespace Smkz::MyDX12 {
 template <typename T>
 T& FrameResource::GetResource(std::string_view name) {
   static_assert(!std::is_reference_v<T>);
@@ -35,4 +35,4 @@ FrameResource& FrameResource::DelayUpdateResource(std::string name,
       }}});
   return *this;
 }
-}  // namespace My::MyDX12
+}  // namespace Smkz::MyDX12

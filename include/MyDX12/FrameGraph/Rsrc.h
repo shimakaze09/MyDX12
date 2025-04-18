@@ -6,7 +6,7 @@
 
 #include "../Desc.h"
 
-namespace My::MyDX12::FG::detail {
+namespace Smkz::MyDX12::FG::detail {
 template <typename T>
 void hash_combine(size_t& s, const T& v) {
   std::hash<T> h;
@@ -48,34 +48,34 @@ bool bitwise_equal(const T& lhs, const T& rhs) noexcept {
 
   return true;
 }
-}  // namespace My::MyDX12::FG::detail
+}  // namespace Smkz::MyDX12::FG::detail
 
 inline bool operator==(const D3D12_CONSTANT_BUFFER_VIEW_DESC& lhs,
                        const D3D12_CONSTANT_BUFFER_VIEW_DESC& rhs) noexcept {
-  return My::MyDX12::FG::detail::bitwise_equal(lhs, rhs);
+  return Smkz::MyDX12::FG::detail::bitwise_equal(lhs, rhs);
 }
 
 inline bool operator==(const D3D12_SHADER_RESOURCE_VIEW_DESC& lhs,
                        const D3D12_SHADER_RESOURCE_VIEW_DESC& rhs) noexcept {
-  return My::MyDX12::FG::detail::bitwise_equal(lhs, rhs);
+  return Smkz::MyDX12::FG::detail::bitwise_equal(lhs, rhs);
 }
 
 inline bool operator==(const D3D12_UNORDERED_ACCESS_VIEW_DESC& lhs,
                        const D3D12_UNORDERED_ACCESS_VIEW_DESC& rhs) noexcept {
-  return My::MyDX12::FG::detail::bitwise_equal(lhs, rhs);
+  return Smkz::MyDX12::FG::detail::bitwise_equal(lhs, rhs);
 }
 
 inline bool operator==(const D3D12_RENDER_TARGET_VIEW_DESC& lhs,
                        const D3D12_RENDER_TARGET_VIEW_DESC& rhs) noexcept {
-  return My::MyDX12::FG::detail::bitwise_equal(lhs, rhs);
+  return Smkz::MyDX12::FG::detail::bitwise_equal(lhs, rhs);
 }
 
 inline bool operator==(const D3D12_DEPTH_STENCIL_VIEW_DESC& lhs,
                        const D3D12_DEPTH_STENCIL_VIEW_DESC& rhs) noexcept {
-  return My::MyDX12::FG::detail::bitwise_equal(lhs, rhs);
+  return Smkz::MyDX12::FG::detail::bitwise_equal(lhs, rhs);
 }
 
-namespace My::MyDX12::FG {
+namespace Smkz::MyDX12::FG {
 using Rsrc = ID3D12Resource;
 using RsrcPtr = ComPtr<Rsrc>;
 using RsrcState = D3D12_RESOURCE_STATES;
@@ -89,7 +89,7 @@ struct RsrcType {
   static RsrcType RT2D(DXGI_FORMAT format, UINT64 width, UINT height,
                        const float* color) {
     return {CD3DX12_CLEAR_VALUE{format, color},
-            My::MyDX12::Desc::RSRC::RT2D(width, height, format)};
+            Smkz::MyDX12::Desc::RSRC::RT2D(width, height, format)};
   }
 };
 struct RsrcImplDesc_SRV_NULL {};
@@ -105,13 +105,13 @@ struct SRsrcView {
   Rsrc* pRsrc;
   RsrcState state;
 };
-}  // namespace My::MyDX12::FG
+}  // namespace Smkz::MyDX12::FG
 
 namespace std {
 template <>
-struct hash<My::MyDX12::FG::RsrcType> {
-  size_t operator()(const My::MyDX12::FG::RsrcType& type) const noexcept {
-    return My::MyDX12::FG::detail::hash_of(type);
+struct hash<Smkz::MyDX12::FG::RsrcType> {
+  size_t operator()(const Smkz::MyDX12::FG::RsrcType& type) const noexcept {
+    return Smkz::MyDX12::FG::detail::hash_of(type);
   }
 };
 
@@ -119,7 +119,7 @@ template <>
 struct hash<D3D12_CONSTANT_BUFFER_VIEW_DESC> {
   size_t operator()(
       const D3D12_CONSTANT_BUFFER_VIEW_DESC& desc) const noexcept {
-    return My::MyDX12::FG::detail::hash_of(desc);
+    return Smkz::MyDX12::FG::detail::hash_of(desc);
   }
 };
 
@@ -127,7 +127,7 @@ template <>
 struct hash<D3D12_SHADER_RESOURCE_VIEW_DESC> {
   size_t operator()(
       const D3D12_SHADER_RESOURCE_VIEW_DESC& desc) const noexcept {
-    return My::MyDX12::FG::detail::hash_of(desc);
+    return Smkz::MyDX12::FG::detail::hash_of(desc);
   }
 };
 
@@ -135,26 +135,26 @@ template <>
 struct hash<D3D12_UNORDERED_ACCESS_VIEW_DESC> {
   size_t operator()(
       const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc) const noexcept {
-    return My::MyDX12::FG::detail::hash_of(desc);
+    return Smkz::MyDX12::FG::detail::hash_of(desc);
   }
 };
 
 template <>
 struct hash<D3D12_RENDER_TARGET_VIEW_DESC> {
   size_t operator()(const D3D12_RENDER_TARGET_VIEW_DESC& desc) const noexcept {
-    return My::MyDX12::FG::detail::hash_of(desc);
+    return Smkz::MyDX12::FG::detail::hash_of(desc);
   }
 };
 
 template <>
 struct hash<D3D12_DEPTH_STENCIL_VIEW_DESC> {
   size_t operator()(const D3D12_DEPTH_STENCIL_VIEW_DESC& desc) const noexcept {
-    return My::MyDX12::FG::detail::hash_of(desc);
+    return Smkz::MyDX12::FG::detail::hash_of(desc);
   }
 };
 }  // namespace std
 
-namespace My::MyDX12::FG {
+namespace Smkz::MyDX12::FG {
 struct RsrcTypeInfo {
   struct CpuGpuInfo {
     D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle{0};
@@ -191,4 +191,4 @@ struct RsrcImpl {
   const RsrcTypeInfo& info;
 };
 using PassRsrcs = std::unordered_map<size_t, RsrcImpl>;
-}  // namespace My::MyDX12::FG
+}  // namespace Smkz::MyDX12::FG

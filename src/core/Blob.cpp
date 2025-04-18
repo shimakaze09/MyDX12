@@ -1,6 +1,6 @@
 #include <MyDX12/Blob.h>
 
-using namespace My;
+using namespace Smkz;
 
 void MyDX12::Blob::Create(SIZE_T size) {
   ThrowIfFailed(D3DCreateBlob(size, &raw));

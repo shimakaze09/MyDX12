@@ -2,7 +2,7 @@
 
 #include "Util.h"
 
-namespace My::MyDX12 {
+namespace Smkz::MyDX12 {
 // ID3DBlob is a CPU buffer wrapper
 // raw : Microsoft::WRL::ComPtr<ID3DBlob>
 // .   : simple API
@@ -14,4 +14,4 @@ struct Blob : Util::ComPtrHolder<ID3DBlob> {
   void Copy(const void* data, SIZE_T size);
   void Create(const void* data, SIZE_T size);
 };
-}  // namespace My::MyDX12
+}  // namespace Smkz::MyDX12

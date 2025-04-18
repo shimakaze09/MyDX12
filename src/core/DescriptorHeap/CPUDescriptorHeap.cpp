@@ -1,7 +1,7 @@
 #include <MyDX12/DescriptorHeap/CPUDescriptorHeap.h>
 #include <MyDX12/DescriptorHeap/DescriptorHeapAllocation.h>
 
-using namespace My;
+using namespace Smkz;
 
 MyDX12::CPUDescriptorHeap::CPUDescriptorHeap(ID3D12Device* pDevice,
                                              uint32_t NumDescriptorsInHeap,

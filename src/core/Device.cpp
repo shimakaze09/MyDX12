@@ -1,7 +1,7 @@
 #include <MyDX12/Desc.h>
 #include <MyDX12/Device.h>
 
-using namespace My;
+using namespace Smkz;
 
 void MyDX12::Device::CreateCommittedResource(D3D12_HEAP_TYPE heap_type,
                                              SIZE_T size,

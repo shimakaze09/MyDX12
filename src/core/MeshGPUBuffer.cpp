@@ -1,7 +1,7 @@
 #include <MyDX12/MeshGPUBuffer.h>
 #include <MyDX12/_deps/DirectXTK12/BufferHelpers.h>
 
-using namespace My;
+using namespace Smkz;
 
 MyDX12::MeshGPUBuffer::MeshGPUBuffer(
     ID3D12Device* device, DirectX::ResourceUploadBatch& resourceUpload,

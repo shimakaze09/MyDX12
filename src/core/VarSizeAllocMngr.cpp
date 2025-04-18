@@ -4,9 +4,9 @@
 #include <type_traits>
 #include <utility>
 
-using namespace My::MyDX12;
+using namespace Smkz::MyDX12;
 
-namespace My::MyDX12::details {
+namespace Smkz::MyDX12::details {
 template <typename T>
 constexpr bool IsPowerOfTwo(T val) noexcept {
   if constexpr (std::is_unsigned_v<T>)
@@ -32,7 +32,7 @@ constexpr T AlignDown(T val, T alignment) noexcept {
   // == val & ~(alignment - 1)
   return val & ~(alignment - 1);
 }
-}  // namespace My::MyDX12::details
+}  // namespace Smkz::MyDX12::details
 
 VarSizeAllocMngr::VarSizeAllocMngr(size_t capacity)
     : capacity(capacity), freeSize(capacity) {

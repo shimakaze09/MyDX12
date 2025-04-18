@@ -2,7 +2,7 @@
 
 #include "FrameResource.h"
 
-namespace My::MyDX12 {
+namespace Smkz::MyDX12 {
 class FrameResourceMngr {
  public:
   FrameResourceMngr(size_t numFrame, ID3D12Device*);
@@ -22,4 +22,4 @@ class FrameResourceMngr {
   size_t cpuFence{0};
   Microsoft::WRL::ComPtr<ID3D12Fence> gpuFence;
 };
-}  // namespace My::MyDX12
+}  // namespace Smkz::MyDX12

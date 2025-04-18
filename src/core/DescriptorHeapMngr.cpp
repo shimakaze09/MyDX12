@@ -1,6 +1,6 @@
 #include <MyDX12/DescriptorHeapMngr.h>
 
-using namespace My;
+using namespace Smkz;
 
 void MyDX12::DescriptorHeapMngr::Init(ID3D12Device* device, uint32_t numCpuCSU,
                                       uint32_t numCpuRTV, uint32_t numCpuDSV,

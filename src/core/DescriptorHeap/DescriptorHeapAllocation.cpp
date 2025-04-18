@@ -1,6 +1,6 @@
 #include <MyDX12/DescriptorHeap/DescriptorHeapAllocation.h>
 
-using namespace My;
+using namespace Smkz;
 
 MyDX12::DescriptorHeapAllocation::DescriptorHeapAllocation() noexcept
     : m_NumHandles{0},  // One null descriptor handle

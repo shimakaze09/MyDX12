@@ -2,10 +2,11 @@
 
 #include <fstream>
 
-HRESULT __stdcall My::MyDX12::D3DInclude::Open(D3D_INCLUDE_TYPE IncludeType,
-                                               LPCSTR pFileName,
-                                               LPCVOID pParentData,
-                                               LPCVOID* ppData, UINT* pBytes) {
+HRESULT __stdcall Smkz::MyDX12::D3DInclude::Open(D3D_INCLUDE_TYPE IncludeType,
+                                                 LPCSTR pFileName,
+                                                 LPCVOID pParentData,
+                                                 LPCVOID* ppData,
+                                                 UINT* pBytes) {
   try {
     std::string finalPath;
     switch (IncludeType) {
@@ -39,7 +40,7 @@ HRESULT __stdcall My::MyDX12::D3DInclude::Open(D3D_INCLUDE_TYPE IncludeType,
   }
 }
 
-HRESULT __stdcall My::MyDX12::D3DInclude::Close(LPCVOID pData) {
+HRESULT __stdcall Smkz::MyDX12::D3DInclude::Close(LPCVOID pData) {
   char* buf = (char*)pData;
   delete[] buf;
   return S_OK;

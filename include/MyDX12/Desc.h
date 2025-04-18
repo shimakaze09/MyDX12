@@ -2,7 +2,7 @@
 
 #include "Util.h"
 
-namespace My::MyDX12::Desc {
+namespace Smkz::MyDX12::Desc {
 namespace SRV {
 D3D12_SHADER_RESOURCE_VIEW_DESC Tex2D(DXGI_FORMAT format, UINT MipLevels = 1);
 D3D12_SHADER_RESOURCE_VIEW_DESC Tex3D(DXGI_FORMAT format, UINT MipLevels = 1);
@@ -43,4 +43,4 @@ D3D12_RESOURCE_DESC TextureCube(
     UINT64 Width, UINT Height, UINT MipLevels, DXGI_FORMAT format,
     D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
 }  // namespace RSRC
-}  // namespace My::MyDX12::Desc
+}  // namespace Smkz::MyDX12::Desc

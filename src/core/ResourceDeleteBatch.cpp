@@ -1,7 +1,7 @@
 #include <DirectXHelpers.h>
 #include <MyDX12/ResourceDeleteBatch.h>
 
-using namespace My;
+using namespace Smkz;
 
 std::future<void> MyDX12::ResourceDeleteBatch::Commit(
     ID3D12Device* device, ID3D12CommandQueue* cmdQueue) {

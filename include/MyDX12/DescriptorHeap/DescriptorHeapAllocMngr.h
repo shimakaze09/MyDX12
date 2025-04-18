@@ -13,7 +13,7 @@
 #include "../VarSizeAllocMngr.h"
 #include "IDescriptorAllocator.h"
 
-namespace My::MyDX12 {
+namespace Smkz::MyDX12 {
 // The class performs suballocations within one D3D12 descriptor heap.
 // It uses VariableSizeAllocationsManager to manage free space in the heap
 //
@@ -98,4 +98,4 @@ class DescriptorHeapAllocMngr {
   std::atomic_int32_t m_AllocationsCounter = 0;
 #endif  // !NDEBUG
 };
-}  // namespace My::MyDX12
+}  // namespace Smkz::MyDX12

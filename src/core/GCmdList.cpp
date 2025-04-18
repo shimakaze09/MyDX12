@@ -1,7 +1,7 @@
 #include <MyDX12/GCmdList.h>
 #include <MyDX12/_deps/DirectXTK12/DirectXHelpers.h>
 
-using namespace My;
+using namespace Smkz;
 
 void MyDX12::GCmdList::Reset(ID3D12CommandAllocator* pAllocator) {
   ThrowIfFailed(raw->Reset(pAllocator, nullptr));

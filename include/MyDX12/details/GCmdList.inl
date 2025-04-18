@@ -1,6 +1,6 @@
 #pragma once
 
-namespace My::MyDX12 {
+namespace Smkz::MyDX12 {
 template <typename... Heaps, typename>
 void GCmdList::SetDescriptorHeaps(Heaps*... heaps) {
   constexpr size_t N = sizeof...(Heaps);
@@ -22,4 +22,4 @@ void GCmdList::SetDescriptorHeaps(Heaps*... heaps) {
 
   raw->SetDescriptorHeaps(N, arr);
 }
-}  // namespace My::MyDX12
+}  // namespace Smkz::MyDX12

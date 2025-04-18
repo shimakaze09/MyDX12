@@ -7,7 +7,7 @@
 
 #include "Util.h"
 
-namespace My::MyDX12 {
+namespace Smkz::MyDX12 {
 // frame resource mngr
 class FrameResource {
  public:
@@ -50,6 +50,6 @@ class FrameResource {
   std::vector<std::tuple<std::string, std::function<void(std::any&)>>>
       delayUpdatorMap;
 };
-}  // namespace My::MyDX12
+}  // namespace Smkz::MyDX12
 
 #include "details/FrameRsrcMngr.inl"

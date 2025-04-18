@@ -3,9 +3,9 @@
 
 #include <MyFG/FrameGraph.hpp>
 
-using namespace My::MyDX12::FG;
-using namespace My::MyDX12;
-using namespace My;
+using namespace Smkz::MyDX12::FG;
+using namespace Smkz::MyDX12;
+using namespace Smkz;
 using namespace std;
 
 #include <DirectXColors.h>
@@ -181,7 +181,8 @@ void RsrcMngr::DHReserve() {
                 record.null_dsv = true;
                 numDSV++;
               } else
-                static_assert(detail::always_false_v<T>, "non-exhaustive visitor!");
+                static_assert(detail::always_false_v<T>,
+                              "non-exhaustive visitor!");
             },
             desc);
       }
@@ -477,7 +478,8 @@ void RsrcMngr::AllocateHandle() {
                 else
                   typeinfo.null_info_dsv = {dsvDH.GetCpuHandle(idx), false};
               } else
-                static_assert(detail::always_false_v<T>, "non-exhaustive visitor!");
+                static_assert(detail::always_false_v<T>,
+                              "non-exhaustive visitor!");
             },
             desc);
       }
@@ -609,7 +611,8 @@ PassRsrcs RsrcMngr::RequestPassRsrcs(ID3D12Device* device,
                 info->init = true;
               }
             } else
-              static_assert(detail::always_false_v<T>, "non-exhaustive visitor!");
+              static_assert(detail::always_false_v<T>,
+                            "non-exhaustive visitor!");
           },
           desc);
     }

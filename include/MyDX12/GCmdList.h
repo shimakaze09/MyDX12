@@ -2,7 +2,7 @@
 
 #include "Util.h"
 
-namespace My::MyDX12 {
+namespace Smkz::MyDX12 {
 // raw : Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>
 // .   : simple API
 // ->  : raw API
@@ -38,6 +38,6 @@ struct GCmdList : Util::ComPtrHolder<ID3D12GraphicsCommandList> {
   void DrawIndexed(UINT IndexCount, UINT StartIndexLocation,
                    INT BaseVertexLocation);
 };
-}  // namespace My::MyDX12
+}  // namespace Smkz::MyDX12
 
 #include "details/GCmdList.inl"

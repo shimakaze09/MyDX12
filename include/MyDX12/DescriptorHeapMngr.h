@@ -7,7 +7,7 @@
 #include "DescriptorHeap/GPUDescriptorHeap.h"
 #include "DescriptorHeap/IDescriptorAllocator.h"
 
-namespace My::MyDX12 {
+namespace Smkz::MyDX12 {
 class DescriptorHeapMngr {
  public:
   static DescriptorHeapMngr& Instance() noexcept {
@@ -48,4 +48,4 @@ class DescriptorHeapMngr {
   CPUDescriptorHeap* DSV_CpuDH{nullptr};
   GPUDescriptorHeap* CSU_GpuDH{nullptr};
 };
-}  // namespace My::MyDX12
+}  // namespace Smkz::MyDX12

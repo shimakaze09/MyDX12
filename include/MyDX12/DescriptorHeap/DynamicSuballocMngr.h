@@ -11,7 +11,7 @@
 #include "GPUDescriptorHeap.h"
 #include "IDescriptorAllocator.h"
 
-namespace My::MyDX12 {
+namespace Smkz::MyDX12 {
 // The class facilitates allocation of dynamic descriptor handles. It requests a
 // chunk of heap from the master GPU descriptor heap and then performs linear
 // suballocation within the chunk At the end of the frame all allocations are
@@ -73,4 +73,4 @@ class DynamicSuballocMngr final : public IDescriptorAllocator {
   uint32_t m_CurrSuballocationsTotalSize = 0;
   uint32_t m_PeakSuballocationsTotalSize = 0;
 };
-}  // namespace My::MyDX12
+}  // namespace Smkz::MyDX12

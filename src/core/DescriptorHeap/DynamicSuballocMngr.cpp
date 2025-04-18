@@ -1,6 +1,6 @@
 #include <MyDX12/DescriptorHeap/DynamicSuballocMngr.h>
 
-using namespace My;
+using namespace Smkz;
 
 MyDX12::DynamicSuballocMngr::DynamicSuballocMngr(
     GPUDescriptorHeap* ParentGPUHeap, uint32_t DynamicChunkSize,
