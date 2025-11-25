@@ -7,11 +7,11 @@
 #include "../GCmdList.h"
 #include "Rsrc.h"
 
-namespace Smkz::MyFG {
+namespace My::MyFG {
 class FrameGraph;
 }
 
-namespace Smkz::MyDX12::FG {
+namespace My::MyDX12::FG {
 // manage per pass resources
 // CBV, SRV, UAV, RTV, DSV
 class RsrcMngr {
@@ -28,23 +28,23 @@ class RsrcMngr {
   void NewFrame();
 
   // descriptor heap reserve
-  // call by Smkz::MyDX12::FG::Executor
+  // call by My::MyDX12::FG::Executor
   void DHReserve();
 
   // allocate handles in descriptor heap for each resource nodes
-  // call by Smkz::MyDX12::FG::Executor
+  // call by My::MyDX12::FG::Executor
   void AllocateHandle();
 
   // import, create or reuse buffer for the resource node
-  // call by Smkz::MyDX12::FG::Executor
+  // call by My::MyDX12::FG::Executor
   void Construct(ID3D12Device*, size_t rsrcNodeIdx);
 
   // recycle the buffer of the resource node
-  // call by Smkz::MyDX12::FG::Executor
+  // call by My::MyDX12::FG::Executor
   void Destruct(ID3D12GraphicsCommandList*, size_t rsrcNodeIdx);
 
   // move the resource view of the source resource node to the destination
-  // resource node call by Smkz::MyDX12::FG::Executor
+  // resource node call by My::MyDX12::FG::Executor
   void Move(size_t dstRsrcNodeIdx, size_t srcRsrcNodeIdx);
 
   // - get the resource map (resource node index -> impl resource) of the pass
@@ -52,7 +52,7 @@ class RsrcMngr {
   // - we will
   //   1. change buffer state
   //   2. init handle
-  // - call by Smkz::MyDX12::FG::Executor
+  // - call by My::MyDX12::FG::Executor
   PassRsrcs RequestPassRsrcs(ID3D12Device*, ID3D12GraphicsCommandList*,
                              size_t passNodeIdx);
 
@@ -143,4 +143,4 @@ class RsrcMngr {
   std::vector<UINT> dsvDHfree;
   std::unordered_set<UINT> dsvDHused;
 };
-}  // namespace Smkz::MyDX12::FG
+}  // namespace My::MyDX12::FG

@@ -17,6 +17,7 @@ ADD_TARGET(
         "${PROJECT_SOURCE_DIR}/include"
         INC_PRIVATE
         "${PROJECT_SOURCE_DIR}/include/MyDX12/_deps/DirectXTK12"
+        "${CMAKE_CURRENT_SOURCE_DIR}/_deps/DirectXTK12/Shaders/Compiled"
         LIB
         My::MyTemplate_core
         My::MyFG_core

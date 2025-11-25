@@ -13,7 +13,7 @@
 #include "DescriptorHeapAllocMngr.h"
 #include "IDescriptorAllocator.h"
 
-namespace Smkz::MyDX12 {
+namespace My::MyDX12 {
 // CPU descriptor heap is intended to provide storage for resource view
 // descriptor handles.
 // It contains a pool of DescriptorHeapAllocationManager object instances, where
@@ -71,4 +71,4 @@ class CPUDescriptorHeap final : public IDescriptorAllocator {
   uint32_t m_MaxSize = 0;
   uint32_t m_CurrentSize = 0;
 };
-}  // namespace Smkz::MyDX12
+}  // namespace My::MyDX12

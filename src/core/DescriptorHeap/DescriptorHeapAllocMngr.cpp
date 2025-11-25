@@ -1,7 +1,7 @@
 #include <MyDX12/DescriptorHeap/DescriptorHeapAllocMngr.h>
 #include <MyDX12/DescriptorHeap/DescriptorHeapAllocation.h>
 
-using namespace Smkz;
+using namespace My;
 
 MyDX12::DescriptorHeapAllocMngr::DescriptorHeapAllocMngr(
     DescriptorHeapAllocMngr&& rhs) noexcept

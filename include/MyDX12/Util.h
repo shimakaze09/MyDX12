@@ -14,20 +14,20 @@
 #define ThrowIfFailed(x)                                             \
   {                                                                  \
     HRESULT hr__ = (x);                                              \
-    std::wstring wfn = Smkz::MyDX12::Util::AnsiToWString(__FILE__);  \
+    std::wstring wfn = My::MyDX12::Util::AnsiToWString(__FILE__);  \
     if (FAILED(hr__)) {                                              \
-      throw Smkz::MyDX12::Util::Exception(hr__, L#x, wfn, __LINE__); \
+      throw My::MyDX12::Util::Exception(hr__, L#x, wfn, __LINE__); \
     }                                                                \
   }
 #endif
 
-namespace Smkz::MyDX12 {
+namespace My::MyDX12 {
 using ATL::CComPtr;
 using Microsoft::WRL::ComPtr;
 class D3DInclude;
-}  // namespace Smkz::MyDX12
+}  // namespace My::MyDX12
 
-namespace Smkz::MyDX12::Util {
+namespace My::MyDX12::Util {
 template <typename T>
 void ReleaseCom(T*& p) {
   if (p) {
@@ -122,4 +122,4 @@ HRESULT __cdecl CreateTexture2DArrayFromMemory(
     D3D12_RESOURCE_STATES afterState =
         D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
     D3D12_RESOURCE_FLAGS resFlags = D3D12_RESOURCE_FLAG_NONE) noexcept;
-}  // namespace Smkz::MyDX12::Util
+}  // namespace My::MyDX12::Util

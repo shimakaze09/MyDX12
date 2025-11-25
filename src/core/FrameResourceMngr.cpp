@@ -1,6 +1,6 @@
 #include <MyDX12/FrameResourceMngr.h>
 
-using namespace Smkz;
+using namespace My;
 
 MyDX12::FrameResourceMngr::FrameResourceMngr(size_t numFrame,
                                              ID3D12Device* device) {

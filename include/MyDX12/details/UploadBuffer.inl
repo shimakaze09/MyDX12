@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Smkz::MyDX12 {
+namespace My::MyDX12 {
 template <typename T>
 constexpr UINT ArrayUploadBuffer<T>::ElementSize(bool isConstantBuffer) {
   return isConstantBuffer ? Util::CalcConstantBufferByteSize(sizeof(T))
@@ -28,4 +28,4 @@ void ArrayUploadBuffer<T>::Set(UINT64 index, const T& element) {
   auto elementSize = ElementSize(isConstantBuffer);
   UploadBuffer::Set(index * elementSize, &element, elementSize);
 }
-}  // namespace Smkz::MyDX12
+}  // namespace My::MyDX12

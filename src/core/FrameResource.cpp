@@ -1,6 +1,6 @@
 #include <MyDX12/FrameResource.h>
 
-using namespace Smkz;
+using namespace My;
 
 void MyDX12::FrameResource::Signal(ID3D12CommandQueue* cmdQueue,
                                    UINT64 cpuFence) {

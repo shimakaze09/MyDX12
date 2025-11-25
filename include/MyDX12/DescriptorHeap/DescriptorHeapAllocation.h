@@ -10,7 +10,7 @@
 
 #include "IDescriptorAllocator.h"
 
-namespace Smkz::MyDX12 {
+namespace My::MyDX12 {
 // The class represents descriptor heap allocation (continuous descriptor range
 // in a descriptor heap)
 //
@@ -100,4 +100,4 @@ class DescriptorHeapAllocation {
   // Descriptor size
   uint16_t m_DescriptorSize{0};
 };
-}  // namespace Smkz::MyDX12
+}  // namespace My::MyDX12

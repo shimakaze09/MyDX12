@@ -1,7 +1,7 @@
 #include <MyDX12/Desc.h>
 #include <d3d12.h>
 
-using namespace Smkz;
+using namespace My;
 
 D3D12_SHADER_RESOURCE_VIEW_DESC MyDX12::Desc::SRV::Tex2D(DXGI_FORMAT format,
                                                          UINT MipLevels) {

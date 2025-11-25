@@ -1,16 +1,15 @@
 #include <MyDX12/Desc.h>
 #include <MyDX12/Device.h>
 
-using namespace Smkz;
+using namespace My;
 
 void MyDX12::Device::CreateCommittedResource(D3D12_HEAP_TYPE heap_type,
                                              SIZE_T size,
                                              ID3D12Resource** resources) {
-  const auto defaultHeapProperties =
-      CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+  const auto heapProperties = CD3DX12_HEAP_PROPERTIES(heap_type);
   const auto bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(size);
   ThrowIfFailed(raw->CreateCommittedResource(
-      &defaultHeapProperties, D3D12_HEAP_FLAG_NONE, &bufferDesc,
+      &heapProperties, D3D12_HEAP_FLAG_NONE, &bufferDesc,
       D3D12_RESOURCE_STATE_COMMON, nullptr, IID_PPV_ARGS(resources)));
 }
 
@@ -20,7 +19,11 @@ void MyDX12::Device::CreateDescriptorHeap(UINT size,
   D3D12_DESCRIPTOR_HEAP_DESC cbvHeapDesc;
   cbvHeapDesc.NumDescriptors = size;
   cbvHeapDesc.Type = type;
-  cbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+  cbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+  if (type == D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ||
+      type == D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER) {
+    cbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+  }
   cbvHeapDesc.NodeMask = 0;
   ThrowIfFailed(raw->CreateDescriptorHeap(&cbvHeapDesc, IID_PPV_ARGS(pHeap)));
 }

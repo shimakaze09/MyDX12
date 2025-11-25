@@ -10,7 +10,7 @@
 
 #include <map>
 
-namespace Smkz::MyDX12 {
+namespace My::MyDX12 {
 // The class handles free memory block management to accommodate variable-size
 // allocation requests. It keeps track of free blocks only and does not record
 // allocation sizes. The class uses two ordered maps to facilitate operations.
@@ -108,4 +108,4 @@ class VarSizeAllocMngr {
   size_t freeSize = 0;
   size_t curMinAlignment = 0;  // min alignment of all free blocks
 };
-}  // namespace Smkz::MyDX12
+}  // namespace My::MyDX12

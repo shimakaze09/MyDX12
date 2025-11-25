@@ -6,7 +6,7 @@
 #include "Util.h"
 #include "_deps/DirectXTK12/ResourceUploadBatch.h"
 
-namespace Smkz::MyDX12 {
+namespace My::MyDX12 {
 // resource in upload heap
 // upload heap : cpu and gpu shared memory
 // sync : run in cpu timeline
@@ -134,6 +134,6 @@ class ArrayUploadBuffer : public UploadBuffer {
   UINT64 numElement;
   bool isConstantBuffer;
 };
-}  // namespace Smkz::MyDX12
+}  // namespace My::MyDX12
 
 #include "details/UploadBuffer.inl"

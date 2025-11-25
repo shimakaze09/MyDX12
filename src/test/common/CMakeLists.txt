@@ -4,5 +4,5 @@ ADD_TARGET(
         MODE STATIC
         LIB ${CORE}
         L_OPTION_INTERFACE
-        /SUBSYSTEM:WINDOWS
+        -Xlinker /SUBSYSTEM:WINDOWS
 )

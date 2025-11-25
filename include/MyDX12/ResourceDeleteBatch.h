@@ -4,7 +4,7 @@
 
 #include "Util.h"
 
-namespace Smkz::MyDX12 {
+namespace My::MyDX12 {
 class ResourceDeleteBatch {
  public:
   void Add(ID3D12Resource* resource) { resources.push_back(resource); }
@@ -17,4 +17,4 @@ class ResourceDeleteBatch {
  private:
   std::vector<ID3D12Resource*> resources;
 };
-}  // namespace Smkz::MyDX12
+}  // namespace My::MyDX12

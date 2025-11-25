@@ -1,6 +1,6 @@
 #include <MyDX12/DescriptorHeap/GPUDescriptorHeap.h>
 
-using namespace Smkz;
+using namespace My;
 
 MyDX12::GPUDescriptorHeap::GPUDescriptorHeap(ID3D12Device* device,
                                              uint32_t NumDescriptorsInHeap,

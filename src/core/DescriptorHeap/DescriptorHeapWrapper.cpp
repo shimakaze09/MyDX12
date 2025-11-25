@@ -1,6 +1,6 @@
 #include <MyDX12/DescriptorHeap/DescriptorHeapWrapper.h>
 
-using namespace Smkz;
+using namespace My;
 
 HRESULT MyDX12::DescriptorHeapWrapper::Create(
     ID3D12Device* pDevice, const D3D12_DESCRIPTOR_HEAP_DESC* desc) {

@@ -1,9 +1,9 @@
 #include <MyDX12/FrameGraph/Executor.h>
 #include <MyDX12/FrameGraph/RsrcMngr.h>
 
-using namespace Smkz::MyDX12::FG;
-using namespace Smkz::MyDX12;
-using namespace Smkz;
+using namespace My::MyDX12::FG;
+using namespace My::MyDX12;
+using namespace My;
 
 void Executor::Execute(ID3D12Device* device, ID3D12CommandQueue* cmdQueue,
                        ID3D12CommandAllocator* alloc,

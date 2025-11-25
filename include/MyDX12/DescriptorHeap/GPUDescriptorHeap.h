@@ -12,7 +12,7 @@
 #include "DescriptorHeapAllocation.h"
 #include "IDescriptorAllocator.h"
 
-namespace Smkz::MyDX12 {
+namespace My::MyDX12 {
 // GPU descriptor heap provides storage for shader-visible descriptors
 // The heap contains single D3D12 descriptor heap that is split into two parts.
 // The first part stores static and mutable resource descriptor handles.
@@ -115,4 +115,4 @@ class GPUDescriptorHeap final : public IDescriptorAllocator {
   // Allocation manager for dynamic part
   DescriptorHeapAllocMngr m_DynamicAllocationsManager;
 };
-}  // namespace Smkz::MyDX12
+}  // namespace My::MyDX12

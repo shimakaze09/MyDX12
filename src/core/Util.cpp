@@ -7,7 +7,7 @@
 #include <fstream>
 #include <sstream>
 
-using namespace Smkz::MyDX12;
+using namespace My::MyDX12;
 using namespace std;
 
 wstring Util::AnsiToWString(const string& str) {
@@ -166,7 +166,7 @@ ComPtr<ID3DBlob> Util::CompileShader(std::string_view source,
   return byteCode;
 }
 
-namespace Smkz::MyDX12::detail {
+namespace My::MyDX12::detail {
 inline uint32_t CountMips(uint32_t width, uint32_t height) noexcept {
   if (width == 0 || height == 0) return 0;
 
@@ -178,7 +178,7 @@ inline uint32_t CountMips(uint32_t width, uint32_t height) noexcept {
   }
   return count;
 }
-}  // namespace Smkz::MyDX12::detail
+}  // namespace My::MyDX12::detail
 
 _Use_decl_annotations_ HRESULT Util::CreateTexture2DArrayFromMemory(
     ID3D12Device* device, DirectX::ResourceUploadBatch& resourceUpload,

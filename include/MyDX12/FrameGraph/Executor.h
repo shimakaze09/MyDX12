@@ -5,7 +5,7 @@
 
 #include "Rsrc.h"
 
-namespace Smkz::MyDX12::FG {
+namespace My::MyDX12::FG {
 class RsrcMngr;
 
 class Executor {
@@ -28,4 +28,4 @@ class Executor {
  private:
   std::unordered_map<size_t, PassFunction> passFuncs;
 };
-}  // namespace Smkz::MyDX12::FG
+}  // namespace My::MyDX12::FG

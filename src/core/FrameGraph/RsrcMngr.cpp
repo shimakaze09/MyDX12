@@ -3,9 +3,9 @@
 
 #include <MyFG/FrameGraph.hpp>
 
-using namespace Smkz::MyDX12::FG;
-using namespace Smkz::MyDX12;
-using namespace Smkz;
+using namespace My::MyDX12::FG;
+using namespace My::MyDX12;
+using namespace My;
 using namespace std;
 
 #include <DirectXColors.h>

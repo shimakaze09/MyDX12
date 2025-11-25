@@ -8,7 +8,7 @@
 
 #include "../Util.h"
 
-namespace Smkz::MyDX12 {
+namespace My::MyDX12 {
 class DescriptorHeapAllocation;
 class DescriptorHeapAllocMngr;
 class RenderpDevice;
@@ -20,4 +20,4 @@ class IDescriptorAllocator {
   virtual void Free(DescriptorHeapAllocation&& Allocation) = 0;
   virtual uint32_t GetDescriptorSize() const = 0;
 };
-}  // namespace Smkz::MyDX12
+}  // namespace My::MyDX12

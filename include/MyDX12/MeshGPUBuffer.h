@@ -4,7 +4,7 @@
 #include "Util.h"
 #include "_deps/DirectXTK12/ResourceUploadBatch.h"
 
-namespace Smkz::MyDX12 {
+namespace My::MyDX12 {
 // static / dynamic mesh GPU buffer
 class MeshGPUBuffer {
  public:
@@ -93,4 +93,4 @@ class MeshGPUBuffer {
   DXGI_FORMAT indexFormat;   // DXGI_FORMAT_R16_UINT / DXGI_FORMAT_R32_UINT
   UINT indexBufferByteSize;  // index buffer total size in bytes
 };
-}  // namespace Smkz::MyDX12
+}  // namespace My::MyDX12

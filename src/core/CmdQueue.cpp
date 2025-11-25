@@ -2,7 +2,7 @@
 
 #include <array>
 
-using namespace Smkz;
+using namespace My;
 
 void MyDX12::CmdQueue::Execute(ID3D12GraphicsCommandList* list) {
   const std::array<ID3D12CommandList*, 1> listArr = {list};
